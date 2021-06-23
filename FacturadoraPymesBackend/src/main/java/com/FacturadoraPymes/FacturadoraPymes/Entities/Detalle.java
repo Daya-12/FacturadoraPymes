@@ -27,12 +27,12 @@ public class Detalle implements Serializable {
 
 	//bi-directional many-to-one association to Factura
 	@ManyToOne
-	@JoinColumn(name="id_factura")
+	@JoinColumn(name="id_factura",insertable=false,updatable=false)
 	private Factura factura;
 
 	//bi-directional many-to-one association to Producto
 	@ManyToOne
-	@JoinColumn(name="id_producto")
+	@JoinColumn(name="id_producto",insertable=false,updatable=false)
 	private Producto producto;
 
 	public Detalle() {

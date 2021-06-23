@@ -27,9 +27,6 @@ public class Factura implements Serializable {
 	@Column(name="formaPago_personalizada")
 	private String formaPagoPers;
 
-	@Column(name="id_cliente")
-	private int idCliente;
-
 	@Column(name="id_impuesto")
 	private int idImpuesto;
 
@@ -113,14 +110,6 @@ public class Factura implements Serializable {
 
 	public void setFormaPagoPersonalizada(String formaPagoPersonalizada) {
 		this.formaPagoPers = formaPagoPersonalizada;
-	}
-
-	public int getIdCliente() {
-		return this.idCliente;
-	}
-
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
 	}
 
 	public int getIdImpuesto() {
