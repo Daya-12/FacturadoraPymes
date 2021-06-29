@@ -15,6 +15,9 @@ public class Categoria implements Serializable {
 
 	@Column(name="nombre_categoria")
 	private String nombreCategoria;
+	
+	@Column(name="activo")
+	private boolean activoCategoria;
 
 	//bi-directional many-to-one association to Producto
 	@OneToMany(mappedBy="categoria")
@@ -37,6 +40,14 @@ public class Categoria implements Serializable {
 
 	public void setNombreCategoria(String nombreCategoria) {
 		this.nombreCategoria = nombreCategoria;
+	}
+	
+	public boolean getActivoCategoria() {
+		return this.activoCategoria;
+	}
+
+	public void setActivoCategoria(boolean activoCategoria) {
+		this.activoCategoria = activoCategoria;
 	}
 
 	public List<Producto> getProductos() {

@@ -20,6 +20,9 @@ public class Documento implements Serializable {
 
 	@Column(name="nombre_tdocumento")
 	private String nombreTdocumento;
+	
+	@Column(name="activo")
+	private boolean activoTdocumento;
 
 	//bi-directional many-to-one association to Cliente
 	@OneToMany(mappedBy="documento")
@@ -43,6 +46,14 @@ public class Documento implements Serializable {
 
 	public void setNombreTdocumento(String nombreTdocumento) {
 		this.nombreTdocumento = nombreTdocumento;
+	}
+	
+	public boolean getActivoTdocumento() {
+		return this.activoTdocumento;
+	}
+
+	public void setActivoTdocumento(boolean activoTdocumento) {
+		this.activoTdocumento = activoTdocumento;
 	}
 
 	public List<Cliente> getClientes() {

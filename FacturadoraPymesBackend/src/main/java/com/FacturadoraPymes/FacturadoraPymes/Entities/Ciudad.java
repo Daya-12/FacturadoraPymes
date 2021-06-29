@@ -20,6 +20,9 @@ public class Ciudad implements Serializable {
 
 	@Column(name="nombre_ciudad")
 	private String nombreCiudad;
+	
+	@Column(name="activo")
+	private boolean activoCiudad;
 
 	//bi-directional many-to-one association to Cliente
 	@OneToMany(mappedBy="ciudad")
@@ -51,6 +54,13 @@ public class Ciudad implements Serializable {
 		this.nombreCiudad = nombreCiudad;
 	}
 
+	public boolean getActivoCiudad() {
+		return this.activoCiudad;
+	}
+
+	public void setActivoCiudad(boolean activoCiudad) {
+		this.activoCiudad = activoCiudad;
+	}
 
 	public List<Cliente> getClientes() {
 		return this.clientes;

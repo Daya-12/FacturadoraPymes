@@ -18,6 +18,9 @@ public class Impuesto implements Serializable {
 
 	@Column(name="porc_impuesto")
 	private double porcImpuesto;
+	
+	@Column(name="activo")
+	private boolean activoImpuesto;
 
 	//bi-directional many-to-many association to Factura
 	@ManyToMany
@@ -59,6 +62,14 @@ public class Impuesto implements Serializable {
 		this.porcImpuesto = porcImpuesto;
 	}
 
+	public boolean getActivoImpuesto() {
+		return this.activoImpuesto;
+	}
+
+	public void setActivoImpuesto(boolean activoImpuesto) {
+		this.activoImpuesto = activoImpuesto;
+	}
+	
 	public List<Factura> getFacturas() {
 		return this.facturas;
 	}

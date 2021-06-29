@@ -21,6 +21,9 @@ public class Estado implements Serializable {
 
 	@Column(name="nombre_estado")
 	private String nombreEstado;
+	
+	@Column(name="activo")
+	private boolean activoEstado;
 
 	//bi-directional many-to-one association to Factura
 	@OneToMany(mappedBy="estado")
@@ -44,7 +47,15 @@ public class Estado implements Serializable {
 	public void setNombreEstado(String nombreEstado) {
 		this.nombreEstado = nombreEstado;
 	}
+	
+	public boolean getActivoEstado() {
+		return this.activoEstado;
+	}
 
+	public void setActivoEstado(boolean activoEstado) {
+		this.activoEstado = activoEstado;
+	}
+	
 	public List<Factura> getFacturas() {
 		return this.facturas;
 	}

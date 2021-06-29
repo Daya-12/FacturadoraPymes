@@ -17,6 +17,9 @@ public class Formapago implements Serializable {
 	@Column(name="nombre_formaPago")
 	private String nombreformaPago;
 	
+	@Column(name="activo")
+	private boolean activoformaPago;
+	
 	@OneToMany(mappedBy="formaPago")
 	private List<Factura> facturas;
 	
@@ -37,6 +40,14 @@ public class Formapago implements Serializable {
 
 	public void setNombreformaPago(String nombreformaPago) {
 		this.nombreformaPago = nombreformaPago;
+	}
+	
+	public boolean getActivoformaPago() {
+		return this.activoformaPago;
+	}
+
+	public void setActivoformaPago(boolean activoformaPago) {
+		this.activoformaPago = activoformaPago;
 	}
 	
 	public List<Factura> getFacturas() {

@@ -5,6 +5,7 @@ use bd_facturadora;
 CREATE TABLE Ciudad(
 id_ciudad INT AUTO_INCREMENT,
 nombre_ciudad VARCHAR (150) NOT NULL,
+activo BIT NOT NULL,
 PRIMARY KEY (id_ciudad)
 );
 
@@ -39,6 +40,7 @@ FOREIGN KEY (id_empresa) references Empresa (id_empresa)
 CREATE TABLE Categoria (
 id_categoria INT AUTO_INCREMENT,
 nombre_categoria VARCHAR (60),
+activo BIT NOT NULL,
 PRIMARY KEY (id_categoria)
 );
 
@@ -46,24 +48,28 @@ CREATE TABLE Impuesto(
 id_impuesto INT AUTO_INCREMENT,
 nombre_impuesto VARCHAR (30) NOT NULL,
 porc_impuesto DOUBLE NOT NULL,
+activo BIT NOT NULL,
 PRIMARY KEY (id_impuesto)
 );
 
 CREATE TABLE Estado (
 id_estado INT AUTO_INCREMENT,
 nombre_estado VARCHAR (50) NOT NULL,
+activo BIT NOT NULL,
 PRIMARY KEY (id_estado)
 );
 
 CREATE TABLE FormaPago(
 id_formaPago INT AUTO_INCREMENT,
 nombre_formaPago VARCHAR (80) NOT NULL,
+activo BIT NOT NULL,
 PRIMARY KEY (id_formaPago)
 );
 
 CREATE TABLE Documento(
 id_tdocumento INT AUTO_INCREMENT,
 nombre_tdocumento VARCHAR (80) NOT NULL,
+activo BIT NOT NULL,
 PRIMARY KEY (id_tdocumento)
 );
 
