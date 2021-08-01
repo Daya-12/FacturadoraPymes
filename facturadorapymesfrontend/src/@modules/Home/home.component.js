@@ -4,8 +4,6 @@ import Logo from "../../@images/logoProyecto.png";
 import { Collapse, Navbar, Nav, NavItem, NavLink, Button } from "reactstrap";
 import "../../@styles/styles.components.css";
 import Swal from "sweetalert2";
-import serviceHome from "./home.service.js";
-
 export default class Home extends React.Component {
 
 
@@ -18,25 +16,23 @@ export default class Home extends React.Component {
         timer: "3000",
       });
     } else {
-      let respuesta = null;
-      respuesta = await serviceHome.consultarFactura(refFactura);
       this.props.history.push("/consultaFactura/"+refFactura, {refFactura:refFactura})
     }
   };
   
   render() {
     return (
-      <div class="container">
+      <div className="container">
         <header id="main-header">
-          <div class="cabecera">
-            <div class="sub1">
+          <div className="cabecera">
+            <div className="sub1">
               <div>
                 <a href="Principal.js">
                   <img src={Logo} height="100" width="295" alt="Logo" />
                 </a>
               </div>
             </div>
-            <div class="sub2">
+            <div className="sub2">
               <Navbar color="light" light expand="md">
                 <Collapse navbar>
                   <Nav className="mr-auto" navbar>
@@ -62,21 +58,21 @@ export default class Home extends React.Component {
           </div>
         </header>
 
-        <div class="Inicio">
-          <div class="subc1">
-            <div class="col-12">
-              <div class="input-group input-group-md w-50 mx-auto">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">📑</span>
+        <div className="Inicio">
+          <div className="subc1">
+            <div className="col-12">
+              <div className="input-group input-group-md w-50 mx-auto">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">📑</span>
                 </div>
                 <input
                   id="refFactura"
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Digita la referencia de tu factura"
                   autocomplete="off"
                 />
-                <div class="input-group-append">
+                <div className="input-group-append">
                   <Button
                     color="primary"
                     onClick={() => this.consultarFactura()}

@@ -93,3 +93,24 @@ body {
     color: rgba(255, 255, 255, 0.726);
     font-weight: bold;
 }
+
+.Loading1{
+    height: 100vh;
+    position: relative;
+}
+
+.Loading2{
+    margin: 0;
+    position:absolute;
+    top:50%;
+    left:50%;
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.Spinner{
+    width: 100px !important;
+    height: 100px !important;
+    border: 8px solid currentColor !important;
+    border-right-color: transparent !important;
+}
