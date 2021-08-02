@@ -41,7 +41,7 @@ public class MapperUsuario implements IMapperUsuario {
 		usuario.setTelefono(usuarios.getTelefonoUser());
 		usuario.setNivel(usuarios.getNivelUser());
 		usuario.setEmpresa(empresa);
-		usuario.setActivo(usuarios.getActivo());
+		usuario.setActivo(usuarios.getActivoUser());
 		return usuario;
 	}
 

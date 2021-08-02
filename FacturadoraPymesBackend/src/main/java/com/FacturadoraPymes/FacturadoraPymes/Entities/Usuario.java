@@ -53,11 +53,11 @@ public class Usuario implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
-	public boolean getActivo() {
+	public boolean getActivoUser() {
 		return this.activoUser;
 	}
 
-	public void setActivo(boolean activo) {
+	public void setActivoUser(boolean activo) {
 		this.activoUser = activo;
 	}
 

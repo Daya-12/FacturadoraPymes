@@ -114,3 +114,76 @@ body {
     border: 8px solid currentColor !important;
     border-right-color: transparent !important;
 }
+
+.background-image {
+    background-image: url(../@images/fondoLogin.jpg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: rgb(98, 108, 133);
+    background-blend-mode: soft-light;
+    width: 100%;
+    max-width: 100vw;
+    height: 100vh;
+    position:absolute;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    background-repeat: no-repeat; background-position: center center;
+}
+
+.formulario{
+    background: rgba(0, 0, 0,0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0,0.568);
+    color: white;
+    
+}
+
+.form-control{
+    background: rgba(0, 0, 0,0.5);
+    border-style: none;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 0.5s;
+    color: white;
+}
+.form-control:focus{
+    background: none;
+    box-shadow: none;
+    outline: none;
+    color: white;
+}
+
+.form-control::placeholder{
+    color: white;
+    
+}
+.buttonIngresar{
+    margin-top: 23px;
+    margin-bottom:23 px;
+}
+.recuperarpass{
+    margin-top: 20px;
+    color: rgb(145, 145, 145);
+    text-decoration-style: none;
+    text-decoration-line: none;
+}
+.recuperarpass:hover{
+    color: rgb(23, 163, 58);
+    text-decoration-style: none;
+    text-decoration-line: none;
+}
+.registrarseAhora{
+    margin-top: 20px;
+    color: rgb(110, 168, 255);
+    text-decoration-style: none;
+    text-decoration-line: none;
+}
+.registrarseAhora:hover{
+    color: rgb(49, 131, 255);
+    text-decoration-style: none;
+    text-decoration-line: none;
+}

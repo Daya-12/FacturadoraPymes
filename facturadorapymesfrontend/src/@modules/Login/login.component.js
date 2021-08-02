@@ -1,0 +1,155 @@
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button } from "reactstrap";
+import "../../@styles/styles.components.css";
+import service from "./login.service";
+import Swal from 'sweetalert2';
+export default class Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      form: {
+        correo: "",
+        pass: "",
+      },
+      button: false,
+    };
+  }
+
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+    if (
+      this.state.form.correo === "" ||
+      this.validarEmail() === false ||
+      this.state.form.pass < 8
+    ) {
+      this.setState({ button: false });
+    } else if (
+      this.validarEmail() !== false &&
+      this.state.form.pass.length >= 8
+    ) {
+      this.setState({ button: true });
+    }
+  };
+
+  validarEmail = () => {
+    let regEmail =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (
+      !regEmail.test(this.state.form.correo) &&
+      this.state.form.correo !== ""
+    ) {
+      return false;
+    }
+  };
+
+  validarUser = async () => {
+    if (this.state.form.correo === "" || this.state.form.pass === "") {
+      window.alert("¡Completa los campos vacios!");
+    } else if (this.validarEmail() === false) {
+      window.alert("¡Diligencia un correo valido!");
+    } else {
+      let respuesta = null;
+      respuesta = await service.validarUsuario({
+        correo: this.state.form.correo,
+        pass: this.state.form.pass,
+      });
+      if (respuesta!==null) {
+        let idEmpresa = respuesta.data.empresa.id;
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("user", JSON.stringify(respuesta.data));
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        isAuthenticated
+          ? this.props.history.replace("/Menu/" + idEmpresa, {
+              idEmpresa: idEmpresa,
+            })
+          : window.alert("Error");
+      } else {
+        Swal.fire({
+          text: "Correo o contraseña invalidos",
+          icon: "error",
+          timer: "3000",
+        });
+      }
+    }
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <div className="background-image">
+          <div className="row justify-content-center pt-5 mt-5 m-1">
+            <div className="col-md-4 formulario">
+              <form>
+                <div className="form-group text-center pt-4 pb-4">
+                  <h3 className="text-light">Iniciar sesión en ISSMC</h3>
+                </div>
+                <div className="form-group mx-sm-4">
+                  <input
+                    autoComplete="off"
+                    type="email"
+                    className="form-control"
+                    placeholder="Correo electronico"
+                    name="correo"
+                    onChange={this.handleChange}
+                    required
+                    style={{ marginTop: "20px", marginBottom: "27px" }}
+                  />
+                </div>
+                <div className="form-group mx-sm-4">
+                  <input
+                    autoComplete="off"
+                    type="password"
+                    className="form-control"
+                    placeholder="Contraseña"
+                    name="pass"
+                    onChange={this.handleChange}
+                    required
+                    style={{ marginBottom: "20px" }}
+                  />
+                </div>
+                <div className="form-group row">
+                  <div className="form-group col-md-4"></div>
+                  <div className="form-group col-md-4">
+                    <Button
+                      className="buttonIngresar"
+                      color="primary"
+                      onClick={() => this.validarUser()}
+                      disabled={this.state.button === false}
+                      style={{ marginBottom: "27px" }}
+                    >
+                      INGRESAR
+                    </Button>
+                  </div>
+                  <div className="form-group col-md-4"></div>
+                </div>
+                <br></br>
+                <div className="form-group mx-sm-4 text-center pb-3">
+                  <span>
+                    <a href="!#" className="recuperarpass">
+                      ¿Olvidaste tu contraseña?
+                    </a>
+                  </span>
+                </div>
+                <div className="form-group mx-sm-4 text-center pb-3">
+                  <span>
+                    <label>¿No estas registrado?</label>&nbsp;&nbsp;
+                    <a href="!#" className="registrarseAhora">
+                      ¡Registrate ahora!
+                    </a>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}

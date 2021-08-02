@@ -2,18 +2,24 @@ package com.FacturadoraPymes.FacturadoraPymes.Services;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
+import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
+import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
+import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
@@ -21,13 +27,21 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private final IUsuarioRepository usuarioRepository;
 	private final IMapperUsuario mapperUsuario;
 	private final Validaciones validaciones;
+	private final IEmpresaService empresaService;
 	
 	@Autowired
 	public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IMapperUsuario mapperUsuario,
-			Validaciones validaciones) {
+			Validaciones validaciones,IEmpresaService empresaService) {
 		this.usuarioRepository = usuarioRepository;
 		this.mapperUsuario = mapperUsuario;
 		this.validaciones = validaciones;
+		this.empresaService= empresaService;
+	}
+	
+	@Override
+	public UsuarioModel iniciarSesion(UsuarioModel usuario) {
+		Optional<Usuario> usuarioEntity = validaciones.validarSesion(usuarioRepository, usuario);
+		return mapperUsuario.mostrarUsuarios(usuarioEntity.get());
 	}
 	
 	
@@ -39,6 +53,28 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			return mapperUsuario.mostrarUsuarios(usuario);
 		}).collect(Collectors.toList());
 		return usuarios;
+	}
+	
+	@Override
+	public MensajeModel crearUsuario(UsuarioModel usuario) {
+		MensajeModel mensajeModel = new MensajeModel();
+		Usuario usuarioEntity = new Usuario();
+		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, usuario);
+		Optional<Empresa> empresa = empresaService.validarEmpresa(usuario);
+		if (validarCorreo) {
+			usuarioEntity.setIdUsuario(usuario.getId());
+			usuarioEntity.setNombreUser(usuario.getNombre());
+			usuarioEntity.setCorreoUser(usuario.getCorreo());
+			usuarioEntity.setPassUser(String.valueOf(usuario.getPass().hashCode()));
+			usuarioEntity.setTelefonoUser(usuario.getTelefono());
+			usuarioEntity.setNivelUser(usuario.getNivel());
+			usuarioEntity.setEmpresa(empresa.get());
+			usuarioEntity.setActivoUser(true);
+			usuarioRepository.save(usuarioEntity);
+			mensajeModel.setMensaje(Constantes.MENSAJE_REGISTRAR);
+			return mensajeModel;
+		} else
+			throw new NoSuchElementException("El usuario no se pudo registrar");
 	}
 	
 	

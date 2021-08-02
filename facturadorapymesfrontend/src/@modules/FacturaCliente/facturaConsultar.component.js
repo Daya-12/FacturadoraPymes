@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import service from "./facturaConsultar.service";
-import Loading from "../Loagind/loading";
+import Loading from "../Loading/loading";
 export default class ConsultarFactura extends React.Component{
     constructor(){
         super();

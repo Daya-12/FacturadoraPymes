@@ -1,15 +1,15 @@
 import axios from 'axios';
 const urlConexion = "http://localhost:8080//facturadoraPymes/application/";
 
-async function consultarFactura(refFactura) {
-    const url = urlConexion+'factura/consultar'+refFactura
+async function validarUsuario(object) {
+    const url = urlConexion+'user/validar'
     let response = null;
     try {      
-        response=await axios.get(url);
+        response=await axios.post(url, object);
     } catch (e) {
         console.error(e);
     }
     return response;
 };
 
-export default {consultarFactura};
+export default {validarUsuario};
