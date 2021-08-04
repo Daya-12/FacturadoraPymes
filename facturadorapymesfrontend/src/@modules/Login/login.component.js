@@ -61,15 +61,23 @@ export default class Login extends React.Component {
         pass: this.state.form.pass,
       });
       if (respuesta!==null) {
-        let idEmpresa = respuesta.data.empresa.id;
-        localStorage.setItem("isAuthenticated", true);
-        localStorage.setItem("user", JSON.stringify(respuesta.data));
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-        isAuthenticated
-          ? this.props.history.replace("/Menu/" + idEmpresa, {
-              idEmpresa: idEmpresa,
-            })
-          : window.alert("Error");
+        if(respuesta.data.nivel===0){
+          let idEmpresa = respuesta.data.empresa.id;
+          localStorage.setItem("isAuthenticated", true);
+          localStorage.setItem("user", JSON.stringify(respuesta.data));
+          Swal.fire({
+            text: "¡Bienvenido "+respuesta.data.nombre+"!",
+            icon: "success",
+            timer: "3000",
+          });
+  
+          const isAuthenticated = localStorage.getItem("isAuthenticated");
+          isAuthenticated
+            ? this.props.history.replace("/MenuAdministrador/" + idEmpresa, {
+                idEmpresa: idEmpresa,
+              })
+            : window.alert("Error");
+        }
       } else {
         Swal.fire({
           text: "Correo o contraseña invalidos",

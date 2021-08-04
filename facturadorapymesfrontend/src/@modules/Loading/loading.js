@@ -7,7 +7,7 @@ export default function Loading(){
   return (
     <div className="Loading1">
       <div className="Loading2">
-        <Spinner className="Spinner" color="secondary"/>
+        <Spinner className="Spinner" color="primary"/>
       </div>
     </div>
   );

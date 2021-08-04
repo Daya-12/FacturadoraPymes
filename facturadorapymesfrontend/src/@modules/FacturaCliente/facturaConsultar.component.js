@@ -6,8 +6,7 @@ export default class ConsultarFactura extends React.Component{
     constructor(){
         super();
         this.state={
-            refFactura:'',
-            loading:false
+            refFactura:''
         }
     }
     componentDidMount(){
@@ -20,7 +19,7 @@ export default class ConsultarFactura extends React.Component{
         this.setState({ loading: true });
         setTimeout(() => {
             this.setState({ loading: false });
-        }, 3000);
+        }, 2000);
         let respuesta = null;
         //respuesta = await service.consultarFactura(this.refFactura);
     }

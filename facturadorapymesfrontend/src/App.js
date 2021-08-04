@@ -6,14 +6,14 @@ import Login from './@modules/Login/login.component';
 import NotFound from './@modules/NotFound/notFound.component';
 import ConsultarFactura from './@modules/FacturaCliente/facturaConsultar.component';
 import Logout from './@modules/Login/logout';
-import Menu from './@modules/Menu/menu.component';
+import MenuAdministrador from './@modules/Menu/menuAdministrador.component';
 
 export default function App() {
   return (
     <div className="container">
       <Router>
         <Switch>
-          <PrivateRoute exact path="/Menu/:idEmpresa" component={Menu}/>
+          <PrivateRoute exact path="/MenuAdministrador/:idEmpresa" component={MenuAdministrador}/>
           <PrivateRoute exact path="/Logout" component={Logout}/>
           <Route exact path="/Login" component={Login}/>
           <Route exact path="/consultaFactura/:refFactura" component={ConsultarFactura}/>
