@@ -1,0 +1,37 @@
+insert into Ciudad values(0,'Bogotá',true);
+insert into Ciudad values(0,'Medellín',true);
+insert into Ciudad values(0,'Cali',true);
+insert into Ciudad values(0,'Popayán',true);
+insert into Ciudad values(0,'Pasto',true);
+insert into Ciudad values(0,'Manizales',true);
+insert into Ciudad values(0,'Pereira',true);
+insert into Ciudad values(0,'Armenia',true);
+insert into Ciudad values(0,'Valledupar',true);
+insert into Ciudad values(0,'Bucaramanga',true);
+insert into Ciudad values(0,'Yopal',true);
+insert into Ciudad values(0,'Buenaventura',true);
+insert into Ciudad values(0,'Cartagena',true);
+insert into Ciudad values(0,'Barranquilla',true);
+insert into Ciudad values(0,'Santa Marta',true);
+insert into Ciudad values(0,'Riohacha',true);
+
+
+insert into Documento values(0,'C.C.',true);
+insert into Documento values(0,'P.A.',true);
+insert into Documento values(0,'C.E.',true);
+insert into Documento values(0,'R.U.T.',true);
+insert into Documento values(0,'N.I.T.',true);
+insert into Documento values(0,'D.N.I.',true);
+insert into Documento values(0,'P.E.P.',true);
+
+insert into Estado values(0,'Emitido',true);
+insert into Estado values(0,'Cancelado',true);
+insert into Estado values(0,'Vencido',true);
+insert into Estado values(0,'Anulado',true);
+
+insert into FormaPago values(0,'Contado',true);
+insert into FormaPago values(0,'Contraentrega',true);
+insert into FormaPago values(0,'50%ANT. 50%COD.',true);
+insert into FormaPago values(0,'30%ANT. 70%COD.',true);
+insert into FormaPago values(0,'20%ANT. 80%COD.',true);
+insert into FormaPago values(0,'10%ANT. 90%COD.',true);
