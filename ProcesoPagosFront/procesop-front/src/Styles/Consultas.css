@@ -1,0 +1,39 @@
+.textField{
+    height: 40px;
+    width: 300px;
+    border: 2px solid rgb(6, 12, 70);
+    padding: 0 32px 0 16px;
+}
+
+.textField:hover {
+    cursor: pointer;
+}
+        
+.barraBusqueda{
+    float: center;
+    padding: 20px;
+}
+
+.cabeceraMenu2 {
+    display: grid;
+    background: rgb(255, 255, 255);
+    grid-template-columns: 100% 90%;
+}
+.table-responsive{
+    background-color: #B6B6B6;
+}
+
+.NotFound{
+    background-image: url(../Images/fondoPag.jpg);
+    background-position: center;
+    background-color: rgb(51, 58, 80);
+    background-blend-mode: soft-light;
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    position:absolute;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}

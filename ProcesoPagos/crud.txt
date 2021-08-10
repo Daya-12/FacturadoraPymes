@@ -1,0 +1,116 @@
+create database bd_procesopago;
+use bd_procesopago;
+
+CREATE TABLE documento(
+id_tdocumento INT NOT NULL,
+nombre_tdocumento VARCHAR (150),
+PRIMARY KEY (id_tdocumento)
+);
+
+CREATE TABLE ciudad(
+id_ciudad INT NOT NULL,
+nombre_ciudad VARCHAR (150),
+PRIMARY KEY (id_ciudad)
+);
+
+CREATE TABLE cliente(
+id_cliente INT NOT NULL, 
+id_tdocumento INT NOT NULL, 
+num_documento INT NOT NULL,
+nombres_cli VARCHAR (100),
+apellidos_cli VARCHAR (100),
+direccion_cli VARCHAR (100),
+id_ciudad INT NOT NULL,
+codpostal_cli INT NOT NULL,
+telefono_cli INT NOT NULL,
+PRIMARY KEY (id_cliente),
+FOREIGN KEY (id_tdocumento) references documento (id_tdocumento),
+FOREIGN KEY (id_ciudad) references ciudad (id_ciudad)
+);
+
+
+CREATE TABLE estado (
+id_estado INT NOT NULL,
+nombre_estado VARCHAR (30),
+PRIMARY KEY (id_estado)
+);
+
+CREATE TABLE tipoimpuesto (
+id_impuesto INT NOT NULL,
+nombre_impuesto VARCHAR (30),
+porc_impuesto DOUBLE NOT NULL,
+PRIMARY KEY (id_impuesto)
+);
+
+CREATE TABLE factura (
+id_factura INT NOT NULL, 
+id_estado INT NOT NULL, 
+fecha_emision DATE, 
+fecha_vencimiento DATE,
+subtotal_factura DOUBLE,
+id_impuesto INT,
+total_fact DOUBLE,
+PRIMARY KEY (id_factura),
+FOREIGN KEY (id_estado) references estado (id_estado),
+FOREIGN KEY (id_impuesto) references tipoimpuesto (id_impuesto)
+);
+
+
+CREATE TABLE recibo (
+id_factura INT NOT NULL, 
+id_cliente INT NOT NULL, 
+fecha_pago DATE, 
+hora_pago TIME,
+ref_pago VARCHAR (150),
+PRIMARY KEY (id_factura,id_cliente),
+FOREIGN KEY (id_factura) references factura (id_factura),
+FOREIGN KEY (id_cliente) references cliente (id_cliente)
+);
+
+
+CREATE TABLE categoriaprod (
+id_categoria INT NOT NULL,
+nombre_categoria VARCHAR (60),
+PRIMARY KEY (id_categoria)
+);
+
+
+CREATE TABLE producto (
+id_producto INT NOT NULL, 
+nombre_producto VARCHAR (150),
+valor_producto DOUBLE, 
+id_categoria INT,
+PRIMARY KEY (id_producto),
+FOREIGN KEY (id_categoria) references categoriaprod (id_categoria)
+);
+
+CREATE TABLE detalle(
+id_detalle INT NOT NULL, 
+id_factura INT NOT NULL,
+cantidad INT NOT NULL, 
+id_producto INT,
+valor_unitario DOUBLE,
+valor_total DOUBLE, 
+PRIMARY KEY (id_detalle),
+FOREIGN KEY (id_factura) references factura (id_factura),
+FOREIGN KEY (id_producto) references producto (id_producto)
+);
+
+
+CREATE TABLE usuario(
+id_usuario INT NOT NULL, 
+nombre_user VARCHAR (300),
+correo_user VARCHAR (100),
+pass_user VARCHAR (200),
+telefono_user VARCHAR (100),
+nivel_user INT,
+PRIMARY KEY (id_usuario)
+);
+
+CREATE TABLE prodclient (
+id_cliente INT NOT NULL, 
+id_producto INT NOT NULL, 
+PRIMARY KEY (id_cliente,id_producto),
+FOREIGN KEY (id_cliente) references cliente (id_cliente),
+FOREIGN KEY (id_producto) references producto (id_producto)
+);

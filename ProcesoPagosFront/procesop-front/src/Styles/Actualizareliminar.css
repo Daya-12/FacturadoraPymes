@@ -1,0 +1,64 @@
+#editar input{
+    background: rgba(238, 238, 241, 0.788);
+    border-style:ridge;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 0.5s;
+    color: rgb(0, 0, 0);
+    font-family: "Segoe UI";
+}
+
+#editar input:focus{
+    background: none;
+    box-shadow: none;
+    outline: none;
+    color: rgb(18, 21, 61);
+}
+
+#editar textarea{
+    background: rgba(238, 238, 241, 0.788);
+    border-style:ridge;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 0.5s;
+    color: rgb(0, 0, 0);
+    font-family: "Segoe UI";
+}
+
+#editar textarea:focus{
+    background: none;
+    box-shadow: none;
+    outline: none;
+    color: rgb(18, 21, 61);
+}
+
+#editar select{
+    background: rgba(238, 238, 241, 0.788);
+    border-style:ridge;
+    box-shadow: none;
+    outline: none;
+    transition: background-color 0.5s;
+    color: rgb(0, 0, 0);
+    font-family: "Segoe UI";
+}
+
+
+#editar select:focus{
+    background: none;
+    box-shadow: none;
+    outline: none;
+    color: rgb(18, 21, 61);
+}
+
+#editar label{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-family: "Segoe UI";
+}
+
+#titulo{
+    color: rgb(18, 21, 61);
+    font-weight: bold;
+    font-family: "Segoe UI";
+    text-align: center;
+}

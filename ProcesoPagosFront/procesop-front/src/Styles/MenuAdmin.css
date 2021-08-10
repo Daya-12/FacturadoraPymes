@@ -1,0 +1,154 @@
+
+html {
+    width:100%;
+    height:100%;
+}
+
+.cabeceraMenu {
+    display: grid;
+    background: rgb(255, 255, 255);
+    grid-template-columns: 90% 70%;
+}
+
+.sub1Menu{
+    margin-left: 30px; 
+    display: grid;
+    grid-template-columns: 10% 25%;
+    font: 15px sans-serif;
+}
+
+#main-header {
+	height: 200px;
+	width: 100%; 
+	left: 0; 
+	top: 0; 
+	position: fixed;
+}
+/*Esconde el check box del boton*/
+#btn-menu{
+    display: none;
+}
+
+.container-menu{
+    margin-top: 120px;
+    position: absolute;
+    top: 0; left: 0;
+    transition: all 500ms ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#btn-menu:checked ~ .container-menu{
+    opacity: 1;
+    visibility: visible;
+}
+
+.cont-menu{
+    width: 100%;
+    max-width: 250px;
+    position: relative;
+    transition: all 500ms ease;
+    transform: translateX(-100%);
+    background-color: rgb(255, 255, 255);
+}
+
+#btn-menu:checked ~ .container-menu .cont-menu{
+    transform: translateX(0%);
+}
+
+.cont-menu nav{
+    transform: translateY(15%);
+}
+
+.cont-menu nav a{
+    text-align: left;
+    font-weight: bold;
+    transition: all 400ms ease;
+}
+
+.cont-menu nav a:hover{
+    border-left: 7px solid #b8b8b8;
+}
+
+/************MENU*/
+ul.acorh, ul.acorh * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+ul.acorh {
+    margin: 10px auto;
+    padding: 10px;
+    list-style: none;
+    width: 100%;
+    font-size: 17px;
+}
+
+ul.acorh li {
+    list-style: none;
+}
+
+ul.acorh li a {
+    display: block;
+    padding: 10px 10px 10px 20px;
+    background:  #e2e2e2;
+    color: rgb(0, 0, 0);
+    border-bottom: 1px solid rgb(228, 228, 228);
+    border-top: 1px solid rgb(2, 8, 56);
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+ul.acorh li ul {
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    transition: .5s all ease-in;
+}
+
+ul.acorh li li a {
+    padding: 10px 10px 10px 40px;
+    background: rgb(218, 211, 211);
+    color: #000;
+    font-size: 16px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+ul.acorc li li:last-child a {
+    border-bottom: 0;
+}
+
+ul.acorh li:hover ul {
+    max-height: 300px;
+    transition: .5s all ease-in;
+}
+
+ul.acorh li a:hover {
+    background: rgb(163, 169, 238);
+    color: rgb(0, 0, 0);
+}
+
+h4 { 
+    font-size: 23px;
+    font-family: "Segoe UI";
+    text-align: center;
+}
+
+.cuerpo{
+    background-image: url(../Images/fondoMenu.jpg);
+    background-color: rgb(51, 58, 80);
+    background-blend-mode: soft-light;
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    position:absolute;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
