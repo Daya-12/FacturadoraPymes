@@ -39,8 +39,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 	
 	@Override
-	public UsuarioModel iniciarSesion(UsuarioModel usuario) {
-		Optional<Usuario> usuarioEntity = validaciones.validarSesion(usuarioRepository, usuario);
+	public UsuarioModel iniciarSesion(String email,String pass) {
+		String passAsegurada=validaciones.asegurarPass(pass);
+		String passCifrada=validaciones.cifrarPassAES(passAsegurada);
+		Optional<Usuario> usuarioEntity = validaciones.validarSesion(usuarioRepository, email, passCifrada);
 		return mapperUsuario.mostrarUsuarios(usuarioEntity.get());
 	}
 	
@@ -59,13 +61,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	public MensajeModel crearUsuario(UsuarioModel usuario) {
 		MensajeModel mensajeModel = new MensajeModel();
 		Usuario usuarioEntity = new Usuario();
+		String passAsegurada;
+		String passCifrada;
 		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, usuario);
 		Optional<Empresa> empresa = empresaService.validarEmpresa(usuario);
 		if (validarCorreo) {
 			usuarioEntity.setIdUsuario(usuario.getId());
 			usuarioEntity.setNombreUser(usuario.getNombre());
 			usuarioEntity.setCorreoUser(usuario.getCorreo());
-			usuarioEntity.setPassUser(String.valueOf(usuario.getPass().hashCode()));
+			passAsegurada=validaciones.asegurarPass(usuario.getPass());
+			passCifrada=validaciones.cifrarPassAES(passAsegurada);
+			usuarioEntity.setPassUser(passCifrada);
 			usuarioEntity.setTelefonoUser(usuario.getTelefono());
 			usuarioEntity.setNivelUser(usuario.getNivel());
 			usuarioEntity.setEmpresa(empresa.get());

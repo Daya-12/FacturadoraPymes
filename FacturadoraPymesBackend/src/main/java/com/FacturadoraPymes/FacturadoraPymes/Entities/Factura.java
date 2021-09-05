@@ -13,6 +13,7 @@ public class Factura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_factura")
 	private int idFactura;
 
@@ -75,6 +76,9 @@ public class Factura implements Serializable {
 	//bi-directional many-to-many association to Impuesto
 	@ManyToMany(mappedBy="facturas")
 	private List<Impuesto> impuestos;
+	
+	@OneToMany(mappedBy="factura")
+	private List<Seguimiento> seguimientos;
 
 	public Factura() {
 	}
@@ -221,6 +225,27 @@ public class Factura implements Serializable {
 
 	public void setImpuestos(List<Impuesto> impuestos) {
 		this.impuestos = impuestos;
+	}
+	
+	public List<Seguimiento> getSeguimientos() {
+		return this.seguimientos;
+	}
+
+	public void setSeguimientos(List<Seguimiento> seguimientos) {
+		this.seguimientos = seguimientos;
+	}
+
+	public Seguimiento addSeguimiento(Seguimiento seguimiento) {
+		getSeguimientos().add(seguimiento);
+		seguimiento.setFactura(this);
+
+		return seguimiento;
+	}
+	
+	public Seguimiento removeFactura(Seguimiento seguimiento) {
+		getSeguimientos().remove(seguimiento);
+		seguimiento.setFactura(null);
+		return seguimiento;
 	}
 
 }
