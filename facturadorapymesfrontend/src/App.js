@@ -7,6 +7,7 @@ import NotFound from './@modules/NotFound/notFound.component';
 import ConsultarFactura from './@modules/FacturaCliente/facturaConsultar.component';
 import Logout from './@modules/Login/logout';
 import MenuAdministrador from './@modules/Menu/menuAdministrador.component';
+import RegistroPyme from './@modules/Pymes/registro.component';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Switch>
           <PrivateRoute exact path="/MenuAdministrador/:idEmpresa" component={MenuAdministrador}/>
           <PrivateRoute exact path="/Logout" component={Logout}/>
+          <Route exact path="/Registrarse" component={RegistroPyme}/>
           <Route exact path="/Login" component={Login}/>
           <Route exact path="/consultaFactura/:refFactura" component={ConsultarFactura}/>
           <Route exact path="/" component={Home}/>

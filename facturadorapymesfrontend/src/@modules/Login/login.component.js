@@ -148,7 +148,7 @@ export default class Login extends React.Component {
                 <div className="form-group mx-sm-4 text-center pb-3">
                   <span>
                     <label>¿No estas registrado?</label>&nbsp;&nbsp;
-                    <a href="!#" className="registrarseAhora">
+                    <a href="/Registrarse" className="registrarseAhora">
                       ¡Registrate ahora!
                     </a>
                   </span>
