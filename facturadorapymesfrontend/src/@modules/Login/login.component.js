@@ -94,7 +94,7 @@ export default class Login extends React.Component {
         <div className="background-image">
           <div className="row justify-content-center pt-5 mt-5 m-1">
             <div className="col-md-4 formulario">
-              <form>
+              <form id="login">
                 <div className="form-group text-center pt-4 pb-4">
                   <h3 className="text-light">Iniciar sesión en ISSMC</h3>
                 </div>

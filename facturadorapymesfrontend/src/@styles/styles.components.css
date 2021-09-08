@@ -348,13 +348,66 @@ h4 {
   background-position: center center;
 }
 
-.input-group {
-  margin-top: 1%;
-}
-
 .label-registro {
+  margin-top: 20px;
+  margin-bottom: 5px;
   font-weight: bold;
   font-size: 1em;
   font-family: sans-serif;
   color: rgb(18, 13, 66);
+}
+
+#formPyme {
+  background: rgba(221, 220, 220, 0.795);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(105, 103, 103, 0.568);
+  color: white;
+}
+
+#crearPymes .form-control {
+  background: rgba(173, 173, 173, 0.699);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+}
+#crearPymes .form-control:focus {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  color: rgb(9, 19, 59);
+}
+
+#crearPymes .form-control::placeholder {
+  color: rgb(105, 105, 107);
+}
+
+#crearPymes .form-select {
+  background: rgba(173, 173, 173, 0.699);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+}
+
+.pymeReg {
+  background-image: url(../@images/fondoLogin.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: rgb(98, 108, 133);
+  background-blend-mode: soft-light;
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  position: absolute;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }

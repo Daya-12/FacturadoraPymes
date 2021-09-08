@@ -2,10 +2,10 @@ import axios from 'axios';
 const urlConexion = "http://localhost:8080//facturadoraPymes/application/";
 
 async function validarUsuario(object) {
-    const url = urlConexion+'user/validar'
+    const url = urlConexion+'user/validar/'+object.correo+'/'+object.pass
     let response = null;
     try {      
-        response=await axios.post(url, object);
+        response=await axios.get(url);
     } catch (e) {
         console.error(e);
     }
