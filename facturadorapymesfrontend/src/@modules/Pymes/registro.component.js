@@ -1,14 +1,70 @@
 import React from "react";
 import clean from "../../@images/cleanForms.png";
 import logo from "../../@images/logoProyecto.png";
+import registrarPyme from "../../@images/registrarPyme.png";
 import "../../@styles/styles.components.css";
 import service from "./registro.service";
+import { Button,Input } from "reactstrap";
+import { AvForm, AvField } from 'availity-reactstrap-validation';
+
 export default class RegistroPyme extends React.Component {
   constructor() {
     super();
     this.state = {
+      form: {
+        razonSocial: "",
+        slogan: "",
+        nit: "",
+        telefono: "",
+        email: "",
+        direccion: "",
+        logo: null,
+        ciudad: null,
+      },
       ciudades: [],
+      button: false
     };
+  }
+
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+
+    if (this.state.form.razonSocial === "" || this.state.form.slogan === "" || this.state.form.nit===""
+    || this.validarEmail() === false
+    || this.state.form.telefono==="" || this.state.form.direccion === "" || this.state.form.logo === null 
+    || this.state.form.ciudad === null
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
+    console.log(this.state.form);
+  };
+
+  validarEmail = () => {
+    let regEmail =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (
+      !regEmail.test(this.state.form.correo) &&
+      this.state.form.correo !== ""
+    ) {
+      return false;
+    }
+  };
+
+  handleFileInput = async (e) => {
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.files[0],
+      },
+    });
   }
 
   componentDidMount = async () => {
@@ -31,23 +87,22 @@ export default class RegistroPyme extends React.Component {
   render() {
     let ciudades;
 
-        if (this.state.ciudades === null) {
-          ciudades = [];
-        } else {
-          ciudades = this.state.ciudades;
-        }
-        let ciudadestags = 
-            ciudades
-            .map((ciudad) => (<option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>));
+    if (this.state.ciudades === null) {
+      ciudades = [];
+    } else {
+      ciudades = this.state.ciudades;
+    }
+    let ciudadestags = ciudades.map((ciudad) => (
+      <option key={ciudad.id} value={ciudad.id}>
+        {ciudad.nombre}
+      </option>
+    ));
 
     return (
       <div className="container">
         <div className="pymeReg">
           <div className="col-md-12 formularioR">
-            <div
-              align="left"
-              style={{ marginTop: "10px", marginLeft: "10px" }}
-            >
+            <div align="left" style={{ marginTop: "10px", marginLeft: "10px" }}>
               <img src={logo} height="85" width="260" alt="Logo ITS" />
             </div>
             <h2
@@ -70,7 +125,7 @@ export default class RegistroPyme extends React.Component {
                   style={{
                     outline: "0 none",
                     border: "0",
-                    backgroundColor: "rgb(223, 223, 223)",
+                    backgroundColor: "rgba(221, 220, 220, 0.795)",
                     marginRight: "20px",
                   }}
                   onClick={() => {
@@ -80,7 +135,7 @@ export default class RegistroPyme extends React.Component {
                   <img height="41" width="40" src={clean} alt="clean"></img>
                 </button>
               </div>
-              <form id="crearPymes">
+              <AvForm id="crearPymes">
                 <div className="form-group row">
                   <div className="form-group col-md-4">
                     <label className="label-registro" htmlFor="razonSocial">
@@ -105,6 +160,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="razonSocial"
                         name="razonSocial"
+                        onChange={this.handleChange}
                       />
                     </div>
                   </div>
@@ -128,32 +184,30 @@ export default class RegistroPyme extends React.Component {
                         autoComplete="off"
                         type="text"
                         className="form-control"
+                        id="slogan"
+                        name="slogan"
+                        onChange={this.handleChange}
                       />
                     </div>
                   </div>
 
                   <div className="form-group col-md-3">
                     <label className="label-registro">Identificación</label>
-                    <div className="input-group">
-                      <span className="input-group-text">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          className="bi bi-file-earmark-person"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5v2z" />
-                        </svg>
-                      </span>
-                      <input
-                        autoComplete="off"
-                        type="text"
+                    
+                      <AvField autoComplete="off"
+                        type='number'
                         className="form-control"
+                        id="nit"
+                        name="nit"
+                        onChange={this.handleChange}
+                        validate={{
+                          required: {value: true, errorMessage: "Please enter a username"},
+                          pattern: {value: '^[A-Za-z0-9]+$', errorMessage: 'Your username must be composed only with letter and numbers'},
+                          minLength: {value: 6, errorMessage: 'Your username must be between 6 and 16 characters'},
+                          maxLength: {value: 16, errorMessage: 'Your username must be between 6 and 16 characters'}
+                      }}
                       />
-                    </div>
+                  
                   </div>
                 </div>
                 <div className="form-group row">
@@ -178,6 +232,9 @@ export default class RegistroPyme extends React.Component {
                         autoComplete="off"
                         type="number"
                         className="form-control"
+                        id="telefono"
+                        name="telefono"
+                        onChange={this.handleChange}
                       />
                     </div>
                   </div>
@@ -201,6 +258,9 @@ export default class RegistroPyme extends React.Component {
                         type="email"
                         className="form-control"
                         placeholder="ejemplo@dominio.com"
+                        id="email"
+                        name="email"
+                        onChange={this.handleChange}
                       />
                     </div>
                   </div>
@@ -224,6 +284,9 @@ export default class RegistroPyme extends React.Component {
                         autoComplete="off"
                         type="text"
                         className="form-control"
+                        id="direccion"
+                        name="direccion"
+                        onChange={this.handleChange}
                       />
                     </div>
                   </div>
@@ -234,9 +297,12 @@ export default class RegistroPyme extends React.Component {
                       Logo
                     </label>
                     <input
-                      autoComplete="off"
                       type="file"
                       className="form-control"
+                      accept="image/*"
+                      id="logo" 
+                      name="logo" 
+                      onChange={this.handleFileInput}
                     />
                   </div>
                   <div className="form-group col-md-4">
@@ -259,14 +325,30 @@ export default class RegistroPyme extends React.Component {
                           />
                         </svg>
                       </span>
-                      <select className="form-select">
-                        <option selected="true" disabled="disabled">Selecciona la ciudad</option>
+                      <select className="form-select" id="ciudad" name="ciudad" onChange={this.handleChange}>
+                        <option selected="true" disabled="disabled">
+                          Selecciona la ciudad
+                        </option>
                         {ciudadestags}
                       </select>
                     </div>
                   </div>
                 </div>
-              </form>
+                <div
+                  align="right"
+                  style={{ marginTop: "50px", marginLeft: "10px" }}
+                >
+                  <Button size="lg" outline disabled={this.state.button === false}>
+                    ¡Registrar! &nbsp;
+                    <img
+                      height="40"
+                      width="40"
+                      src={registrarPyme}
+                      alt="registrar"
+                    ></img>
+                  </Button>
+                </div>
+              </AvForm>
             </div>
           </div>
         </div>

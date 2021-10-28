@@ -117,6 +117,7 @@ export default class Login extends React.Component {
                     className="form-control"
                     placeholder="Contraseña"
                     name="pass"
+                    minLength="8"
                     onChange={this.handleChange}
                     required
                     style={{ marginBottom: "20px" }}
