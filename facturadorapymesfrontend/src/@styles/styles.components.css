@@ -358,20 +358,20 @@ h4 {
 }
 
 #formPyme {
-  background: rgba(221, 220, 220, 0.795);
+  background: rgba(167, 167, 187, 0.534);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(105, 103, 103, 0.568);
-  color: white;
 }
 
 #crearPymes .form-control {
-  background: rgba(173, 173, 173, 0.699);
+  background: rgba(202, 202, 202, 0.651);
   border-style: none;
   box-shadow: none;
   outline: none;
   transition: background-color 0.5s;
   color: rgb(13, 26, 85);
+  border-radius: 3px;
 }
 #crearPymes .form-control:focus {
   background: none;

@@ -9,8 +9,11 @@ import {
   InputGroupAddon,
   InputGroup,
   InputGroupText,
+  Label,
+  Row, 
+  Col,
 } from "reactstrap";
-import { AvForm, AvField } from "availity-reactstrap-validation";
+import { AvForm,AvGroup,AvInput,AvFeedback } from "availity-reactstrap-validation";
 
 export default class RegistroPyme extends React.Component {
   constructor() {
@@ -75,7 +78,7 @@ export default class RegistroPyme extends React.Component {
   };
 
   cleanForm = () => {
-    document.getElementById("crearPymes").reset();
+    this.setState()
   };
 
   handleInvalidSubmit(event, errors, values) {
@@ -119,7 +122,7 @@ export default class RegistroPyme extends React.Component {
             <br />
             <div
               id="formPyme"
-              className="row justify-content-center pt-6 mb-6 m-2"
+              className="row justify-content-center pt-8 mb-8 m-3"
             >
               <div className="col-12" align="right">
                 <button
@@ -141,237 +144,214 @@ export default class RegistroPyme extends React.Component {
                 onInvalidSubmit={this.handleInvalidSubmit}
                 onValidSubmit={this.handleValidSubmit}
               >
-                <div className="form-group row">
-                  <div className="form-group col-md-4">
-                    <label className="label-registro" htmlFor="razonSocial">
+                <Row>
+                  <Col md="4">
+                  <AvGroup> 
+                    <Label className="label-registro" htmlFor="razonSocial">
                       Razón social
-                    </label>
+                    </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>📄</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
                         type="text"
                         className="form-control"
                         id="razonSocial"
                         name="razonSocial"
                         onChange={this.handleChange}
-                        maxLength={100}
                         validate={{
-                          required: {
-                            value: true,
-                            errorMessage: "La razón social es requerida",
-                          },
+                          required: {value: true},
                           pattern: {
                             value: '^[A-Za-z0-9 -/*+]+$',
                             errorMessage:
                               "No puedes digitar caracteres invalidos",
                           },
-                          minLength: {
-                            value: 3,
-                            errorMessage: "Ingrese la razón social valida",
-                          },
-                          maxLength: {
-                            value: 100,
-                            errorMessage: "Ingrese la razón social valida",
-                          },
+                          minLength: {value: 3},
+                          maxLength: {value: 100},
                         }}
                       />
+                      <AvFeedback>La razón social es requerida</AvFeedback>
                     </InputGroup>
-                  </div>
-
-                  <div className="form-group col-md-5">
-                    <label className="label-registro">Slogan</label>
+                  </AvGroup>
+                  </Col>
+                  <Col md="5">
+                  <AvGroup>
+                    <Label className="label-registro">Slogan</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>🛒</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
                         type="text"
                         className="form-control"
                         id="slogan"
                         name="slogan"
                         onChange={this.handleChange}
-                        maxLength={250}
                         validate={{
                           required: {
-                            value: true,
-                            errorMessage: "El slogan es requerido",
+                            value: true
                           },
                           pattern: {
-                            value: '^[A-Za-z0-9 -/*+]+$',
-                            errorMessage:
-                              "No puedes digitar caracteres invalidos",
+                            value: '^[A-Za-z0-9 -/*+]+$'
                           },
                           minLength: {
-                            value: 10,
-                            errorMessage: "Ingrese un slogan valido",
+                            value: 10
                           },
                           maxLength: {
-                            value: 250,
-                            errorMessage: "Ingrese un slogan valido",
+                            value: 250
                           },
                         }}
                       />
+                      <AvFeedback>El slogan es requerido</AvFeedback>
                     </InputGroup>
-                  </div>
-
-                  <div className="form-group col-md-3">
-                    <label className="label-registro">Identificación</label>
+                  </AvGroup>
+                  </Col>
+                  <Col md="3">
+                  <AvGroup>
+                    <Label className="label-registro">Identificación</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>🖋️</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
                         type="text"
                         className="form-control"
                         id="nit"
                         name="nit"
                         onChange={this.handleChange}
-                        maxLength={15}
                         validate={{
                           required: {
-                            value: true,
-                            errorMessage: "La identificación es requerida",
+                            value: true
                           },
                           pattern: {
-                            value: '^[A-Za-z0-9-/*+]+$',
-                            errorMessage:
-                              "Caracteres invalidos",
+                            value: '^[A-Za-z0-9-/*+]+$'
                           },
                           minLength: {
-                            value: 9,
-                            errorMessage: "Ingrese una identificación valida",
+                            value: 9
                           },
                           maxLength: {
-                            value: 15,
-                            errorMessage: "Ingrese una identificación valida",
+                            value: 15
                           },
                         }}
                       />
+                      <AvFeedback>La identificación es requerida</AvFeedback>
                     </InputGroup>
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="form-group col-md-4">
-                    <label className="label-registro" htmlFor="razonSocial">
-                      Teléfono
-                    </label>
+                    </AvGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="razonSocial">Teléfono</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>📞</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
-                        type="number"
+                        type="text"
                         className="form-control"
                         id="telefono"
                         name="telefono"
                         onChange={this.handleChange}
-                        maxLength={10}
                         validate={{
                           required: {
-                            value: true,
-                            errorMessage: "El teléfono es requerido",
+                            value: true
                           },
                           pattern: {
-                            value: '^[0-9]+$',
-                            errorMessage:
-                              "No puedes digitar caracteres invalidos",
+                            value: '^[0-9]+$'
                           },
                           minLength: {
-                            value: 10,
-                            errorMessage: "Ingrese un teléfono valido",
+                            value: 7
                           },
                           maxLength: {
-                            value: 10,
-                            errorMessage: "Ingrese un teléfono valido",
+                            value: 10
                           },
                         }}
                       />
+                      <AvFeedback>El teléfono es requerido</AvFeedback>
                     </InputGroup>
-                  </div>
-                  <div className="form-group col-md-4">
-                    <label className="label-registro">E-mail</label>
+                  </AvGroup>
+                  </Col>
+                  <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro">E-mail</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>📧</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
                         type="email"
                         className="form-control"
                         placeholder="ejemplo@dominio.com"
                         id="email"
                         name="email"
-                        maxLength={12}
+                        onChange={this.handleChange}
                         validate={{
                           required: {
-                            value: true,
-                            errorMessage: "El e-mail es requerido",
+                            value: true
                           },
                           pattern: {
-                            value: '^[A-Za-z0-9-/*+_@.]+$',
-                            errorMessage:
-                              "No puedes digitar caracteres invalidos",
+                            value: '^[A-Za-z0-9-/*+_@.]+$'
                           },
                           minLength: {
-                            value: 12,
-                            errorMessage: "Ingrese un e-mail valido",
+                            value: 12
                           },
                           maxLength: {
-                            value: 100,
-                            errorMessage: "Ingrese un e-mail valido",
+                            value: 100
                           },
                         }}
                       />
+                      <AvFeedback>El e-mail es requerido</AvFeedback>
                     </InputGroup>
-                  </div>
-                  <div className="form-group col-md-4">
-                    <label className="label-registro">Dirección</label>
+                    </AvGroup>
+                  </Col>
+                  <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro">Dirección</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>📍</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
+                      <AvInput
                         autoComplete="off"
                         type="text"
                         className="form-control"
                         id="direccion"
                         name="direccion"
-                        maxLength={80}
+                        onChange={this.handleChange}
                         validate={{
                           required: {
-                            value: true,
-                            errorMessage: "La dirección es requerida",
+                            value: true
                           },
                           pattern: {
-                            value: '^[A-Za-z0-9#. ]+$',
-                            errorMessage:
-                              "No puedes digitar caracteres invalidos",
+                            value: '^[A-Za-z0-9#. ]+$'
                           },
                           minLength: {
-                            value: 10,
-                            errorMessage: "Ingrese una dirección valida",
+                            value: 10
                           },
                           maxLength: {
-                            value: 80,
-                            errorMessage: "Ingrese una dirección valida",
+                            value: 80
                           },
                         }}
                       />
+                      <AvFeedback>La dirección es requerida</AvFeedback>
                     </InputGroup>
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="form-group col-md-5">
-                    <label className="label-registro" htmlFor="razonSocial">
+                    </AvGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="5">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="razonSocial">
                       Logo
-                    </label>
-                    <AvField
+                    </Label>
+                    <AvInput
                       type="file"
                       className="form-control"
                       accept="image/*"
@@ -380,33 +360,32 @@ export default class RegistroPyme extends React.Component {
                       onChange={this.handleFileInput}
                       validate={{
                         required: {
-                          value: true,
-                          errorMessage: "El logo es requerido",
+                          value: true
                         }}}
                     />
-                  </div>
-                  <div className="form-group col-md-4">
-                    <label className="label-registro" htmlFor="razonSocial">
-                      Ciudad
-                    </label>
+                    <AvFeedback>El logo es requerido</AvFeedback>
+                  </AvGroup>
+                  </Col>
+                  <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="razonSocial">Ciudad</Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>🗺️</InputGroupText>
                       </InputGroupAddon>
-                      <AvField
-                        type="select"
+                      <select
                         className="form-select"
                         id="ciudad"
                         name="ciudad"
                         onChange={this.handleChange}
-                        helpMessage="Selecciona una ciudad"
                       >
-                        <option selected="true" disabled="disabled">Selecciona la ciudad</option>
+                        <option selected="true" disabled="disabled">Selecciona una ciudad</option>
                         {ciudadestags}
-                      </AvField>
+                      </select>
                     </InputGroup>
-                  </div>
-                </div>
+                  </AvGroup>
+                  </Col>
+                </Row>
                 <div
                   align="right"
                   style={{ marginTop: "50px", marginLeft: "10px" }}

@@ -6,7 +6,6 @@ import "../../@styles/styles.components.css";
 import Swal from "sweetalert2";
 export default class Home extends React.Component {
 
-
     consultarFactura = async () => {
     let refFactura = document.getElementById("refFactura").value;
     if (refFactura === "") {
