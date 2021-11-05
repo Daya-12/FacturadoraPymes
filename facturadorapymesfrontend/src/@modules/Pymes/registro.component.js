@@ -78,7 +78,18 @@ export default class RegistroPyme extends React.Component {
   };
 
   cleanForm = () => {
-    this.setState()
+    this.setState({
+        form: {
+        razonSocial: "",
+        slogan: "",
+        nit: "",
+        telefono: "",
+        email: "",
+        direccion: "",
+        logo: null,
+        ciudad: null,
+            }
+        });
   };
 
   handleInvalidSubmit(event, errors, values) {
@@ -86,7 +97,7 @@ export default class RegistroPyme extends React.Component {
   }
 
   handleValidSubmit(event, values) {
-    ////
+    
   }
 
   render() {
@@ -124,26 +135,31 @@ export default class RegistroPyme extends React.Component {
               id="formPyme"
               className="row justify-content-center pt-8 mb-8 m-3"
             >
-              <div className="col-12" align="right">
-                <button
-                  style={{
-                    outline: "0 none",
-                    border: "0",
-                    backgroundColor: "rgba(221, 220, 220, 0.795)",
-                    marginRight: "20px",
-                  }}
-                  onClick={() => {
-                    this.cleanForm();
-                  }}
-                >
-                  <img height="41" width="40" src={clean} alt="clean"></img>
-                </button>
-              </div>
               <AvForm
                 id="crearPymes"
                 onInvalidSubmit={this.handleInvalidSubmit}
                 onValidSubmit={this.handleValidSubmit}
               >
+                <Row>
+                <Col md="11"></Col>
+                <Col md="1">
+                  <Button
+                  type="reset"
+                  style={{
+                    outline: "0 none",
+                    border: "0",
+                    backgroundColor: "rgba(167, 167, 187, 0.534)",
+                    marginRight: "20px",
+                    borderRadius: "50%"
+                  }}
+                  onClick={() => {
+                    this.cleanForm();
+                  }}
+                >
+                  <img height="34" width="27" src={clean} alt="clean"></img>
+                </Button>
+                </Col>
+                </Row>
                 <Row>
                   <Col md="4">
                   <AvGroup> 
@@ -160,6 +176,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="razonSocial"
                         name="razonSocial"
+                        value={this.state.form.razonSocial}
                         onChange={this.handleChange}
                         validate={{
                           required: {value: true},
@@ -189,6 +206,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="slogan"
                         name="slogan"
+                        value={this.state.form.slogan}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -222,6 +240,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="nit"
                         name="nit"
+                        value={this.state.form.nit}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -257,6 +276,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="telefono"
                         name="telefono"
+                        value={this.state.form.telefono}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -291,6 +311,7 @@ export default class RegistroPyme extends React.Component {
                         placeholder="ejemplo@dominio.com"
                         id="email"
                         name="email"
+                        value={this.state.form.email}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -324,6 +345,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-control"
                         id="direccion"
                         name="direccion"
+                        value={this.state.form.direccion}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -377,6 +399,7 @@ export default class RegistroPyme extends React.Component {
                         className="form-select"
                         id="ciudad"
                         name="ciudad"
+                        value={this.state.form.ciudad}
                         onChange={this.handleChange}
                       >
                         <option selected="true" disabled="disabled">Selecciona una ciudad</option>
@@ -393,6 +416,7 @@ export default class RegistroPyme extends React.Component {
                   <Button
                     size="lg"
                     outline
+                    color="primary"
                   >
                     ¡Registrar! &nbsp;
                     <img
