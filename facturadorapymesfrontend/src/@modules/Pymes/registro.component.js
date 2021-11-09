@@ -4,16 +4,22 @@ import logo from "../../@images/logoProyecto.png";
 import registrarPyme from "../../@images/registrarPyme.png";
 import "../../@styles/styles.components.css";
 import service from "./registro.service";
+import Swal from "sweetalert2";
 import {
   Button,
   InputGroupAddon,
   InputGroup,
   InputGroupText,
   Label,
-  Row, 
+  Row,
   Col,
 } from "reactstrap";
-import { AvForm,AvGroup,AvInput,AvFeedback } from "availity-reactstrap-validation";
+import {
+  AvForm,
+  AvGroup,
+  AvInput,
+  AvFeedback,
+} from "availity-reactstrap-validation";
 
 export default class RegistroPyme extends React.Component {
   constructor() {
@@ -32,6 +38,7 @@ export default class RegistroPyme extends React.Component {
         ciudad: null,
       },
       ciudades: [],
+      button: false,
     };
   }
 
@@ -43,15 +50,28 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
+    console.log(this.state.form);
+    if (
+      this.state.form.razonSocial === "" ||
+      this.state.form.slogan === "" ||
+      this.state.form.nit === "" ||
+      this.state.form.telefono === "" ||
+      this.state.form.email === "" ||
+      this.validarEmail() === false ||
+      this.state.form.direccion === "" ||
+      this.state.form.logo === null ||
+      this.state.form.ciudad === null
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
   };
 
   validarEmail = () => {
     let regEmail =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (
-      !regEmail.test(this.state.form.correo) &&
-      this.state.form.correo !== ""
-    ) {
+    if (!regEmail.test(this.state.form.email) && this.state.form.email !== "") {
       return false;
     }
   };
@@ -79,7 +99,7 @@ export default class RegistroPyme extends React.Component {
 
   cleanForm = () => {
     this.setState({
-        form: {
+      form: {
         razonSocial: "",
         slogan: "",
         nit: "",
@@ -88,17 +108,59 @@ export default class RegistroPyme extends React.Component {
         direccion: "",
         logo: null,
         ciudad: null,
-            }
-        });
+      },
+    });
   };
 
   handleInvalidSubmit(event, errors, values) {
     this.setState({ errors, values });
   }
 
-  handleValidSubmit(event, values) {
-    
+  handleValidSubmit(event, values) {}
+
+  onBlurRazonSocial = async () => {
+    if(this.state.form.razonSocial !== ""){
+    let respuesta = null;
+    respuesta = await service.validarRazonSocial(this.state.form.razonSocial);
+    if (respuesta !== null) {
+      if (respuesta.data === true) {
+        Swal.fire({
+          text: "Esta razón social ya se encuentra registrada",
+          icon: "error",
+          timer: "4000",
+        });
+
+        this.setState({
+          form: {
+            razonSocial: "",
+          },
+        });
+      }
+    }
   }
+  };
+
+  onBlurIdentificacion = async () => {
+    if(this.state.form.nit !== ""){
+    let respuesta = null;
+    respuesta = await service.validarIdentificacion(this.state.form.nit);
+    if (respuesta !== null) {
+      if (respuesta.data === true) {
+        Swal.fire({
+          text: "Esta identificación ya se encuentra registrada",
+          icon: "error",
+          timer: "4000",
+        });
+
+        this.setState({
+          form: {
+            nit: "",
+          },
+        });
+      }
+    }
+  }
+  };
 
   render() {
     let ciudades;
@@ -141,272 +203,282 @@ export default class RegistroPyme extends React.Component {
                 onValidSubmit={this.handleValidSubmit}
               >
                 <Row>
-                <Col md="11"></Col>
-                <Col md="1">
-                  <Button
-                  type="reset"
-                  style={{
-                    outline: "0 none",
-                    border: "0",
-                    backgroundColor: "rgba(167, 167, 187, 0.534)",
-                    marginRight: "20px",
-                    borderRadius: "50%"
-                  }}
-                  onClick={() => {
-                    this.cleanForm();
-                  }}
-                >
-                  <img height="34" width="27" src={clean} alt="clean"></img>
-                </Button>
-                </Col>
+                  <Col md="11"></Col>
+                  <Col md="1">
+                    <Button
+                      type="reset"
+                      style={{
+                        outline: "0 none",
+                        border: "0",
+                        backgroundColor: "rgba(167, 167, 187, 0.534)",
+                        marginRight: "20px",
+                        borderRadius: "50%",
+                      }}
+                      onClick={() => {
+                        this.cleanForm();
+                      }}
+                    >
+                      <img height="34" width="27" src={clean} alt="clean"></img>
+                    </Button>
+                  </Col>
                 </Row>
                 <Row>
                   <Col md="4">
-                  <AvGroup> 
-                    <Label className="label-registro" htmlFor="razonSocial">
-                      Razón social
-                    </Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📄</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="razonSocial"
-                        name="razonSocial"
-                        value={this.state.form.razonSocial}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {value: true},
-                          pattern: {
-                            value: '^[A-Za-z0-9 -/*+]+$',
-                            errorMessage:
-                              "No puedes digitar caracteres invalidos",
-                          },
-                          minLength: {value: 3},
-                          maxLength: {value: 100},
-                        }}
-                      />
-                      <AvFeedback>La razón social es requerida</AvFeedback>
-                    </InputGroup>
-                  </AvGroup>
+                    <AvGroup>
+                      <Label className="label-registro" htmlFor="razonSocial">
+                        Razón social
+                      </Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>📄</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          id="razonSocial"
+                          name="razonSocial"
+                          value={this.state.form.razonSocial || ""}
+                          onChange={this.handleChange}
+                          onBlur={this.onBlurRazonSocial}
+                          validate={{
+                            required: { value: true },
+                            pattern: {
+                              value: "^[A-Za-z0-9 -/*+]+$",
+                              errorMessage:
+                                "No puedes digitar caracteres invalidos",
+                            },
+                            minLength: { value: 3 },
+                            maxLength: { value: 100 },
+                          }}
+                        />
+                        <AvFeedback>La razón social es requerida</AvFeedback>
+                      </InputGroup>
+                    </AvGroup>
                   </Col>
                   <Col md="5">
-                  <AvGroup>
-                    <Label className="label-registro">Slogan</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🛒</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="slogan"
-                        name="slogan"
-                        value={this.state.form.slogan}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true
-                          },
-                          pattern: {
-                            value: '^[A-Za-z0-9 -/*+]+$'
-                          },
-                          minLength: {
-                            value: 10
-                          },
-                          maxLength: {
-                            value: 250
-                          },
-                        }}
-                      />
-                      <AvFeedback>El slogan es requerido</AvFeedback>
-                    </InputGroup>
-                  </AvGroup>
+                    <AvGroup>
+                      <Label className="label-registro">Slogan</Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>🛒</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          id="slogan"
+                          name="slogan"
+                          value={this.state.form.slogan}
+                          onChange={this.handleChange}
+                          validate={{
+                            required: {
+                              value: true,
+                            },
+                            pattern: {
+                              value: "^[A-Za-z0-9 -/*+]+$",
+                            },
+                            minLength: {
+                              value: 10,
+                            },
+                            maxLength: {
+                              value: 250,
+                            },
+                          }}
+                        />
+                        <AvFeedback>El slogan es requerido</AvFeedback>
+                      </InputGroup>
+                    </AvGroup>
                   </Col>
                   <Col md="3">
-                  <AvGroup>
-                    <Label className="label-registro">Identificación</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🖋️</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="nit"
-                        name="nit"
-                        value={this.state.form.nit}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true
-                          },
-                          pattern: {
-                            value: '^[A-Za-z0-9-/*+]+$'
-                          },
-                          minLength: {
-                            value: 9
-                          },
-                          maxLength: {
-                            value: 15
-                          },
-                        }}
-                      />
-                      <AvFeedback>La identificación es requerida</AvFeedback>
-                    </InputGroup>
+                    <AvGroup>
+                      <Label className="label-registro">Identificación</Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>🖋️</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          id="nit"
+                          name="nit"
+                          value={this.state.form.nit}
+                          onChange={this.handleChange}
+                          onBlur={this.onBlurIdentificacion || ""}
+                          validate={{
+                            required: {
+                              value: true,
+                            },
+                            pattern: {
+                              value: "^[A-Za-z0-9-/*+]+$",
+                            },
+                            minLength: {
+                              value: 9,
+                            },
+                            maxLength: {
+                              value: 15,
+                            },
+                          }}
+                        />
+                        <AvFeedback>La identificación es requerida</AvFeedback>
+                      </InputGroup>
                     </AvGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="4">
-                  <AvGroup>
-                    <Label className="label-registro" htmlFor="razonSocial">Teléfono</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📞</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="telefono"
-                        name="telefono"
-                        value={this.state.form.telefono}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true
-                          },
-                          pattern: {
-                            value: '^[0-9]+$'
-                          },
-                          minLength: {
-                            value: 7
-                          },
-                          maxLength: {
-                            value: 10
-                          },
-                        }}
-                      />
-                      <AvFeedback>El teléfono es requerido</AvFeedback>
-                    </InputGroup>
-                  </AvGroup>
-                  </Col>
-                  <Col md="4">
-                  <AvGroup>
-                    <Label className="label-registro">E-mail</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📧</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="email"
-                        className="form-control"
-                        placeholder="ejemplo@dominio.com"
-                        id="email"
-                        name="email"
-                        value={this.state.form.email}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true
-                          },
-                          pattern: {
-                            value: '^[A-Za-z0-9-/*+_@.]+$'
-                          },
-                          minLength: {
-                            value: 12
-                          },
-                          maxLength: {
-                            value: 100
-                          },
-                        }}
-                      />
-                      <AvFeedback>El e-mail es requerido</AvFeedback>
-                    </InputGroup>
+                    <AvGroup>
+                      <Label className="label-registro" htmlFor="razonSocial">
+                        Teléfono
+                      </Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>📞</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          id="telefono"
+                          name="telefono"
+                          value={this.state.form.telefono}
+                          onChange={this.handleChange}
+                          validate={{
+                            required: {
+                              value: true,
+                            },
+                            pattern: {
+                              value: "^[0-9]+$",
+                            },
+                            minLength: {
+                              value: 7,
+                            },
+                            maxLength: {
+                              value: 10,
+                            },
+                          }}
+                        />
+                        <AvFeedback>El teléfono es requerido</AvFeedback>
+                      </InputGroup>
                     </AvGroup>
                   </Col>
                   <Col md="4">
-                  <AvGroup>
-                    <Label className="label-registro">Dirección</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📍</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="direccion"
-                        name="direccion"
-                        value={this.state.form.direccion}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true
-                          },
-                          pattern: {
-                            value: '^[A-Za-z0-9#. ]+$'
-                          },
-                          minLength: {
-                            value: 10
-                          },
-                          maxLength: {
-                            value: 80
-                          },
-                        }}
-                      />
-                      <AvFeedback>La dirección es requerida</AvFeedback>
-                    </InputGroup>
+                    <AvGroup>
+                      <Label className="label-registro">E-mail</Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>📧</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="email"
+                          className="form-control"
+                          placeholder="ejemplo@dominio.com"
+                          id="email"
+                          name="email"
+                          value={this.state.form.email}
+                          onChange={this.handleChange}
+                          validate={{
+                            required: {
+                              value: true,
+                            },
+                            pattern: {
+                              value: "^[A-Za-z0-9-/*+_@.]+$",
+                            },
+                            minLength: {
+                              value: 12,
+                            },
+                            maxLength: {
+                              value: 100,
+                            },
+                          }}
+                        />
+                        <AvFeedback>El e-mail es requerido</AvFeedback>
+                      </InputGroup>
+                    </AvGroup>
+                  </Col>
+                  <Col md="4">
+                    <AvGroup>
+                      <Label className="label-registro">Dirección</Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>📍</InputGroupText>
+                        </InputGroupAddon>
+                        <AvInput
+                          autoComplete="off"
+                          type="text"
+                          className="form-control"
+                          id="direccion"
+                          name="direccion"
+                          value={this.state.form.direccion}
+                          onChange={this.handleChange}
+                          validate={{
+                            required: {
+                              value: true,
+                            },
+                            pattern: {
+                              value: "^[A-Za-z0-9#. ]+$",
+                            },
+                            minLength: {
+                              value: 10,
+                            },
+                            maxLength: {
+                              value: 80,
+                            },
+                          }}
+                        />
+                        <AvFeedback>La dirección es requerida</AvFeedback>
+                      </InputGroup>
                     </AvGroup>
                   </Col>
                 </Row>
                 <Row>
                   <Col md="5">
-                  <AvGroup>
-                    <Label className="label-registro" htmlFor="razonSocial">
-                      Logo
-                    </Label>
-                    <AvInput
-                      type="file"
-                      className="form-control"
-                      accept="image/*"
-                      id="logo"
-                      name="logo"
-                      onChange={this.handleFileInput}
-                      validate={{
-                        required: {
-                          value: true
-                        }}}
-                    />
-                    <AvFeedback>El logo es requerido</AvFeedback>
-                  </AvGroup>
+                    <AvGroup>
+                      <Label className="label-registro" htmlFor="razonSocial">
+                        Logo
+                      </Label>
+                      <AvInput
+                        type="file"
+                        className="form-control"
+                        accept="image/*"
+                        id="logo"
+                        name="logo"
+                        onChange={this.handleFileInput}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                        }}
+                      />
+                      <AvFeedback>El logo es requerido</AvFeedback>
+                    </AvGroup>
                   </Col>
                   <Col md="4">
-                  <AvGroup>
-                    <Label className="label-registro" htmlFor="razonSocial">Ciudad</Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🗺️</InputGroupText>
-                      </InputGroupAddon>
-                      <select
-                        className="form-select"
-                        id="ciudad"
-                        name="ciudad"
-                        value={this.state.form.ciudad}
-                        onChange={this.handleChange}
-                      >
-                        <option selected="true" disabled="disabled">Selecciona una ciudad</option>
-                        {ciudadestags}
-                      </select>
-                    </InputGroup>
-                  </AvGroup>
+                    <AvGroup>
+                      <Label className="label-registro" htmlFor="razonSocial">
+                        Ciudad
+                      </Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>🗺️</InputGroupText>
+                        </InputGroupAddon>
+                        <select
+                          defaultValue={'DEFAULT'}
+                          className="form-select"
+                          id="ciudad"
+                          name="ciudad"
+                          value={this.state.form.ciudad}
+                          onChange={this.handleChange}
+                        >
+                          <option value="DEFAULT" disabled>
+                            Selecciona una ciudad
+                          </option>
+                          {ciudadestags}
+                        </select>
+                      </InputGroup>
+                    </AvGroup>
                   </Col>
                 </Row>
                 <div
@@ -417,6 +489,7 @@ export default class RegistroPyme extends React.Component {
                     size="lg"
                     outline
                     color="primary"
+                    disabled={this.state.button === false}
                   >
                     ¡Registrar! &nbsp;
                     <img

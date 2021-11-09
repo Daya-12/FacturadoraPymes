@@ -23,7 +23,19 @@ public class Categoria implements Serializable {
 	//bi-directional many-to-one association to Producto
 	@OneToMany(mappedBy="categoria")
 	private List<Producto> productos;
-
+	
+	@ManyToMany
+	@JoinTable(
+		name="categoriaempresa "
+		, joinColumns={
+			@JoinColumn(name="id_categoria")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="id_empresa")
+			}
+		)
+	private List<Empresa> empresas;
+	
 	public Categoria() {
 	}
 
@@ -71,6 +83,14 @@ public class Categoria implements Serializable {
 		producto.setCategoria(null);
 
 		return producto;
+	}
+	
+	public List<Empresa> getEmpresas() {
+		return this.empresas;
+	}
+
+	public void setEmpresas(List<Empresa> empresas) {
+		this.empresas = empresas;
 	}
 
 }

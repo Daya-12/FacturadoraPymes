@@ -12,4 +12,25 @@ async function consultarCiudades() {
     return response;
 };
 
-export default {consultarCiudades};
+async function validarRazonSocial(razonSocial) {
+    const url = urlConexion+'empresa/validarNombreEmpresa/'+razonSocial
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function validarIdentificacion(identificacion) {
+    const url = urlConexion+'empresa/validarIdentificacionEmpresa/'+identificacion
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+export default {consultarCiudades,validarRazonSocial,validarIdentificacion};

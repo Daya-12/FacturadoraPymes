@@ -28,7 +28,7 @@ CREATE TABLE Usuario(
 id_usuario INT AUTO_INCREMENT, 
 nombre_user VARCHAR (300) NOT NULL,
 correo_user VARCHAR (100) NOT NULL,
-pass_user VARCHAR (400) NOT NULL,
+pass_user VARCHAR (200) NOT NULL,
 telefono_user VARCHAR (30),
 nivel_user INT NOT NULL,
 id_empresa INT NOT NULL,
@@ -150,15 +150,10 @@ FOREIGN KEY (id_factura) references Factura (id_factura),
 FOREIGN KEY (id_producto) references Producto (id_producto)
 );
 
-
-CREATE TABLE Seguimiento(
-id_seguimiento INT AUTO_INCREMENT, 
-id_factura INT NOT NULL,
-fecha DATE NOT NULL, 
-valor DOUBLE NOT NULL, 
-saldo_pteF DOUBLE NOT NULL,
-PRIMARY KEY (id_seguimiento),
-FOREIGN KEY (id_factura) references Factura(id_factura)
+CREATE TABLE CategoriaEmpresa (
+id_categoria INT NOT NULL, 
+id_empresa INT NOT NULL, 
+PRIMARY KEY (id_categoria,id_empresa),
+FOREIGN KEY (id_categoria) references Categoria(id_categoria),
+FOREIGN KEY (id_empresa) references Empresa (id_empresa)
 );
-
-

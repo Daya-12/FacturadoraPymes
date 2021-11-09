@@ -9,11 +9,13 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
@@ -54,4 +56,23 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		return empresa;
 	}
 
+	@Override
+	public MensajeModel crearEmpresa(EmpresaModel empresa,MultipartFile imagen) {
+		MensajeModel mensajeModel = new MensajeModel();
+		Empresa empresaEntity = new Empresa();
+		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, empresa.getRazonSocial());
+		return null;
+	}
+
+	@Override
+	public boolean validarNombreEmpresa(String nombreEmpresa) {
+		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, nombreEmpresa);
+		return validarEmpresa;
+	}
+	
+	@Override
+	public boolean validarIdentificacionEmpresa(String identificacionEmpresa) {
+		boolean validarEmpresa = validaciones.validarIdentificacionEmpresa(empresaRepository, identificacionEmpresa);
+		return validarEmpresa;
+	}
 }

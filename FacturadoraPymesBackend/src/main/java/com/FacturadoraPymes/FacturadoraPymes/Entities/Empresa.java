@@ -55,7 +55,10 @@ public class Empresa implements Serializable {
 	//bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy="empresa")
 	private List<Usuario> usuarios;
-
+	
+	@ManyToMany(mappedBy="empresas")
+	private List<Categoria> categorias;
+	
 	public Empresa() {
 	}
 
@@ -182,5 +185,12 @@ public class Empresa implements Serializable {
 
 		return usuario;
 	}
+	
+	public List<Categoria> getCategorias() {
+		return this.categorias;
+	}
 
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
 }

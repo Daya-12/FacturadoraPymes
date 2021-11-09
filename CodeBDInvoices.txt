@@ -149,3 +149,11 @@ PRIMARY KEY (id_factura,id_producto),
 FOREIGN KEY (id_factura) references Factura (id_factura),
 FOREIGN KEY (id_producto) references Producto (id_producto)
 );
+
+CREATE TABLE CategoriaEmpresa (
+id_categoria INT NOT NULL, 
+id_empresa INT NOT NULL, 
+PRIMARY KEY (id_categoria,id_empresa),
+FOREIGN KEY (id_categoria) references Categoria(id_categoria),
+FOREIGN KEY (id_empresa) references Empresa (id_empresa)
+);
