@@ -3,9 +3,11 @@ package com.FacturadoraPymes.FacturadoraPymes.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCategoria;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCiudad;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
+import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCategoria;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCiudad;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperUsuario;
@@ -27,6 +29,11 @@ public class FacturadoraPymesApplicationConfiguration{
 	@Bean
 	public IMapperCiudad getMapperCiudad() {
 		return new MapperCiudad();
+	}
+	
+	@Bean
+	public IMapperCategoria getMapperCategoria() {
+		return new MapperCategoria();
 	}
 	
 	@Bean

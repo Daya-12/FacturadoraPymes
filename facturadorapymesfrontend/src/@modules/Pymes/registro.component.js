@@ -5,6 +5,7 @@ import registrarPyme from "../../@images/registrarPyme.png";
 import "../../@styles/styles.components.css";
 import service from "./registro.service";
 import Swal from "sweetalert2";
+import ConsultaRelacion from "../Categoria/consultaRelacion.component";
 import {
   Button,
   InputGroupAddon,
@@ -27,6 +28,7 @@ export default class RegistroPyme extends React.Component {
     this.handleInvalidSubmit = this.handleInvalidSubmit.bind(this);
     this.handleValidSubmit = this.handleValidSubmit.bind(this);
     this.state = {
+      categorias: null,
       form: {
         razonSocial: "",
         slogan: "",
@@ -50,7 +52,6 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
-    console.log(this.state.form);
     if (
       this.state.form.razonSocial === "" ||
       this.state.form.slogan === "" ||
@@ -89,6 +90,18 @@ export default class RegistroPyme extends React.Component {
     this.consultarCiudades();
   };
 
+  enlazarCategorias = async (categorias) => {
+    if(categorias!=null && this.state.categorias==null){
+    this.setState({
+      categorias: categorias
+    });
+    console.log(this.state.categorias);
+    /*if (this.state.categorias != null) {
+      document.getElementById("confirmarRegistro").style.display = "block";
+    }*/
+  }
+  };
+
   consultarCiudades = async () => {
     let respuesta = null;
     respuesta = await service.consultarCiudades();
@@ -119,47 +132,73 @@ export default class RegistroPyme extends React.Component {
   handleValidSubmit(event, values) {}
 
   onBlurRazonSocial = async () => {
-    if(this.state.form.razonSocial !== ""){
-    let respuesta = null;
-    respuesta = await service.validarRazonSocial(this.state.form.razonSocial);
-    if (respuesta !== null) {
-      if (respuesta.data === true) {
-        Swal.fire({
-          text: "Esta razón social ya se encuentra registrada",
-          icon: "error",
-          timer: "4000",
-        });
+    if (this.state.form.razonSocial !== "") {
+      let respuesta = null;
+      respuesta = await service.validarRazonSocial(this.state.form.razonSocial);
+      if (respuesta !== null) {
+        if (respuesta.data === true) {
+          Swal.fire({
+            text: "Esta razón social ya se encuentra registrada",
+            icon: "error",
+            timer: "4000",
+          });
 
-        this.setState({
-          form: {
-            razonSocial: "",
-          },
-        });
+          this.setState({
+            form: {
+              razonSocial: "",
+            },
+          });
+        }
       }
     }
-  }
   };
 
   onBlurIdentificacion = async () => {
-    if(this.state.form.nit !== ""){
-    let respuesta = null;
-    respuesta = await service.validarIdentificacion(this.state.form.nit);
-    if (respuesta !== null) {
-      if (respuesta.data === true) {
-        Swal.fire({
-          text: "Esta identificación ya se encuentra registrada",
-          icon: "error",
-          timer: "4000",
-        });
+    if (this.state.form.nit !== "") {
+      let respuesta = null;
+      respuesta = await service.validarIdentificacion(this.state.form.nit);
+      if (respuesta !== null) {
+        if (respuesta.data === true) {
+          Swal.fire({
+            text: "Esta identificación ya se encuentra registrada",
+            icon: "error",
+            timer: "4000",
+          });
 
-        this.setState({
-          form: {
-            nit: "",
-          },
-        });
+          this.setState({
+            form: {
+              nit: "",
+            },
+          });
+        }
       }
     }
-  }
+  };
+
+  activarEnlace = () => {
+    Swal.fire({
+      title: "Confirmar datos de la pyme",
+      text: "¿Deseas confirmar los datos de la pyme a registrar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        document.getElementById("razonSocial").readOnly = true;
+        document.getElementById("slogan").readOnly = true;
+        document.getElementById("nit").readOnly = true;
+        document.getElementById("telefono").readOnly = true;
+        document.getElementById("email").readOnly = true;
+        document.getElementById("direccion").readOnly = true;
+        document.getElementById("logo").disabled = true;
+        document.getElementById("ciudad").disabled = true;
+        document.getElementById("botonValidar").disabled = true;
+        document.getElementById("enlazarCategorias").style.display = "block";
+      }
+    });
   };
 
   render() {
@@ -465,11 +504,11 @@ export default class RegistroPyme extends React.Component {
                           <InputGroupText>🗺️</InputGroupText>
                         </InputGroupAddon>
                         <select
-                          defaultValue={'DEFAULT'}
+                          defaultValue={"DEFAULT"}
                           className="form-select"
                           id="ciudad"
                           name="ciudad"
-                          value={this.state.form.ciudad}
+                          value={this.state.form.ciudad || null}
                           onChange={this.handleChange}
                         >
                           <option value="DEFAULT" disabled>
@@ -486,12 +525,14 @@ export default class RegistroPyme extends React.Component {
                   style={{ marginTop: "50px", marginLeft: "10px" }}
                 >
                   <Button
+                    id="botonValidar"
                     size="lg"
                     outline
                     color="primary"
-                    disabled={this.state.button === false}
+                    //disabled={this.state.button === false}
+                    onClick={() => this.activarEnlace()}
                   >
-                    ¡Registrar! &nbsp;
+                    ¡Continuar! &nbsp;
                     <img
                       height="40"
                       width="40"
@@ -500,6 +541,10 @@ export default class RegistroPyme extends React.Component {
                     ></img>
                   </Button>
                 </div>
+                <section id="enlazarCategorias" style={{ display: "none" }}>
+                  <ConsultaRelacion enviarCategorias={this.enlazarCategorias}
+                  ></ConsultaRelacion>
+                </section>
               </AvForm>
             </div>
           </div>
