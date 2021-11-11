@@ -218,7 +218,7 @@ export default class RegistroPyme extends React.Component {
       <div className="container">
         <div className="pymeReg">
           <div className="col-md-12 formularioR">
-            <div align="left" style={{ marginTop: "10px", marginLeft: "10px" }}>
+            <div align="left" style={{ marginTop: "15px", marginLeft: "10px" }}>
               <img src={logo} height="85" width="260" alt="Logo ITS" />
             </div>
             <h2
@@ -257,7 +257,7 @@ export default class RegistroPyme extends React.Component {
                         this.cleanForm();
                       }}
                     >
-                      <img height="34" width="27" src={clean} alt="clean"></img>
+                      <img height="37" width="30" src={clean} alt="clean"></img>
                     </Button>
                   </Col>
                 </Row>

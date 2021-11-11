@@ -89,11 +89,12 @@ render() {
     return (
         <div >
             <br></br>
-            <h4>¡Selecciona las categorias de productos que maneja tu pyme!</h4>
+            <h4>¡Selecciona la(s) categoria(s) de productos que maneja tu pyme!</h4>
             <br></br>
-            <Table id="tablaCategorias" striped>
+            <Table id="tablaCategorias" className="tableCategoria" striped>
             <thead>
                 <tr align="center">
+                    <th>Item</th>
                     <th>Nombre</th>
                     <th>Seleccionar</th>
                 </tr>
@@ -121,7 +122,7 @@ render() {
                 </tbody>
             </Table>
             <div align="right">
-                <Button id="btnEnlazar" outline color="info" size="sm" onClick={() => this.confirmarCategorias()}>Confirmar categorias</Button>
+                <Button id="btnEnlazar" outline color="primary" size="sm" onClick={() => this.confirmarCategorias()}>Confirmar categorias</Button>
             </div>
         </div>
     );
