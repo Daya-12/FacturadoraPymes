@@ -87,9 +87,9 @@ categorias() {
 }
 render() {
     return (
-        <div >
+        <div>
             <br></br>
-            <h4>¡Selecciona la(s) categoria(s) de productos que maneja tu pyme!</h4>
+            <h4>¡Selecciona la(s) categoria(s) de el/los producto(s) que maneja tu pyme!</h4>
             <br></br>
             <Table id="tablaCategorias" className="tableCategoria" striped>
             <thead>

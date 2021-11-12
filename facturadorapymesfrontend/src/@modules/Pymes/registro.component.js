@@ -2,6 +2,7 @@ import React from "react";
 import clean from "../../@images/cleanForms.png";
 import logo from "../../@images/logoProyecto.png";
 import registrarPyme from "../../@images/registrarPyme.png";
+import registrarPyme2 from "../../@images/registrarPyme2.png";
 import "../../@styles/styles.components.css";
 import service from "./registro.service";
 import Swal from "sweetalert2";
@@ -52,21 +53,8 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
-    if (
-      this.state.form.razonSocial === "" ||
-      this.state.form.slogan === "" ||
-      this.state.form.nit === "" ||
-      this.state.form.telefono === "" ||
-      this.state.form.email === "" ||
-      this.validarEmail() === false ||
-      this.state.form.direccion === "" ||
-      this.state.form.logo === null ||
-      this.state.form.ciudad === null
-    ) {
-      this.setState({ button: false });
-    } else {
-      this.setState({ button: true });
-    }
+
+    this.validarCampos();
   };
 
   validarEmail = () => {
@@ -84,6 +72,26 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.files[0],
       },
     });
+    this.validarCampos();
+  };
+
+  validarCampos = () => {
+    if (
+      this.state.form.razonSocial === "" ||
+      this.state.form.slogan === "" ||
+      this.state.form.nit === "" ||
+      this.state.form.telefono === "" ||
+      this.state.form.email === "" ||
+      this.validarEmail() === false ||
+      this.state.form.direccion === "" ||
+      this.state.form.logo === undefined ||
+      this.state.form.logo === null ||
+      this.state.form.ciudad === null
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
   };
 
   componentDidMount = async () => {
@@ -91,15 +99,14 @@ export default class RegistroPyme extends React.Component {
   };
 
   enlazarCategorias = async (categorias) => {
-    if(categorias!=null && this.state.categorias==null){
-    this.setState({
-      categorias: categorias
-    });
-    console.log(this.state.categorias);
-    /*if (this.state.categorias != null) {
-      document.getElementById("confirmarRegistro").style.display = "block";
-    }*/
-  }
+    if (categorias != null && this.state.categorias == null) {
+      this.setState({
+        categorias: categorias,
+      });
+      if (this.state.categorias != null) {
+        document.getElementById("confirmarRegistro").style.display = "block";
+      }
+    }
   };
 
   consultarCiudades = async () => {
@@ -196,11 +203,22 @@ export default class RegistroPyme extends React.Component {
         document.getElementById("logo").disabled = true;
         document.getElementById("ciudad").disabled = true;
         document.getElementById("botonValidar").disabled = true;
+        document.getElementById("btnCleanForm").disabled = true;
         document.getElementById("enlazarCategorias").style.display = "block";
       }
     });
   };
 
+  registrarPyme = async () => {
+    console.log("Hola llegué!");
+    console.log(this.state.categorias);
+    console.log(this.state.form.logo);
+    let respuesta = null;
+    const model = mapStateToModel(this.state.form, this.state.categorias);
+    respuesta = await service.registrarPyme(this.state.form.logo);
+    console.log(respuesta);
+
+  };
   render() {
     let ciudades;
     if (this.state.ciudades === null) {
@@ -217,7 +235,7 @@ export default class RegistroPyme extends React.Component {
     return (
       <div className="container">
         <div className="pymeReg">
-          <div className="col-md-12 formularioR">
+          <div className="pymeReg2">
             <div align="left" style={{ marginTop: "15px", marginLeft: "10px" }}>
               <img src={logo} height="85" width="260" alt="Logo ITS" />
             </div>
@@ -246,6 +264,7 @@ export default class RegistroPyme extends React.Component {
                   <Col md="1">
                     <Button
                       type="reset"
+                      id="btnCleanForm"
                       style={{
                         outline: "0 none",
                         border: "0",
@@ -542,8 +561,33 @@ export default class RegistroPyme extends React.Component {
                   </Button>
                 </div>
                 <section id="enlazarCategorias" style={{ display: "none" }}>
-                  <ConsultaRelacion enviarCategorias={this.enlazarCategorias}
+                  <ConsultaRelacion
+                    enviarCategorias={this.enlazarCategorias}
                   ></ConsultaRelacion>
+                </section>
+                <section id="confirmarRegistro" style={{ display: "none" }}>
+                  <Row>
+                    <Col md="2"></Col>
+                    <Col md="8" align="center">
+                      <Button
+                        outline
+                        color="primary"
+                        size="lg"
+                        onClick={() => {
+                          this.registrarPyme();
+                        }}
+                      >
+                        ¡Registrar mi pyme!&nbsp;&nbsp;
+                        <img
+                          height="48"
+                          width="45"
+                          src={registrarPyme2}
+                          alt="registrar"
+                        ></img>
+                      </Button>
+                    </Col>
+                    <Col md="2"></Col>
+                  </Row>
                 </section>
               </AvForm>
             </div>
@@ -552,4 +596,22 @@ export default class RegistroPyme extends React.Component {
       </div>
     );
   }
+}
+
+const mapStateToModel = function (formObject, listCategorias) {
+  return {
+      id: 0,
+      razonSocial:formObject.razonSocial,
+      slogan:formObject.slogan,
+      nit:formObject.nit,
+      urlLogo:"",
+      correoElectronico:formObject.email,
+      direccion:formObject.direccion,
+      ciudad: {
+          id: formObject.ciudad
+      },
+      telefono: formObject.telefono,
+      activo:true,
+      categorias: listCategorias
+  };
 }

@@ -33,4 +33,16 @@ async function validarIdentificacion(identificacion) {
     }
     return response;
 };
-export default {consultarCiudades,validarRazonSocial,validarIdentificacion};
+
+async function registrarPyme(logo) {
+    const url = urlConexion+'empresa/registrarLogo'
+    let response = null;
+    try {      
+        response=await axios.post(url,logo);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,validarRazonSocial,validarIdentificacion,registrarPyme};
