@@ -1,5 +1,5 @@
 package com.FacturadoraPymes.FacturadoraPymes.Models;
-
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +19,5 @@ public class EmpresaModel {
 	private CiudadModel ciudad;
 	private String telefono;
 	private boolean activo;
+	private List<CategoriaModel> categorias;
 }

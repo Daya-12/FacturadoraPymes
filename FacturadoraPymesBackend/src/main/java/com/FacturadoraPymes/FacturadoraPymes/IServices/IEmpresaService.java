@@ -15,5 +15,5 @@ public interface IEmpresaService {
 	Optional<Empresa> validarEmpresa(UsuarioModel usuario);
 	boolean validarNombreEmpresa(String nombreEmpresa);
 	boolean validarIdentificacionEmpresa(String identificacionEmpresa);
-	MensajeModel crearEmpresa(EmpresaModel empresa,MultipartFile imagen);
+	MensajeModel crearEmpresa(EmpresaModel empresa);
 }

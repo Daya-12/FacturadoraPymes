@@ -57,7 +57,7 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	}
 
 	@Override
-	public MensajeModel crearEmpresa(EmpresaModel empresa,MultipartFile imagen) {
+	public MensajeModel crearEmpresa(EmpresaModel empresa) {
 		MensajeModel mensajeModel = new MensajeModel();
 		Empresa empresaEntity = new Empresa();
 		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, empresa.getRazonSocial());
