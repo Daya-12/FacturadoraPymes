@@ -1,16 +1,21 @@
 package com.FacturadoraPymes.FacturadoraPymes.Services;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
@@ -58,9 +63,9 @@ public class EmpresaServiceImpl implements IEmpresaService{
 
 	@Override
 	public MensajeModel crearEmpresa(EmpresaModel empresa) {
-		MensajeModel mensajeModel = new MensajeModel();
+		/*MensajeModel mensajeModel = new MensajeModel();
 		Empresa empresaEntity = new Empresa();
-		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, empresa.getRazonSocial());
+		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, empresa.getRazonSocial());*/
 		return null;
 	}
 
@@ -74,5 +79,26 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	public boolean validarIdentificacionEmpresa(String identificacionEmpresa) {
 		boolean validarEmpresa = validaciones.validarIdentificacionEmpresa(empresaRepository, identificacionEmpresa);
 		return validarEmpresa;
+	}
+
+	@Override
+	public boolean registrarLogo(String razonSocial,MultipartFile imagen) {
+		 if (!imagen.isEmpty()) {
+	            Path directorioImagenes=Path.of("src//main//resources//static/logos");
+	            String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+	            try {	            	  
+					byte[] bytesImg=imagen.getBytes();
+					String replaceName=imagen.getContentType().replace("image/", razonSocial+".");
+;					Path rutaCompleta= Paths.get(rutaAbsoluta+"//"+replaceName);
+					Files.write(rutaCompleta, bytesImg);
+					return true;
+				} catch (IOException e) {
+					e.printStackTrace();
+					return false;
+				}
+	            
+	        } else {
+	            return false;
+	        }
 	}
 }

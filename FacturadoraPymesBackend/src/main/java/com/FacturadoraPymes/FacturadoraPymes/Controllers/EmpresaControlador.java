@@ -37,8 +37,8 @@ public class EmpresaControlador {
 	@PostMapping(value = "/registrarLogo", produces = "application/json",consumes = "multipart/form-data")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public String registrarLogo(@RequestParam("imagen") MultipartFile imagen ) {
-		return "hola";
+	public boolean registrarLogo(@RequestParam("nombreEmpresa") String razonSocial,@RequestParam("imagen") MultipartFile imagen ) {
+		return empresaService.registrarLogo(razonSocial,imagen);
 	}
 	
 	@GetMapping(value = "/validarNombreEmpresa/{nombreEmpresa}")
