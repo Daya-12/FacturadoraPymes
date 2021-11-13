@@ -209,15 +209,23 @@ export default class RegistroPyme extends React.Component {
     });
   };
 
-  registrarPyme = async () => {
-    console.log("Hola llegué!");
-    console.log(this.state.categorias);
-    console.log(this.state.form.logo);
+  registrarLogo = async () => {
     let respuesta = null;
     const model = mapStateToModel(this.state.form, this.state.categorias);
-    respuesta = await service.registrarPyme(this.state.form.logo);
-    console.log(respuesta);
+    let formData = new FormData();
+    formData.append('nombreEmpresa', this.state.form.razonSocial);
+    formData.append('imagen', this.state.form.logo);
+    respuesta = await service.registrarPyme(formData);
+    if(respuesta !== null && respuesta.data===true){
+      return respuesta.data;
+    }
+  };
 
+  registrarPyme = async () => {
+    let registrarImagen= await this.registrarLogo();
+    if(registrarImagen === true){
+      console.log(this.state.form.logo);
+    }
   };
   render() {
     let ciudades;
