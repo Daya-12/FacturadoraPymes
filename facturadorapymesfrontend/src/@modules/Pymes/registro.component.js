@@ -7,6 +7,7 @@ import "../../@styles/styles.components.css";
 import service from "./registro.service";
 import Swal from "sweetalert2";
 import ConsultaRelacion from "../Categoria/consultaRelacion.component";
+import RegistroUsuario from "../Usuarios/registro.component";
 import {
   Button,
   InputGroupAddon,
@@ -30,6 +31,7 @@ export default class RegistroPyme extends React.Component {
     this.handleValidSubmit = this.handleValidSubmit.bind(this);
     this.state = {
       categorias: null,
+      usuario: null,
       form: {
         razonSocial: "",
         slogan: "",
@@ -78,12 +80,31 @@ export default class RegistroPyme extends React.Component {
   validarCampos = () => {
     if (
       this.state.form.razonSocial === "" ||
+
+      (this.state.form.razonSocial !== undefined && this.state.form.razonSocial.length < 3) ||
+      (this.state.form.razonSocial !== undefined && this.state.form.razonSocial.length > 30) ||
+
       this.state.form.slogan === "" ||
+      (this.state.form.slogan !== undefined && this.state.form.slogan.length < 10) ||
+      (this.state.form.slogan !== undefined && this.state.form.slogan.length > 150) ||
+
       this.state.form.nit === "" ||
+      (this.state.form.nit !== undefined && this.state.form.nit.length < 9) ||
+      (this.state.form.nit !== undefined && this.state.form.nit.length > 15) ||
+
       this.state.form.telefono === "" ||
+      (this.state.form.telefono !== undefined && this.state.form.telefono.length < 7) ||
+      (this.state.form.telefono !== undefined && this.state.form.telefono.length > 10) ||
+      
       this.state.form.email === "" ||
       this.validarEmail() === false ||
+      (this.state.form.email !== undefined && this.state.form.email.length < 12) ||
+      (this.state.form.email !== undefined && this.state.form.email.length > 50) ||
+
       this.state.form.direccion === "" ||
+      (this.state.form.direccion !== undefined && this.state.form.direccion.length < 10) ||
+      (this.state.form.direccion !== undefined && this.state.form.direccion.length > 50) ||
+
       this.state.form.logo === undefined ||
       this.state.form.logo === null ||
       this.state.form.ciudad === null
@@ -104,6 +125,17 @@ export default class RegistroPyme extends React.Component {
         categorias: categorias,
       });
       if (this.state.categorias != null) {
+        document.getElementById("registrarUsuario").style.display = "block";
+      }
+    }
+  };
+
+  registroUsuario = async (usuario) => {
+    if (usuario != null && this.state.usuario == null) {
+      this.setState({
+        usuario: usuario,
+      });
+      if (this.state.usuario != null) {
         document.getElementById("confirmarRegistro").style.display = "block";
       }
     }
@@ -224,9 +256,10 @@ export default class RegistroPyme extends React.Component {
   registrarPyme = async () => {
     let registrarImagen= await this.registrarLogo();
     if(registrarImagen === true){
-      console.log(this.state.form.logo);
+      console.log("estamos listos");
     }
   };
+
   render() {
     let ciudades;
     if (this.state.ciudades === null) {
@@ -315,7 +348,7 @@ export default class RegistroPyme extends React.Component {
                                 "No puedes digitar caracteres invalidos",
                             },
                             minLength: { value: 3 },
-                            maxLength: { value: 100 },
+                            maxLength: { value: 30 },
                           }}
                         />
                         <AvFeedback>La razón social es requerida</AvFeedback>
@@ -348,7 +381,7 @@ export default class RegistroPyme extends React.Component {
                               value: 10,
                             },
                             maxLength: {
-                              value: 250,
+                              value: 150,
                             },
                           }}
                         />
@@ -456,7 +489,7 @@ export default class RegistroPyme extends React.Component {
                               value: 12,
                             },
                             maxLength: {
-                              value: 100,
+                              value: 50,
                             },
                           }}
                         />
@@ -469,7 +502,7 @@ export default class RegistroPyme extends React.Component {
                       <Label className="label-registro">Dirección</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📍</InputGroupText>
+                          <InputGroupText>📌</InputGroupText>
                         </InputGroupAddon>
                         <AvInput
                           autoComplete="off"
@@ -490,7 +523,7 @@ export default class RegistroPyme extends React.Component {
                               value: 10,
                             },
                             maxLength: {
-                              value: 80,
+                              value: 150,
                             },
                           }}
                         />
@@ -556,7 +589,7 @@ export default class RegistroPyme extends React.Component {
                     size="lg"
                     outline
                     color="primary"
-                    //disabled={this.state.button === false}
+                    disabled={this.state.button === false}
                     onClick={() => this.activarEnlace()}
                   >
                     ¡Continuar! &nbsp;
@@ -572,6 +605,9 @@ export default class RegistroPyme extends React.Component {
                   <ConsultaRelacion
                     enviarCategorias={this.enlazarCategorias}
                   ></ConsultaRelacion>
+                </section>
+                <section id="registrarUsuario" style={{ display: "none" }}>
+                  <RegistroUsuario registrarUsuario={this.registroUsuario}></RegistroUsuario>
                 </section>
                 <section id="confirmarRegistro" style={{ display: "none" }}>
                   <Row>

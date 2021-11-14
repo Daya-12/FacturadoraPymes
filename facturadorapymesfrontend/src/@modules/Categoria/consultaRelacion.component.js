@@ -122,7 +122,7 @@ render() {
                 </tbody>
             </Table>
             <div align="right">
-                <Button id="btnEnlazar" outline color="primary" size="sm" onClick={() => this.confirmarCategorias()}>Confirmar categorias</Button>
+                <Button id="btnEnlazar" outline color="primary" size="sm" onClick={() => this.confirmarCategorias()}>¡Confirmar categorias!</Button>
             </div>
         </div>
     );
