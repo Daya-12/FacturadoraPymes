@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
-import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
@@ -27,15 +26,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	private final IUsuarioRepository usuarioRepository;
 	private final IMapperUsuario mapperUsuario;
 	private final Validaciones validaciones;
-	private final IEmpresaService empresaService;
 	
 	@Autowired
 	public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IMapperUsuario mapperUsuario,
-			Validaciones validaciones,IEmpresaService empresaService) {
+			Validaciones validaciones) {
 		this.usuarioRepository = usuarioRepository;
 		this.mapperUsuario = mapperUsuario;
 		this.validaciones = validaciones;
-		this.empresaService= empresaService;
 	}
 	
 	@Override
@@ -64,7 +61,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		String passAsegurada;
 		String passCifrada;
 		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, usuario);
-		Optional<Empresa> empresa = empresaService.validarEmpresa(usuario);
+		Empresa empresa=new Empresa();
+		empresa.setIdEmpresa(usuario.getEmpresa().getId());
+		//Optional<Empresa> empresa = empresaService.validarEmpresa(usuario);
 		if (validarCorreo) {
 			usuarioEntity.setIdUsuario(usuario.getId());
 			usuarioEntity.setNombreUser(usuario.getNombre());
@@ -74,7 +73,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			usuarioEntity.setPassUser(passCifrada);
 			usuarioEntity.setTelefonoUser(usuario.getTelefono());
 			usuarioEntity.setNivelUser(usuario.getNivel());
-			usuarioEntity.setEmpresa(empresa.get());
+			usuarioEntity.setEmpresa(empresa);
 			usuarioEntity.setActivoUser(true);
 			usuarioRepository.save(usuarioEntity);
 			mensajeModel.setMensaje(Constantes.MENSAJE_REGISTRAR);

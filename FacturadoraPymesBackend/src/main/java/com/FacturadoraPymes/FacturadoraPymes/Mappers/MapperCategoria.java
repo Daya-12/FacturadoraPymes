@@ -14,5 +14,14 @@ public class MapperCategoria implements IMapperCategoria{
 		categoriaM.setActivo(categoria.getActivoCategoria());
 		return categoriaM;
 	}
+	
+	@Override
+	public Categoria recibirCategorias(CategoriaModel categoriaModel) {
+		Categoria categoria = new Categoria();
+		categoria.setIdCategoria(categoriaModel.getId());
+		categoria.setNombreCategoria(categoriaModel.getNombre());
+		categoria.setActivoCategoria(categoriaModel.isActivo());
+		return categoria;
+	}
 
 }

@@ -5,4 +5,5 @@ import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 
 public interface IMapperUsuario {
 	public UsuarioModel mostrarUsuarios (Usuario usuarios);
+	public Usuario recibirUsuarios (UsuarioModel usuarioModel);
 }

@@ -20,4 +20,5 @@ public class EmpresaModel {
 	private String telefono;
 	private boolean activo;
 	private List<CategoriaModel> categorias;
+	private UsuarioModel usuario;
 }

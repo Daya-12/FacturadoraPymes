@@ -173,7 +173,8 @@ public class Empresa implements Serializable {
 	}
 
 	public Usuario addUsuario(Usuario usuario) {
-		getUsuarios().add(usuario);
+		List<Usuario> lista =getUsuarios();
+		lista.add(usuario);
 		usuario.setEmpresa(this);
 
 		return usuario;
