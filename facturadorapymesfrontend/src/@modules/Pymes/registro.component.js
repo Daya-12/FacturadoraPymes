@@ -243,11 +243,10 @@ export default class RegistroPyme extends React.Component {
 
   registrarLogo = async () => {
     let respuesta = null;
-    const model = mapStateToModel(this.state.form, this.state.categorias);
     let formData = new FormData();
     formData.append('nombreEmpresa', this.state.form.razonSocial);
     formData.append('imagen', this.state.form.logo);
-    respuesta = await service.registrarPyme(formData);
+    respuesta = await service.registrarPymeLogo(formData);
     if(respuesta !== null && respuesta.data===true){
       return respuesta.data;
     }
@@ -256,7 +255,12 @@ export default class RegistroPyme extends React.Component {
   registrarPyme = async () => {
     let registrarImagen= await this.registrarLogo();
     if(registrarImagen === true){
-      console.log("estamos listos");
+      let respuesta = null;
+      const model = mapStateToModel(this.state.form, this.state.categorias,this.state.usuario);
+      respuesta = await service.registrarPyme(model);
+      if(respuesta !== null){
+        console.log(respuesta);
+      }
     }
   };
 
@@ -642,7 +646,7 @@ export default class RegistroPyme extends React.Component {
   }
 }
 
-const mapStateToModel = function (formObject, listCategorias) {
+const mapStateToModel = function (formObject, listCategorias,usuario) {
   return {
       id: 0,
       razonSocial:formObject.razonSocial,
@@ -656,6 +660,15 @@ const mapStateToModel = function (formObject, listCategorias) {
       },
       telefono: formObject.telefono,
       activo:true,
-      categorias: listCategorias
+      categorias: listCategorias,
+      usuario:{
+        id: 0,
+        nombre:usuario.nombre,
+        correo:usuario.correo,
+        pass: usuario.pass,
+        telefono: usuario.telefono,
+        nivel: 0,
+        activo :true
+      }
   };
 }

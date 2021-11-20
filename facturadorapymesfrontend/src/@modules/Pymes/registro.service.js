@@ -34,7 +34,7 @@ async function validarIdentificacion(identificacion) {
     return response;
 };
 
-async function registrarPyme(logo) {
+async function registrarPymeLogo(logo) {
     const url = urlConexion+'empresa/registrarLogo'
     let response = null;
     try {      
@@ -45,4 +45,15 @@ async function registrarPyme(logo) {
     return response;
 };
 
-export default {consultarCiudades,validarRazonSocial,validarIdentificacion,registrarPyme};
+async function registrarPyme(pyme) {
+    const url = urlConexion+'empresa/registrar'
+    let response = null;
+    try {      
+        response=await axios.post(url,pyme);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,validarRazonSocial,validarIdentificacion,registrarPymeLogo,registrarPyme};
