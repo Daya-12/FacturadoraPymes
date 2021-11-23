@@ -57,6 +57,14 @@ public class EmpresaControlador {
 		return empresaService.validarIdentificacionEmpresa(identificacionEmpresa);
 	}
 	
+	@GetMapping(value = "/validarEmailEmpresa/{emailEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public boolean validarEmailEmpresa(@PathVariable String emailEmpresa) {
+		return empresaService.validarEmailEmpresa(emailEmpresa);
+	}
+	
+	
 	@PostMapping(value = "/registrar", produces = "application/json", consumes = "application/json")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.CREATED)

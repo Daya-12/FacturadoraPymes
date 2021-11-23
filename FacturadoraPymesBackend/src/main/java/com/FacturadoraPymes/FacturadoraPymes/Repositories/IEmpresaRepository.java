@@ -15,4 +15,7 @@ public interface IEmpresaRepository extends CrudRepository<Empresa, Integer>{
 	
 	@Query(value = "SELECT empresa FROM Empresa empresa WHERE empresa.nitE = :nitE", nativeQuery = false)
 	public Optional<Empresa> validarIdentificacion(@Param("nitE") String nitE);
+	
+	@Query(value = "SELECT empresa FROM Empresa empresa WHERE empresa.correoElectronico = :correoElectronico", nativeQuery = false)
+	public Optional<Empresa> validarEmail(@Param("correoElectronico") String correoElectronico);
 }

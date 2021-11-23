@@ -60,11 +60,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		Usuario usuarioEntity = new Usuario();
 		String passAsegurada;
 		String passCifrada;
-		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, usuario);
+		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, usuario.getCorreo());
 		Empresa empresa=new Empresa();
 		empresa.setIdEmpresa(usuario.getEmpresa().getId());
-		//Optional<Empresa> empresa = empresaService.validarEmpresa(usuario);
-		if (validarCorreo) {
+		if (!validarCorreo) {
 			usuarioEntity.setIdUsuario(usuario.getId());
 			usuarioEntity.setNombreUser(usuario.getNombre());
 			usuarioEntity.setCorreoUser(usuario.getCorreo());
@@ -80,6 +79,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			return mensajeModel;
 		} else
 			throw new NoSuchElementException("El usuario no se pudo registrar");
+	}
+
+	@Override
+	public boolean validarEmail(String email) {
+		boolean validarEmpresa = validaciones.validarCorreo(usuarioRepository, email);
+		return validarEmpresa;
 	}
 	
 	

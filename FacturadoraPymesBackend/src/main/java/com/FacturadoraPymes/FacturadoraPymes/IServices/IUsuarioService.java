@@ -10,5 +10,6 @@ public interface IUsuarioService {
 	UsuarioModel iniciarSesion(String email,String pass);
 	List<UsuarioModel> mostrarUsuarios();
 	MensajeModel crearUsuario(UsuarioModel usuario);
+	boolean validarEmail(String email);
 
 }

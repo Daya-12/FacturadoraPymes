@@ -47,4 +47,11 @@ public class UsuarioControlador {
 	public List<UsuarioModel> mostrarUsuarios() {
 		return usuarioService.mostrarUsuarios();
 	}
+	
+	@GetMapping(value = "/validarEmail/{email}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public boolean validarEmail(@PathVariable String email) {
+		return usuarioService.validarEmail(email);
+	}
 }

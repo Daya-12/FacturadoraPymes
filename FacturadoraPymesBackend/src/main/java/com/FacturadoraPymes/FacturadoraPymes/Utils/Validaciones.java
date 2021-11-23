@@ -17,11 +17,8 @@ import javax.crypto.spec.IvParameterSpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.InvalidAlgorithmParameterException;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
-import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
-import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 
@@ -80,12 +77,12 @@ public class Validaciones {
 			return usuarioEntity;
 	}
 	
-	public boolean validarCorreo(IUsuarioRepository usuarioRepository, UsuarioModel usuarioModel) {
-		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreo(usuarioModel.getCorreo());
+	public boolean validarCorreo(IUsuarioRepository usuarioRepository, String email) {
+		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreo(email);
 		if (usuarioValidacion.isPresent()) {
-			throw new NoSuchElementException(Constantes.USUARIO_EXISTENTE);
-		} else
 			return true;
+		} else
+			return false;
 	}
 	
 	public boolean validarEmpresa(IEmpresaRepository empresaRepository, String nombreEmpresa) {
@@ -98,6 +95,14 @@ public class Validaciones {
 	
 	public boolean validarIdentificacionEmpresa(IEmpresaRepository empresaRepository, String identificacionEmpresa) {
 		Optional<Empresa> empresaValidacion = empresaRepository.validarIdentificacion(identificacionEmpresa);
+		if (empresaValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean validarEmailEmpresa(IEmpresaRepository empresaRepository, String emailEmpresa) {
+		Optional<Empresa> empresaValidacion = empresaRepository.validarEmail(emailEmpresa);
 		if (empresaValidacion.isPresent()) {
 			return true;
 		} else

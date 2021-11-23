@@ -13,6 +13,7 @@ public interface IEmpresaService {
 	Optional<Empresa> validarEmpresa(UsuarioModel usuario);
 	boolean validarNombreEmpresa(String nombreEmpresa);
 	boolean validarIdentificacionEmpresa(String identificacionEmpresa);
+	boolean validarEmailEmpresa(String emailEmpresa);
 	MensajeModel crearEmpresa(EmpresaModel empresa);
 	boolean registrarLogo(String razonSocial,MultipartFile imagen);
 }
