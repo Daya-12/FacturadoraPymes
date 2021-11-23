@@ -214,6 +214,29 @@ export default class RegistroPyme extends React.Component {
     }
   };
 
+  onBlurEmail = async () => {
+    if (this.state.form.email !== "") {
+      let respuesta = null;
+      respuesta = await service.validarEmail(this.state.form.email);
+      if (respuesta !== null) {
+        if (respuesta.data === true) {
+          Swal.fire({
+            text: "Este e-mail ya se encuentra registrado",
+            icon: "error",
+            timer: "4000",
+          });
+
+          this.setState({
+            form: {
+              email: "",
+            },
+          });
+        }
+      }
+    }
+  };
+
+
   activarEnlace = () => {
     Swal.fire({
       title: "Confirmar datos de la pyme",
@@ -259,7 +282,15 @@ export default class RegistroPyme extends React.Component {
       const model = mapStateToModel(this.state.form, this.state.categorias,this.state.usuario);
       respuesta = await service.registrarPyme(model);
       if(respuesta !== null){
-        console.log(respuesta);
+        Swal.fire({
+          text: "¡La empresa " + this.state.form.razonSocial + " ha sido registrada exitosamente con " + this.state.categorias.length + " categoria(s) seleccionada(s)!",
+          icon: "success",
+          timer: "4000"
+      })
+      document.getElementById("confirmarRegistro").style.display = "none";
+      document.getElementById("registrarUsuario").style.display = "none";
+      document.getElementById("enlazarCategorias").style.display = "none";
+      this.props.history.push("/Login");
       }
     }
   };
@@ -406,9 +437,9 @@ export default class RegistroPyme extends React.Component {
                           className="form-control"
                           id="nit"
                           name="nit"
-                          value={this.state.form.nit}
+                          value={this.state.form.nit || ""}
                           onChange={this.handleChange}
-                          onBlur={this.onBlurIdentificacion || ""}
+                          onBlur={this.onBlurIdentificacion}
                           validate={{
                             required: {
                               value: true,
@@ -480,8 +511,9 @@ export default class RegistroPyme extends React.Component {
                           placeholder="ejemplo@dominio.com"
                           id="email"
                           name="email"
-                          value={this.state.form.email}
+                          value={this.state.form.email || ""}
                           onChange={this.handleChange}
+                          onBlur={this.onBlurEmail}
                           validate={{
                             required: {
                               value: true,

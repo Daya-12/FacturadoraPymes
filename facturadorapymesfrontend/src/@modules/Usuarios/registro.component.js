@@ -16,6 +16,7 @@ import {
   AvFeedback,
 } from "availity-reactstrap-validation";
 import Swal from "sweetalert2";
+import service from "./registro.service";
 
 export default class RegistroUsuario extends React.Component {
   constructor(props) {
@@ -105,6 +106,29 @@ export default class RegistroUsuario extends React.Component {
     this.registrarUsuario(this.state.form);
   }
 
+  onBlurEmail = async () => {
+    if (this.state.form.correo !== "") {
+      let respuesta = null;
+      respuesta = await service.validarEmail(this.state.form.correo);
+      if (respuesta !== null) {
+        if (respuesta.data === true) {
+          Swal.fire({
+            text: "Ya existe un usuario con el correo ingresado",
+            icon: "error",
+            timer: "4000",
+          });
+
+          this.setState({
+            form: {
+              correo: "",
+            },
+          });
+        }
+      }
+    }
+  };
+
+
   render() {
     return (
       <div>
@@ -165,6 +189,7 @@ export default class RegistroUsuario extends React.Component {
                       name="correo"
                       value={this.state.form.correo}
                       onChange={this.handleChange}
+                      onBlur={this.onBlurEmail}
                       validate={{
                         required: {
                           value: true,

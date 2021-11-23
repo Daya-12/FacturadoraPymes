@@ -34,6 +34,17 @@ async function validarIdentificacion(identificacion) {
     return response;
 };
 
+async function validarEmail(email) {
+    const url = urlConexion+'empresa/validarEmailEmpresa/'+email
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
 async function registrarPymeLogo(logo) {
     const url = urlConexion+'empresa/registrarLogo'
     let response = null;
@@ -56,4 +67,4 @@ async function registrarPyme(pyme) {
     return response;
 };
 
-export default {consultarCiudades,validarRazonSocial,validarIdentificacion,registrarPymeLogo,registrarPyme};
+export default {consultarCiudades,validarEmail,validarRazonSocial,validarIdentificacion,registrarPymeLogo,registrarPyme};
