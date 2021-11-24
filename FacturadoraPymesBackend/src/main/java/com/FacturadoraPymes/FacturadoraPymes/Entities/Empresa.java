@@ -56,6 +56,10 @@ public class Empresa implements Serializable {
 	@OneToMany(mappedBy="empresa")
 	private List<Usuario> usuarios;
 	
+	//bi-directional many-to-one association to Cliente
+	@OneToMany(mappedBy="empresa")
+	private List<Cliente> clientes;
+	
 	@ManyToMany(mappedBy="empresas")
 	private List<Categoria> categorias;
 	
@@ -183,8 +187,29 @@ public class Empresa implements Serializable {
 	public Usuario removeUsuario(Usuario usuario) {
 		getUsuarios().remove(usuario);
 		usuario.setEmpresa(null);
-
 		return usuario;
+	}
+	
+	public List<Cliente> getClientes() {
+		return this.clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public Cliente addCliente(Cliente cliente) {
+		List<Cliente> lista =getClientes();
+		lista.add(cliente);
+		cliente.setEmpresa(this);
+
+		return cliente;
+	}
+
+	public Cliente removeCliente(Cliente cliente) {
+		getClientes().remove(cliente);
+		cliente.setEmpresa(null);
+		return cliente;
 	}
 	
 	public List<Categoria> getCategorias() {

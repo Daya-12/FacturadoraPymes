@@ -48,10 +48,12 @@ public class Cliente implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tdocumento")
 	private Documento documento;
-
-	//bi-directional many-to-one association to Prodclient
-	@ManyToMany(mappedBy="clientes")
-	private List<Producto> productos;
+	
+	//bi-directional many-to-one association to Empresa
+	@ManyToOne
+	@JoinColumn(name="id_empresa")
+	private Empresa empresa;
+	
 	
 	@OneToMany(mappedBy="cliente")
 	private List<Factura> facturas;
@@ -146,13 +148,13 @@ public class Cliente implements Serializable {
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
 	}
-
-	public List<Producto> getProductos() {
-		return this.productos;
+	
+	public Empresa getEmpresa() {
+		return this.empresa;
 	}
 
-	public void setProductos(List<Producto> productos) {
-		this.productos = productos;
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 	
 	public List<Factura> getFacturas() {

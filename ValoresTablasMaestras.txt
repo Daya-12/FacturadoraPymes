@@ -49,6 +49,7 @@ insert into Categoria values(0,'Limpieza',true);
 insert into Categoria values(0,'Moda',true);
 insert into Categoria values(0,'Mobiliario urbano',true);
 insert into Categoria values(0,'Medios de comunicación',true);
+insert into Categoria values(0,'Papelería',true);
 insert into Categoria values(0,'Transporte',true);
 insert into Categoria values(0,'Viajes',true);
 insert into Categoria values(0,'Otras categorias',true);

@@ -33,19 +33,6 @@ public class Producto implements Serializable {
 	@OneToMany(mappedBy="producto")
 	private List<Detalle> detalles;
 
-	//bi-directional many-to-one association to Prodclient
-	@ManyToMany
-	@JoinTable(
-		name="prodclient"
-		, joinColumns={
-			@JoinColumn(name="id_producto")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="id_cliente")
-			}
-		)
-	private List<Cliente> clientes;
-
 	//bi-directional many-to-one association to Categoria
 	@ManyToOne
 	@JoinColumn(name="id_categoria")
@@ -114,13 +101,6 @@ public class Producto implements Serializable {
 		return detalle;
 	}
 	
-	public List<Cliente> getClientes() {
-		return this.clientes;
-	}
-
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
 
 	public Categoria getCategoria() {
 		return this.categoria;

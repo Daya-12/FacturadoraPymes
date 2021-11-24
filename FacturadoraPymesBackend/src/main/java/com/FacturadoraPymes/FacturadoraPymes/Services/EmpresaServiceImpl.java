@@ -10,13 +10,10 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
 import javax.swing.DefaultListModel;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
@@ -75,6 +72,8 @@ public class EmpresaServiceImpl implements IEmpresaService{
 
 	@Override
 	public MensajeModel crearEmpresa(EmpresaModel empresa) {
+		if( (validarNombreEmpresa(empresa.getRazonSocial())==false) && (validarIdentificacionEmpresa(empresa.getNit())==false) &&
+			(validarEmailEmpresa(empresa.getCorreoElectronico())==false) && (usuarioService.validarEmail(empresa.getUsuario().getCorreo())==false)) {
 		//obtener nombre imagen logo
 		File directorio = new File(ruta);
 		DefaultListModel defaultListModel = buscarLogo(directorio,empresa.getRazonSocial());
@@ -85,7 +84,7 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		Ciudad ciudadEntity = new Ciudad();
 		ciudadEntity.setIdCiudad(empresa.getCiudad().getId());
 		
-		if(empresa.getRazonSocial()!="" && ciudadEntity.getIdCiudad() != 0) {
+		if(!empresa.getRazonSocial().isEmpty() && ciudadEntity.getIdCiudad() != 0) {
 		empresaEntity.setIdEmpresa(empresa.getId());
 		empresaEntity.setRazonSocial(empresa.getRazonSocial());
 		empresaEntity.setSlogan(empresa.getSlogan());
@@ -127,6 +126,10 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		mensajeModel.setMensaje(Constantes.MENSAJE_REGISTRAR);
 		return mensajeModel;
 			}
+		else {
+			return null;
+		}
+		}
 		else {
 			return null;
 		}

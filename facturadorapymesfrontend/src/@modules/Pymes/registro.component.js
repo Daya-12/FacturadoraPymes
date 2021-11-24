@@ -285,12 +285,18 @@ export default class RegistroPyme extends React.Component {
         Swal.fire({
           text: "¡La empresa " + this.state.form.razonSocial + " ha sido registrada exitosamente con " + this.state.categorias.length + " categoria(s) seleccionada(s)!",
           icon: "success",
-          timer: "4000"
+          timer: "6000"
       })
       document.getElementById("confirmarRegistro").style.display = "none";
       document.getElementById("registrarUsuario").style.display = "none";
       document.getElementById("enlazarCategorias").style.display = "none";
       this.props.history.push("/Login");
+      }else{
+        Swal.fire({
+          text: "Uppss! La empresa " + this.state.form.razonSocial + " no puedo ser registrada",
+          icon: "error",
+          timer: "4000"
+      })
       }
     }
   };

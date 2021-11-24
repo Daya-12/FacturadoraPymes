@@ -93,20 +93,14 @@ nombres_cli VARCHAR (100) NOT NULL,
 apellidos_cli VARCHAR (100) NOT NULL,
 direccion_cli VARCHAR (100) NOT NULL,
 id_ciudad INT NOT NULL,
+id_empresa INT NOT NULL,
 codpostal_cli INT NOT NULL,
 telefono_cli INT NOT NULL,
 activo BIT NOT NULL, 
 PRIMARY KEY (id_cliente),
 FOREIGN KEY (id_tdocumento) references Documento (id_tdocumento),
-FOREIGN KEY (id_ciudad) references Ciudad (id_ciudad)
-);
-
-CREATE TABLE Prodclient (
-id_cliente INT NOT NULL, 
-id_producto INT NOT NULL, 
-PRIMARY KEY (id_cliente,id_producto),
-FOREIGN KEY (id_cliente) references Cliente (id_cliente),
-FOREIGN KEY (id_producto) references Producto (id_producto)
+FOREIGN KEY (id_ciudad) references Ciudad (id_ciudad),
+FOREIGN KEY (id_empresa) references Empresa (id_empresa)
 );
 
 CREATE TABLE Factura (

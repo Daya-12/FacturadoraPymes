@@ -19,12 +19,12 @@ export default class MenuAdministrador extends React.Component{
 
     render(){
         return (
-            <div class="container">
-                <div class="cuerpo">
+            <div className="container">
+                <div className="cuerpo">
                     <header id="main-header">
-                        <div class="cabeceraMenu">
-                            <div class="sub1Menu">
-                                <div class="btn-menu">
+                        <div className="cabeceraMenu">
+                            <div className="sub1Menu">
+                                <div className="btn-menu">
                                     <br/><br/>
                                     <label for="btn-menu"><img src={Menu} height="65" width="57" alt="Boton para abrir menu" /></label>
                                 </div>
@@ -54,13 +54,13 @@ export default class MenuAdministrador extends React.Component{
                         </div>
                     </header>
                     <input type="checkbox" id="btn-menu"></input>
-                    <div class="container-menu">
-                        <div class="cont-menu" align="center">
-                            <br></br><br></br>
+                    <div className="container-menu">
+                        <div className="cont-menu" align="center">
+                            <br/><br/>
                             <nav><h4>Tus funcionalidades</h4></nav>
                             <img src={Funcionalidad} height="80" width="80" alt="Funcionalidad" />
                             <nav>
-                                <ul class="acorh">
+                                <ul className="acorh">
                                     <li><a href="!#">Facturas</a>
                                         <ul>
                                             <li><a href="!#">Consultar</a></li>
@@ -90,6 +90,8 @@ export default class MenuAdministrador extends React.Component{
                                             <li><a href="/Menu/createUser">Registrar</a></li>
                                             <li><a href="/Menu/updateordeleteU">Actualizar o dar de baja</a></li>
                                         </ul>
+                                    </li>
+                                    <li> <a href="!#">Categorias</a>
                                     </li>
                                 </ul>
                                 <br></br><br></br>
