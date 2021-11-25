@@ -8,12 +8,14 @@ import ConsultarFactura from './@modules/FacturaCliente/facturaConsultar.compone
 import Logout from './@modules/Login/logout';
 import MenuAdministrador from './@modules/Menu/menuAdministrador.component';
 import RegistroPyme from './@modules/Pymes/registro.component';
+import RegistroNuevoUsuario from './@modules/Usuarios/registroNuevo.component';
 
 export default function App() {
   return (
     <div className="container">
       <Router>
         <Switch>
+          <PrivateRoute exact path="/Menu/registrarUsuarios" component={RegistroNuevoUsuario}/>
           <PrivateRoute exact path="/MenuAdministrador/:idEmpresa" component={MenuAdministrador}/>
           <PrivateRoute exact path="/Logout" component={Logout}/>
           <Route exact path="/Registrarse" component={RegistroPyme}/>

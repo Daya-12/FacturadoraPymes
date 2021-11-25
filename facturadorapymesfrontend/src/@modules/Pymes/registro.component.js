@@ -317,9 +317,8 @@ export default class RegistroPyme extends React.Component {
     return (
       <div className="container">
         <div className="pymeReg">
-          <div className="pymeReg2">
             <div align="left" style={{ marginTop: "15px", marginLeft: "10px" }}>
-              <img src={logo} height="85" width="260" alt="Logo ITS" />
+              <img src={logo} height="85" width="270" alt="Logo ITS" />
             </div>
             <h2
               style={{
@@ -678,7 +677,6 @@ export default class RegistroPyme extends React.Component {
               </AvForm>
             </div>
           </div>
-        </div>
       </div>
     );
   }
