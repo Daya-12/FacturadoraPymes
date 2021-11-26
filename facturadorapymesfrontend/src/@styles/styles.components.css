@@ -440,8 +440,39 @@ h4 {
 
 
 #formUsuario {
+  justify-content: center;
+  align-items: center;
   background: rgba(167, 167, 187, 0.534);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(105, 103, 103, 0.568);
+}
+
+#formUsuario .form-control {
+  background: rgba(173, 171, 171, 0.616);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+  border-radius: 3px;
+}
+#formUsuario .form-control:focus {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  color: rgb(9, 19, 59);
+}
+
+#formUsuario .form-control::placeholder {
+  color: rgba(167, 167, 187, 0.534);
+}
+
+#formUsuario .form-select {
+  background: rgba(173, 171, 171, 0.616);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
 }

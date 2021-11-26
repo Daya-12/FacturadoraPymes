@@ -12,4 +12,15 @@ async function validarEmail(email) {
     return response;
 };
 
-export default {validarEmail};
+async function registrar(user) {
+    const url = urlConexion+'user/registrar'
+    let response = null;
+    try {      
+        response=await axios.post(url,user);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {validarEmail,registrar};
