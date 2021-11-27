@@ -16,7 +16,7 @@ import {
   AvFeedback,
 } from "availity-reactstrap-validation";
 import Swal from "sweetalert2";
-import service from "./registro.service";
+import service from "./usuario.service";
 
 export default class RegistroUsuario extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ export default class RegistroUsuario extends React.Component {
   validarCampos = () => {
     if (
       this.state.form.nombre === "" ||
-      (this.state.form.nombre !== undefined && this.state.form.nombre.length < 10) ||
+      (this.state.form.nombre !== undefined && this.state.form.nombre.length < 8) ||
       (this.state.form.nombre !== undefined && this.state.form.nombre.length > 100) ||
 
       this.state.form.correo === "" ||
@@ -160,10 +160,10 @@ export default class RegistroUsuario extends React.Component {
                           value: true,
                         },
                         pattern: {
-                          value: "^[A-Za-z0-9#. ]+$",
+                          value: "^[A-Za-z0-9#.üáéíóú ]+$",
                         },
                         minLength: {
-                          value: 10,
+                          value: 8,
                         },
                         maxLength: {
                           value: 100,

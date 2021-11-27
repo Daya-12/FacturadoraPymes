@@ -41,11 +41,11 @@ public class UsuarioControlador {
 		return usuarioService.crearUsuario(usuario);
 	}
 
-	@GetMapping(value = "/consultar")
+	@GetMapping(value = "/consultar/{idEmpresa}")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<UsuarioModel> mostrarUsuarios() {
-		return usuarioService.mostrarUsuarios();
+	public List<UsuarioModel> mostrarUsuarios(@PathVariable int idEmpresa) {
+		return usuarioService.mostrarUsuarios(idEmpresa);
 	}
 	
 	@GetMapping(value = "/validarEmail/{email}")

@@ -8,7 +8,7 @@ import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 
 public interface IUsuarioService {
 	UsuarioModel iniciarSesion(String email,String pass);
-	List<UsuarioModel> mostrarUsuarios();
+	List<UsuarioModel> mostrarUsuarios(int idEmpresa);
 	MensajeModel crearUsuario(UsuarioModel usuario);
 	boolean validarEmail(String email);
 

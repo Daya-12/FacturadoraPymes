@@ -1,7 +1,7 @@
 import React from "react";
 import clean from "../../@images/cleanForms.png";
 import logo from "../../@images/logoProyecto.png";
-import service from "./registro.service";
+import service from "./usuario.service";
 import registrarUser from "../../@images/registrarUsuario.png";
 import {
   Button,
@@ -77,7 +77,7 @@ export default class RegistroNuevoUsuario extends React.Component {
     if (
       this.state.form.nombre === "" ||
       (this.state.form.nombre !== undefined &&
-        this.state.form.nombre.length < 10) ||
+        this.state.form.nombre.length < 8) ||
       (this.state.form.nombre !== undefined &&
         this.state.form.nombre.length > 100) ||
       this.state.form.correo === "" ||
@@ -139,27 +139,20 @@ export default class RegistroNuevoUsuario extends React.Component {
 
   registrar = async () => {
       let nivelNombre= this.state.form.nivel;
-      let nivel;
-      this.state.form.nivel !== null && this.state.form.nivel === "Administrador" ? nivel=0 : nivel=1;
-      this.setState({
-        form: {
-          nivel: nivel,
-        },
-      });
+      let nivelUser;
+      this.state.form.nivel !== null && this.state.form.nivel === "Administrador" ? nivelUser=0 : nivelUser=1;
 
-      if(this.state.form.nivel === 0 || this.state.form.nivel === 1){
+      if(nivelUser === 0 || nivelUser === 1){
       let respuesta = null;
-      const model = mapStateToModel(this.state.form, this.state.empresa);
+      const model = mapStateToModel(this.state.form, this.state.empresa,nivelUser);
       respuesta = await service.registrar(model);
       if(respuesta !== null){
         Swal.fire({
-          text: "¡La empresa " + this.state.form.nombre + " ha sido registrada exitosamente con permisos de usuario" + nivelNombre + "!",
+          text: "¡El usuario " + this.state.form.nombre + " ha sido registrado exitosamente con permisos de " + nivelNombre + "!",
           icon: "success",
           timer: "6000"
       })
-      this.props.history.replace("/MenuAdministrador/" + this.state.empresa.id, {
-        idEmpresa: this.state.empresa.id,
-      })
+      setTimeout(function () { window.location.reload(1); }, 4000);
       }else{
         Swal.fire({
           text: "Uppss! El usuario " + this.state.form.nombre + " no puedo ser registrado",
@@ -174,6 +167,7 @@ export default class RegistroNuevoUsuario extends React.Component {
     return (
       <div className="container">
         <div className="registros">
+          <br/><br/>
           <div
             id="formUsuario"
             className="row justify-content-center pt-6 mb-6 m-5 mt-5"
@@ -200,7 +194,7 @@ export default class RegistroNuevoUsuario extends React.Component {
                       this.cleanForm();
                     }}
                   >
-                    <img height="30" width="22" src={clean} alt="clean"></img>
+                    <img height="32" width="23" src={clean} alt="clean"></img>
                   </Button>
                 </Col>
               </Row>
@@ -262,10 +256,10 @@ export default class RegistroNuevoUsuario extends React.Component {
                             value: true,
                           },
                           pattern: {
-                            value: "^[A-Za-z0-9#. ]+$",
+                            value: "^[A-Za-z0-9#.üáéíóú ]+$",
                           },
                           minLength: {
-                            value: 10,
+                            value: 8,
                           },
                           maxLength: {
                             value: 100,
@@ -440,14 +434,14 @@ export default class RegistroNuevoUsuario extends React.Component {
   }
 }
 
-const mapStateToModel = function (formObject, empresa) {
+const mapStateToModel = function (formObject, empresa,nivelUser) {
   return {
       id: 0,
       nombre:formObject.nombre,
       correo:formObject.correo,
       pass:formObject.pass,
       telefono: formObject.telefono,
-      nivel: formObject,nivel,
+      nivel: nivelUser,
       empresa: {
           id: empresa.id
       },

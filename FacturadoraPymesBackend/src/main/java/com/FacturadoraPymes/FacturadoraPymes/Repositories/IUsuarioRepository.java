@@ -1,7 +1,7 @@
 package com.FacturadoraPymes.FacturadoraPymes.Repositories;
 
+import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +15,7 @@ public interface IUsuarioRepository extends CrudRepository<Usuario, Integer>{
 	
 	@Query(value = "SELECT usuario FROM Usuario usuario WHERE usuario.correoUser = :correoUser", nativeQuery = false)
 	public Optional<Usuario> validarCorreo(@Param("correoUser") String correoUser);
+	
+	@Query(value = "SELECT usuario FROM Usuario usuario join usuario.empresa empresa WHERE empresa.idEmpresa=:idEmpresa", nativeQuery = false)
+	public List<Usuario> consultarUsuarios(@Param("idEmpresa") int idEmpresa);
 }

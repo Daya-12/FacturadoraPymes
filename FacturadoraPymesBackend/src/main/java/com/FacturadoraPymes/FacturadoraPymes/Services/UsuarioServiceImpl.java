@@ -45,9 +45,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	
 	@Override
-	public List<UsuarioModel> mostrarUsuarios() {
+	public List<UsuarioModel> mostrarUsuarios(int idEmpresa) {
 		List<UsuarioModel> usuarios = new LinkedList<>();
-		Iterable<Usuario> usuarioEntities = usuarioRepository.findAll();
+		List<Usuario> usuarioEntities = usuarioRepository.consultarUsuarios(idEmpresa);
 		usuarios = StreamSupport.stream(usuarioEntities.spliterator(), false).map((usuario) -> {
 			return mapperUsuario.mostrarUsuarios(usuario);
 		}).collect(Collectors.toList());
