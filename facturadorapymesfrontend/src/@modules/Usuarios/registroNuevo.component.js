@@ -148,7 +148,7 @@ export default class RegistroNuevoUsuario extends React.Component {
       respuesta = await service.registrar(model);
       if(respuesta !== null){
         Swal.fire({
-          text: "¡El usuario " + this.state.form.nombre + " ha sido registrado exitosamente con permisos de " + nivelNombre + "!",
+          text: "¡El usuario " + this.state.form.nombre + " ha sido registrado exitosamente con permisos de usuario " + nivelNombre + "!",
           icon: "success",
           timer: "6000"
       })

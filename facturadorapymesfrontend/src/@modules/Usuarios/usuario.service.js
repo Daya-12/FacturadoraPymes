@@ -23,4 +23,15 @@ async function registrar(user) {
     return response;
 };
 
-export default {validarEmail,registrar};
+async function consultarUsuarios(idEmpresa) {
+    const url = urlConexion+'user/consultar/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {validarEmail,registrar,consultarUsuarios};
