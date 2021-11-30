@@ -15,7 +15,7 @@ public class UsuarioModel {
 	private String correo;
 	private String pass;
 	private String telefono;
-	private int nivel;
+	private String nivel;
 	private EmpresaModel empresa;
 	private boolean activo;
 	

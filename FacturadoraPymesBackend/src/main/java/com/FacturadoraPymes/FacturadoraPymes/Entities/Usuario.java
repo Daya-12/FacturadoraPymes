@@ -23,7 +23,7 @@ public class Usuario implements Serializable {
 	private String correoUser;
 
 	@Column(name="nivel_user")
-	private int nivelUser;
+	private String nivelUser;
 
 	@Column(name="nombre_user")
 	private String nombreUser;
@@ -70,11 +70,11 @@ public class Usuario implements Serializable {
 		this.correoUser = correoUser;
 	}
 
-	public int getNivelUser() {
+	public String getNivelUser() {
 		return this.nivelUser;
 	}
 
-	public void setNivelUser(int nivelUser) {
+	public void setNivelUser(String nivelUser) {
 		this.nivelUser = nivelUser;
 	}
 
