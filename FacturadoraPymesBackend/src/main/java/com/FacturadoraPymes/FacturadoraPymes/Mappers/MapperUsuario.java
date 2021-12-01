@@ -1,10 +1,7 @@
 package com.FacturadoraPymes.FacturadoraPymes.Mappers;
-import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
-import com.FacturadoraPymes.FacturadoraPymes.Models.CiudadModel;
-import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 
 
@@ -12,9 +9,13 @@ public class MapperUsuario implements IMapperUsuario {
 
 	@Override
 	public UsuarioModel mostrarUsuarios(Usuario usuarios) {
+		Empresa empresaEntity = usuarios.getEmpresa();
+		
 		UsuarioModel usuario = new UsuarioModel();
 		usuario.setId(usuarios.getIdUsuario());
 		usuario.setNombre(usuarios.getNombreUser());
+		usuario.setId_empresa(empresaEntity.getIdEmpresa());
+		usuario.setNombre_empresa(empresaEntity.getRazonSocial());
 		usuario.setCorreo(usuarios.getCorreoUser());
 		usuario.setTelefono(usuarios.getTelefonoUser());
 		usuario.setNivel(usuarios.getNivelUser());

@@ -61,8 +61,8 @@ export default class Login extends React.Component {
         pass: this.state.form.pass,
       });
       if (respuesta!==null) {
-        if(respuesta.data.nivel===0){
-          let idEmpresa = respuesta.data.empresa.id;
+        if(respuesta.data.nivel==="0"){
+          let idEmpresa = respuesta.data.id_empresa;
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("user", JSON.stringify(respuesta.data));
           Swal.fire({
@@ -70,7 +70,6 @@ export default class Login extends React.Component {
             icon: "success",
             timer: "3000",
           });
-  
           const isAuthenticated = localStorage.getItem("isAuthenticated");
           isAuthenticated
             ? this.props.history.replace("/MenuAdministrador/" + idEmpresa, {

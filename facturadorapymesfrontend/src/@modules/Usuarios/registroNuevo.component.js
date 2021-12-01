@@ -45,8 +45,8 @@ export default class RegistroNuevoUsuario extends React.Component {
     let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
     this.setState({
       empresa: {
-        id: informacionLocalStorage.empresa.id,
-        razonSocial: informacionLocalStorage.empresa.razonSocial
+        id: informacionLocalStorage.id_empresa,
+        razonSocial: informacionLocalStorage.nombre_empresa
       },
     });
   };

@@ -16,7 +16,8 @@ public class UsuarioModel {
 	private String pass;
 	private String telefono;
 	private String nivel;
-	private EmpresaModel empresa;
+	private int id_empresa;
+	private String nombre_empresa;
 	private boolean activo;
 	
 }

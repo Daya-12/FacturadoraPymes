@@ -33,10 +33,11 @@ export default class ActualizarEliminarUsuarios extends React.Component {
 
   consultarEmpresa = async () => {
     let informacionLocalStorage = JSON.parse(localStorage.getItem("user"));
+    console.log(informacionLocalStorage);
     await this.setState({
       empresa: {
-        id: informacionLocalStorage.empresa.id,
-        razonSocial: informacionLocalStorage.empresa.razonSocial,
+        id: informacionLocalStorage.id_empresa,
+        razonSocial: informacionLocalStorage.nombre_empresa,
       },
     });
     this.consultarUsuarios();
@@ -93,7 +94,12 @@ export default class ActualizarEliminarUsuarios extends React.Component {
         <td>{user.nivel}</td>
         <td>
           <button
-            style={{ outline: "0 none", border: "0" }}
+            style={{
+              outline: "0 none",
+              border: "0",
+              backgroundColor: "rgba(167, 167, 187, 0.534)",
+              borderRadius: "50%",
+            }}
             onClick={() => {
               this.seleccionarUserActualizar(user);
               this.modalEditar();
@@ -103,7 +109,12 @@ export default class ActualizarEliminarUsuarios extends React.Component {
           </button>
           {"  "}
           <button
-            style={{ outline: "0 none", border: "0" }}
+            style={{
+              outline: "0 none",
+              border: "0",
+              backgroundColor: "rgba(167, 167, 187, 0.534)",
+              borderRadius: "50%",
+            }}
             onClick={() => {
               this.seleccionarUserEliminar(user);
             }}
@@ -178,7 +189,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                         <th scope="row">Permisos</th>
                         <th colSpan="2">Acciones</th>
                     </tr>
-                    <tbody align="center" textAlign="center">
+                    <tbody className="bodyTable" align="center" textAlign="center">
                         {userstags}
                     </tbody>
                 </Table>
