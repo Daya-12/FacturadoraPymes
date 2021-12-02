@@ -510,3 +510,56 @@ h4 {
   font-size: 16px;
   font-family: "Segoe UI";
 }
+
+
+#editar label{
+  color: #000000;
+  font-weight: bold;
+  font-family: "Segoe UI";
+  margin-top: 2%;
+}
+
+#editar .form-control {
+  margin-top: 1%;
+  background: rgba(173, 173, 173, 0.596);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+  border-radius: 3px;
+}
+#editar .form-control:focus {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  color: rgb(13, 26, 85);
+}
+
+#editar .form-control::placeholder {
+  color: rgba(167, 167, 187, 0.534);
+}
+
+#editar .form-select {
+  margin-top: 1%;
+  background: rgba(173, 173, 173, 0.596);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+}
+
+#titulo{
+  color: rgb(18, 21, 61);
+  font-weight: bold;
+  font-family: "Segoe UI";
+  text-align: center;
+  margin-top: 5%;
+}
+
+
+.swal2-popup {
+  font-size: 0.9rem !important;
+  font-family: "Segoe UI";
+}

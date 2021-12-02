@@ -108,4 +108,12 @@ public class Validaciones {
 		} else
 			return false;
 	}
+	
+	public boolean validarCorreoDistinto(IUsuarioRepository usuarioRepository, String email,int idUsuario) {
+		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreosDistintos(email,idUsuario);
+		if (usuarioValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
 }

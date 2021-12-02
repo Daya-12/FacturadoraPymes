@@ -185,8 +185,16 @@ export default class RegistroPyme extends React.Component {
           this.setState({
             form: {
               razonSocial: "",
+              slogan: this.state.form.slogan,
+              nit: this.state.form.nit,
+              telefono: this.state.form.telefono,
+              email: this.state.form.email,
+              direccion: this.state.form.direccion,
+              logo: this.state.form.logo,
+              ciudad: this.state.form.ciudad
             },
           });
+          this.validarCampos();
         }
       }
     }
@@ -215,7 +223,7 @@ export default class RegistroPyme extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.email !== "") {
+    if (this.state.form.email !== "" && this.validarEmail()!=false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.email);
       if (respuesta !== null) {
@@ -228,9 +236,17 @@ export default class RegistroPyme extends React.Component {
 
           this.setState({
             form: {
+              razonSocial: this.state.form.razonSocial,
+              slogan: this.state.form.slogan,
+              nit: this.state.form.nit,
+              telefono: this.state.form.telefono,
               email: "",
+              direccion: this.state.form.direccion,
+              logo: this.state.form.logo,
+              ciudad: this.state.form.ciudad
             },
           });
+          this.validarCampos();
         }
       }
     }

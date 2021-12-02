@@ -107,7 +107,7 @@ export default class RegistroUsuario extends React.Component {
   }
 
   onBlurEmail = async () => {
-    if (this.state.form.correo !== "") {
+    if (this.state.form.correo !== "" && this.validarEmail()!=false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.correo);
       if (respuesta !== null) {
@@ -120,9 +120,13 @@ export default class RegistroUsuario extends React.Component {
 
           this.setState({
             form: {
+              nombre: this.state.form.nombre,
               correo: "",
+              pass: this.state.form.pass,
+              telefono: this.state.form.telefono
             },
           });
+          this.validarCampos();
         }
       }
     }
@@ -187,7 +191,7 @@ export default class RegistroUsuario extends React.Component {
                       className="form-control"
                       id="correo"
                       name="correo"
-                      value={this.state.form.correo}
+                      value={this.state.form.correo || ""}
                       onChange={this.handleChange}
                       onBlur={this.onBlurEmail}
                       validate={{

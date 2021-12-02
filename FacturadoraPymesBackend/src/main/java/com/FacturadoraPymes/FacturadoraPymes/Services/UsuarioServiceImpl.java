@@ -86,6 +86,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		boolean validarEmpresa = validaciones.validarCorreo(usuarioRepository, email);
 		return validarEmpresa;
 	}
+
+	@Override
+	public boolean validarEmailDistinto(String email, int idUsuario) {
+		boolean validarEmpresa = validaciones.validarCorreoDistinto(usuarioRepository, email,idUsuario);
+		return validarEmpresa;
+	}
 	
 	
 }

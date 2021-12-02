@@ -62,7 +62,7 @@ export default class Login extends React.Component {
       });
       if (respuesta!==null) {
         if(respuesta.data.nivel==="0"){
-          let idEmpresa = respuesta.data.id_empresa;
+          let idEmpresa = respuesta.data.empresa.id;
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("user", JSON.stringify(respuesta.data));
           Swal.fire({

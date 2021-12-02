@@ -45,8 +45,8 @@ export default class RegistroNuevoUsuario extends React.Component {
     let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
     this.setState({
       empresa: {
-        id: informacionLocalStorage.id_empresa,
-        razonSocial: informacionLocalStorage.nombre_empresa
+        id: informacionLocalStorage.empresa.id,
+        razonSocial: informacionLocalStorage.empresa.razonSocial
       },
     });
   };
@@ -116,7 +116,7 @@ export default class RegistroNuevoUsuario extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.correo !== "") {
+    if (this.state.form.correo !== "" && this.validarEmail()!=false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.correo);
       if (respuesta !== null) {
@@ -129,9 +129,14 @@ export default class RegistroNuevoUsuario extends React.Component {
 
           this.setState({
             form: {
+              nombre: this.state.form.nombre,
               correo: "",
+              pass: this.state.form.pass,
+              telefono: this.state.form.telefono,
+              nivel: this.state.form.nivel
             },
           });
+          this.validarCampos();
         }
       }
     }
@@ -321,7 +326,7 @@ export default class RegistroNuevoUsuario extends React.Component {
                         id="correo"
                         name="correo"
                         value={this.state.form.correo}
-                        onChange={this.handleChange}
+                        onChange={this.handleChange || ""}
                         onBlur={this.onBlurEmail}
                         validate={{
                           required: {

@@ -3,15 +3,28 @@ import logo from "../../@images/logoProyecto.png";
 import actualizar from "../../@images/actualizar.png";
 import eliminar from "../../@images/eliminar.png";
 import service from "./usuario.service";
-import { Table, Button, ModalBody, Modal, ModalHeader, ModalFooter } from 'reactstrap';
-
+import {
+  Table,
+  Button,
+  ModalBody,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  Label,
+  Row,
+  Col,
+} from "reactstrap";
+import { AvForm, AvInput, AvFeedback,AvGroup } from "availity-reactstrap-validation";
+import Swal from "sweetalert2";
 export default class ActualizarEliminarUsuarios extends React.Component {
   constructor() {
     super();
     this.state = {
       usuarios: null,
       modalActualizar: false,
+      button: false,
       form: {
+        id: "",
         nombre: "",
         correo: "",
         pass: "",
@@ -31,13 +44,25 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     this.consultarEmpresa();
   };
 
+  seleccionarUserActualizar = (user) => {
+    this.setState({
+      tipoModal: "actualizar",
+      form: {
+        id: user.id,
+        nombre: user.nombre,
+        correo: user.correo,
+        telefono: user.telefono,
+        nivel: user.nivel,
+      },
+    });
+  };
+
   consultarEmpresa = async () => {
     let informacionLocalStorage = JSON.parse(localStorage.getItem("user"));
-    console.log(informacionLocalStorage);
     await this.setState({
       empresa: {
-        id: informacionLocalStorage.id_empresa,
-        razonSocial: informacionLocalStorage.nombre_empresa,
+        id: informacionLocalStorage.empresa.id,
+        razonSocial: informacionLocalStorage.empresa.razonSocial,
       },
     });
     this.consultarUsuarios();
@@ -45,12 +70,10 @@ export default class ActualizarEliminarUsuarios extends React.Component {
 
   consultarUsuarios = async () => {
     let respuesta = null;
-    let users=[];
-    console.log(this.state.empresa.id);
+    let users = [];
     respuesta = await service.consultarUsuarios(this.state.empresa.id);
     if (respuesta !== null) {
       users = respuesta.data;
-      console.log(respuesta.data);
       let userActivo = JSON.parse(localStorage.getItem("user"));
       let indiceUser = users.findIndex(
         (userAct) => userAct.id === userActivo.id
@@ -70,6 +93,39 @@ export default class ActualizarEliminarUsuarios extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
+    this.validarCampos();
+  };
+
+  validarEmail = () => {
+    let regEmail =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (
+      !regEmail.test(this.state.form.correo) &&
+      this.state.form.correo !== ""
+    ) {
+      return false;
+    }
+  };
+
+  validarCampos = () => {
+    if (
+
+      this.state.form.correo === "" ||
+      this.validarEmail() === false ||
+      (this.state.form.correo !== undefined &&
+        this.state.form.correo.length < 12) ||
+      (this.state.form.correo !== undefined &&
+        this.state.form.correo.length > 50) ||
+      this.state.form.telefono === "" ||
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length < 7) ||
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length > 10)
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
   };
 
   abrirModalEditar = () => {
@@ -77,8 +133,49 @@ export default class ActualizarEliminarUsuarios extends React.Component {
   };
 
   ocultarModalEditar = () => {
-    this.setState({ modalActualizar: false });
+    Swal.fire({
+      className: "swal",
+      title: "Actualizacion de usuario",
+      text: "¿Deseas cancelar la actualización de datos para "+this.state.form.nombre+"?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.setState({ modalActualizar: false });
+      }
+    });
   };
+
+  onBlurEmail = async () => {
+    if (this.state.form.correo !== "" && this.validarEmail()!=false) {
+      let respuesta = null;
+      respuesta = await service.validarEmailDistinto(this.state.form.correo,this.state.form.id);
+      if (respuesta !== null) {
+        if (respuesta.data === true) {
+          Swal.fire({
+            text: "Ya existe un usuario con el correo ingresado",
+            icon: "error",
+            timer: "4000",
+          });
+
+          this.setState({
+            form: {
+              id: this.state.form.id,
+              correo: "",
+              telefono: this.state.form.telefono,
+              nivel: this.state.form.nivel
+            },
+          });
+          this.validarCampos();
+        }
+      }
+    }
+  };
+
   render() {
     let usuarios;
     if (this.state.usuarios === null) {
@@ -102,7 +199,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
             }}
             onClick={() => {
               this.seleccionarUserActualizar(user);
-              this.modalEditar();
+              this.abrirModalEditar();
             }}
           >
             <img height="33" width="32" src={actualizar} alt="actulizar"></img>
@@ -127,14 +224,12 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     return (
       <div className="container">
         <div className="actualizaciones">
-          <div id="cabecera" className="row justify-content-center pt-6 mb-6 m-0 mt-0">
+          <div
+            id="cabecera"
+            className="row justify-content-center pt-6 mb-6 m-0 mt-0"
+          >
             <div>
-                <img
-                src={logo}
-                height="85"
-                width="240"
-                alt="Logo"
-                />
+              <img src={logo} height="85" width="240" alt="Logo" />
             </div>
             <div
               style={{
@@ -164,8 +259,8 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               <label style={{ color: "red" }}>Ten en cuenta que:</label>
               <br />
               <label>
-                • Solo puedes actualizar el correo electrónico,teléfono o permisos
-                de los usuarios
+                • Solo puedes actualizar el correo electrónico,teléfono o
+                permisos de los usuarios
               </label>
               <br />
               <label>
@@ -174,26 +269,165 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               </label>
               <br />
               <label>
-                • Los usuarios se encuentra ordenados por el nombre de manera ascendente
+                • Los usuarios se encuentra ordenados por el nombre de manera
+                ascendente
               </label>
             </div>
           </div>
-          <br/>
+          <br />
 
           <div className="row justify-content-center pt-6 mb-6 m-2 mt-1">
-          <Table cellSpacing="10" className="tableRegistros" striped>
-                    <tr align="center" textAlign="center">
-                        <th scope="row">Nombre</th>
-                        <th scope="row">Correo electrónico</th>
-                        <th scope="row">Teléfono</th>
-                        <th scope="row">Permisos</th>
-                        <th colSpan="2">Acciones</th>
-                    </tr>
-                    <tbody className="bodyTable" align="center" textAlign="center">
-                        {userstags}
-                    </tbody>
-                </Table>
-                </div>
+            <Table cellSpacing="10" className="tableRegistros" striped>
+              <tr align="center" textalign="center">
+                <th scope="row">Nombre</th>
+                <th scope="row">Correo electrónico</th>
+                <th scope="row">Teléfono</th>
+                <th scope="row">Permisos</th>
+                <th colSpan="2">Acciones</th>
+              </tr>
+              <tbody className="bodyTable" align="center" textalign="center">
+                {userstags}
+              </tbody>
+            </Table>
+          </div>
+
+          <Modal isOpen={this.state.modalActualizar}>
+            <ModalHeader style={{ display: "block" }} closeButton>
+              <Button
+                size="sm"
+                color="danger"
+                style={{ float: "right" }}
+                onClick={() => this.ocultarModalEditar()}
+              >
+                x
+              </Button>
+              <img
+                src={logo}
+                height="55"
+                width="135"
+                style={{
+                  marginLeft: "3%",
+                  marginTop: "3%",
+                }}
+                alt="Logo"
+              />
+              <div id="titulo">
+                <label>
+                  Actualizar datos del usuario {this.state.form.nombre}
+                </label>
+              </div>
+            </ModalHeader>
+
+            <ModalBody>
+              <AvForm id="editar">
+                <Row>
+                  <Col md="12">
+                    <AvGroup>
+                      <Label>Nombre: </Label>
+                      <AvInput
+                        class="form-control"
+                        type="text"
+                        name="nombre"
+                        readOnly
+                        value={this.state.form.nombre}
+                      />
+                    </AvGroup>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="12">
+                    <AvGroup>
+                      <Label>Correo electrónico: </Label>
+                      <AvInput
+                        autocomplete="off"
+                        class="form-control"
+                        type="email"
+                        name="correo"
+                        onChange={this.handleChange}
+                        onBlur={this.onBlurEmail}
+                        value={this.state.form.correo || ""}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[A-Za-z0-9-/*+_@.]+$",
+                          },
+                          minLength: {
+                            value: 12,
+                          },
+                          maxLength: {
+                            value: 50,
+                          },
+                        }}
+                      />
+                      <AvFeedback>El e-mail es requerido</AvFeedback>
+                    </AvGroup>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="12">
+                    <AvGroup>
+                      <Label>Teléfono: </Label>
+                      <AvInput
+                        autocomplete="off"
+                        class="form-control"
+                        type="text"
+                        name="telefono"
+                        onChange={this.handleChange}
+                        value={this.state.form.telefono}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[0-9]+$",
+                          },
+                          minLength: {
+                            value: 7,
+                          },
+                          maxLength: {
+                            value: 10,
+                          },
+                        }}
+                      />
+                      <AvFeedback>El teléfono es requerido</AvFeedback>
+                    </AvGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md="12">
+                    <AvGroup>
+                <Label>Permisos: </Label>
+                <select
+                  name="nivel"
+                  className="form-select"
+                  onChange={this.handleChange}
+                  value={this.state.form.nivel}
+                >
+                  <option>Administrador</option>
+                  <option>Básico</option>
+                </select>
+                </AvGroup>
+                </Col>
+                </Row>
+              </AvForm>
+            </ModalBody>
+            <ModalFooter>
+              <div class="col text-center">
+                <Button
+                  outline
+                  color="primary"
+                  disabled={this.state.button === false}
+                  onClick={() => this.update()}
+                >
+                  ¡Actualizar!
+                </Button>
+              </div>
+            </ModalFooter>
+          </Modal>
         </div>
       </div>
     );

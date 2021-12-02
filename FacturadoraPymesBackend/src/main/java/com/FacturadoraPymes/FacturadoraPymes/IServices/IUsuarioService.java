@@ -11,5 +11,6 @@ public interface IUsuarioService {
 	List<UsuarioModel> mostrarUsuarios(int idEmpresa);
 	MensajeModel crearUsuario(UsuarioModel usuario);
 	boolean validarEmail(String email);
+	boolean validarEmailDistinto(String email,int idUsuario);
 
 }

@@ -12,6 +12,17 @@ async function validarEmail(email) {
     return response;
 };
 
+async function validarEmailDistinto(email,idUsuario) {
+    const url = urlConexion+'user/validarDistintoEmail/'+email+'/'+idUsuario
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
 async function registrar(user) {
     const url = urlConexion+'user/registrar'
     let response = null;
@@ -34,4 +45,4 @@ async function consultarUsuarios(idEmpresa) {
     return response;
 };
 
-export default {validarEmail,registrar,consultarUsuarios};
+export default {validarEmail,registrar,consultarUsuarios,validarEmailDistinto};

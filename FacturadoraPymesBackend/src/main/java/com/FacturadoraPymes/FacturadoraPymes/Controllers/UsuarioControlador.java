@@ -54,4 +54,11 @@ public class UsuarioControlador {
 	public boolean validarEmail(@PathVariable String email) {
 		return usuarioService.validarEmail(email);
 	}
+	
+	@GetMapping(value = "/validarDistintoEmail/{email}/{idUsuario}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public boolean validarDistintoEmail(@PathVariable String email,@PathVariable int idUsuario) {
+		return usuarioService.validarEmailDistinto(email,idUsuario);
+	}
 }
