@@ -34,6 +34,18 @@ async function registrar(user) {
     return response;
 };
 
+async function editar(user) {
+    const url = urlConexion+'user/actualizar'
+    let response = null;
+    try {      
+        response=await axios.put(url,user);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+
 async function consultarUsuarios(idEmpresa) {
     const url = urlConexion+'user/consultar/'+idEmpresa
     let response = null;
@@ -45,4 +57,15 @@ async function consultarUsuarios(idEmpresa) {
     return response;
 };
 
-export default {validarEmail,registrar,consultarUsuarios,validarEmailDistinto};
+async function eliminar(idUser) {
+    const url = urlConexion+'user/eliminar/'+idUser
+    let response = null;
+    try {      
+        response=await axios.delete(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {validarEmail,registrar,consultarUsuarios,validarEmailDistinto,editar,eliminar};

@@ -8,4 +8,6 @@ public class Constantes {
 	public static final String USUARIO_EXISTENTE = "El usuario ya existe";
 	public static final String EMPRESA_INEXISTENTE = "La empresa no existe";
 	public static final String EMPRESA_EXISTENTE = "La empresa ya existe";
+	public static final String ACTUALIZACION_EXITOSA= "Se actualizó exitosamente el registro";
+	public static final String ELIMINACION_EXITOSA= "Se eliminó exitosamente el registro";
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
@@ -18,6 +19,7 @@ import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
+import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 
 @Service
@@ -47,7 +49,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public List<UsuarioModel> mostrarUsuarios(int idEmpresa) {
 		List<UsuarioModel> usuarios = new LinkedList<>();
-		List<Usuario> usuarioEntities = usuarioRepository.consultarUsuarios(idEmpresa);
+		List<Usuario> usuarioEntities = usuarioRepository.consultarUsuarios(idEmpresa,true);
 		usuarios = StreamSupport.stream(usuarioEntities.spliterator(), false).map((usuario) -> {
 			return mapperUsuario.mostrarUsuarios(usuario);
 		}).collect(Collectors.toList());
@@ -83,14 +85,47 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Override
 	public boolean validarEmail(String email) {
-		boolean validarEmpresa = validaciones.validarCorreo(usuarioRepository, email);
-		return validarEmpresa;
+		boolean validarCorreo = validaciones.validarCorreo(usuarioRepository, email);
+		return validarCorreo;
 	}
 
 	@Override
 	public boolean validarEmailDistinto(String email, int idUsuario) {
-		boolean validarEmpresa = validaciones.validarCorreoDistinto(usuarioRepository, email,idUsuario);
-		return validarEmpresa;
+		boolean validarCorreoDistinto = validaciones.validarCorreoDistinto(usuarioRepository, email,idUsuario);
+		return validarCorreoDistinto;
+	}
+
+	@Override
+	public MensajeModel actualizar(UsuarioModel usuario) {
+		boolean validarIdUsuario = validaciones.validarExistenciaUser(usuarioRepository, usuario.getId());
+		if (validarIdUsuario) {
+			Actualizaciones actualizacionUser = new Actualizaciones();
+			MensajeModel mensajeModel = new MensajeModel();
+			Optional<Usuario> usuarioConsult = usuarioRepository.findById(usuario.getId());
+			Usuario usuarioEntity = usuarioConsult.get();
+			actualizacionUser.validarActualizacionUsuario(usuarioEntity, usuario);
+			usuarioRepository.save(usuarioEntity);
+			mensajeModel.setMensaje(Constantes.ACTUALIZACION_EXITOSA);
+			return mensajeModel;
+		}
+		return null;
+	}
+
+	@Override
+	public MensajeModel eliminar(int idUser) {
+		MensajeModel mensajeModel = new MensajeModel();
+		List<Factura> facturas = usuarioRepository.facturasCreadasUsuario(idUser);
+		boolean validarIdUsuario = validaciones.validarExistenciaUser(usuarioRepository, idUser);
+		if(facturas.isEmpty() && validarIdUsuario) {
+			usuarioRepository.deleteById(idUser);
+		}else if(!facturas.isEmpty() && validarIdUsuario) {
+			Optional<Usuario> usuarioConsult = usuarioRepository.findById(idUser);
+			Usuario usuarioEntity = usuarioConsult.get();
+			usuarioEntity.setActivoUser(false);
+			usuarioRepository.save(usuarioEntity);
+		}
+	 mensajeModel.setMensaje(Constantes.ELIMINACION_EXITOSA);
+	 return mensajeModel;
 	}
 	
 	

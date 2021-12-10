@@ -160,7 +160,7 @@ export default class RegistroNuevoUsuario extends React.Component {
       setTimeout(function () { window.location.reload(1); }, 4000);
       }else{
         Swal.fire({
-          text: "Uppss! El usuario " + this.state.form.nombre + " no puedo ser registrado",
+          text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser registrado",
           icon: "error",
           timer: "4000"
       })

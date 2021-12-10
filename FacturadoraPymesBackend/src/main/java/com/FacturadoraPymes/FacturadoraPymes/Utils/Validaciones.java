@@ -116,4 +116,12 @@ public class Validaciones {
 		} else
 			return false;
 	}
+	
+	public boolean validarExistenciaUser(IUsuarioRepository usuarioRepository, Integer idUser) {
+		Optional<Usuario> usuarioValidacion = usuarioRepository.findById(idUser);
+		if (!usuarioValidacion.isPresent()) {
+			throw new NoSuchElementException(Constantes.USUARIO_INEXISTENTE);
+		} else
+			return true;
+	}
 }

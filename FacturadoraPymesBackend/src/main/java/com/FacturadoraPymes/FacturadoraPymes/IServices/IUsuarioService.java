@@ -12,5 +12,7 @@ public interface IUsuarioService {
 	MensajeModel crearUsuario(UsuarioModel usuario);
 	boolean validarEmail(String email);
 	boolean validarEmailDistinto(String email,int idUsuario);
+	MensajeModel actualizar(UsuarioModel usuario);
+	MensajeModel eliminar(int idUser);
 
 }

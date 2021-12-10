@@ -14,7 +14,12 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { AvForm, AvInput, AvFeedback,AvGroup } from "availity-reactstrap-validation";
+import {
+  AvForm,
+  AvInput,
+  AvFeedback,
+  AvGroup,
+} from "availity-reactstrap-validation";
 import Swal from "sweetalert2";
 export default class ActualizarEliminarUsuarios extends React.Component {
   constructor() {
@@ -44,8 +49,8 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     this.consultarEmpresa();
   };
 
-  seleccionarUserActualizar = (user) => {
-    this.setState({
+  seleccionarUserActualizar = async (user) => {
+    await this.setState({
       tipoModal: "actualizar",
       form: {
         id: user.id,
@@ -55,6 +60,57 @@ export default class ActualizarEliminarUsuarios extends React.Component {
         nivel: user.nivel,
       },
     });
+  };
+
+  seleccionarUserEliminar = async (user) => {
+    await this.setState({
+      form: {
+        id: user.id,
+        nombre: user.nombre,
+        correo: user.correo,
+        telefono: user.telefono,
+        nivel: user.nivel,
+      },
+    });
+    this.confirmacionEliminar();
+  };
+
+  confirmacionEliminar = () => {
+    Swal.fire({
+      title: "Dar de baja a usuarios",
+      text:
+        "¿Estas seguro de dar de baja al usuario " +this.state.form.nombre +"?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.deleteUser();
+      }
+    });
+  };
+
+  deleteUser = async () => {
+    let respuesta = null;
+    respuesta = await service.eliminar(this.state.form.id);
+    if (respuesta) {
+      Swal.fire({
+        text: "El usuario ha sido eliminado con éxito",
+        icon: "success",
+        timer: "4000",
+      });
+      this.componentDidMount();
+    }
+    else{
+      Swal.fire({
+        text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser dado de baja",
+        icon: "error",
+        timer: "4000"
+    })
+    }
   };
 
   consultarEmpresa = async () => {
@@ -109,7 +165,6 @@ export default class ActualizarEliminarUsuarios extends React.Component {
 
   validarCampos = () => {
     if (
-
       this.state.form.correo === "" ||
       this.validarEmail() === false ||
       (this.state.form.correo !== undefined &&
@@ -132,11 +187,18 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     this.setState({ modalActualizar: !this.state.modalActualizar });
   };
 
+  cerrarModalEditar = () => {
+    this.setState({ modalActualizar: false });
+  };
+
   ocultarModalEditar = () => {
     Swal.fire({
       className: "swal",
       title: "Actualizacion de usuario",
-      text: "¿Deseas cancelar la actualización de datos para "+this.state.form.nombre+"?",
+      text:
+        "¿Deseas cancelar la actualización de datos para " +
+        this.state.form.nombre +
+        "?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -151,9 +213,12 @@ export default class ActualizarEliminarUsuarios extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.correo !== "" && this.validarEmail()!=false) {
+    if (this.state.form.correo !== "" && this.validarEmail() != false) {
       let respuesta = null;
-      respuesta = await service.validarEmailDistinto(this.state.form.correo,this.state.form.id);
+      respuesta = await service.validarEmailDistinto(
+        this.state.form.correo,
+        this.state.form.id
+      );
       if (respuesta !== null) {
         if (respuesta.data === true) {
           Swal.fire({
@@ -167,7 +232,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               id: this.state.form.id,
               correo: "",
               telefono: this.state.form.telefono,
-              nivel: this.state.form.nivel
+              nivel: this.state.form.nivel,
             },
           });
           this.validarCampos();
@@ -176,6 +241,63 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     }
   };
 
+  update = async () => {
+    let nivelUser;
+    this.state.form.nivel !== null && this.state.form.nivel === "Administrador"
+      ? (nivelUser = 0)
+      : (nivelUser = 1);
+    if (nivelUser === 0 || nivelUser === 1) {
+      let respuesta = null;
+      const model = mapStateToModel(
+        this.state.form,
+        this.state.empresa,
+        nivelUser
+      );
+      respuesta = await service.editar(model);
+      if (respuesta !== null) {
+        this.cerrarModalEditar();
+        this.componentDidMount();
+        Swal.fire({
+          text:
+            "¡El usuario " +
+            this.state.form.nombre +
+            " ha sido actualizado exitosamente!",
+          icon: "success",
+          timer: "5000",
+        });
+      } else {
+        Swal.fire({
+          text:
+            "Uppss! El usuario " +
+            this.state.form.nombre +
+            " no puedo ser actualizado",
+          icon: "error",
+          timer: "4000",
+        });
+      }
+    }
+  };
+
+  confirmar = async () => {
+    Swal.fire({
+      className: "swal",
+      title: "Actualizacion de usuario",
+      text:
+        "¿Deseas confirmar la actualización de datos para " +
+        this.state.form.nombre +
+        "?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.update();
+      }
+    });
+  };
   render() {
     let usuarios;
     if (this.state.usuarios === null) {
@@ -400,18 +522,18 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                 <Row>
                   <Col md="12">
                     <AvGroup>
-                <Label>Permisos: </Label>
-                <select
-                  name="nivel"
-                  className="form-select"
-                  onChange={this.handleChange}
-                  value={this.state.form.nivel}
-                >
-                  <option>Administrador</option>
-                  <option>Básico</option>
-                </select>
-                </AvGroup>
-                </Col>
+                      <Label>Permisos: </Label>
+                      <select
+                        name="nivel"
+                        className="form-select"
+                        onChange={this.handleChange}
+                        value={this.state.form.nivel}
+                      >
+                        <option>Administrador</option>
+                        <option>Básico</option>
+                      </select>
+                    </AvGroup>
+                  </Col>
                 </Row>
               </AvForm>
             </ModalBody>
@@ -421,7 +543,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                   outline
                   color="primary"
                   disabled={this.state.button === false}
-                  onClick={() => this.update()}
+                  onClick={() => this.confirmar()}
                 >
                   ¡Actualizar!
                 </Button>
@@ -433,3 +555,17 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     );
   }
 }
+const mapStateToModel = function (formObject, empresa, nivelUser) {
+  return {
+    id: formObject.id,
+    nombre: formObject.nombre,
+    correo: formObject.correo,
+    pass: formObject.pass,
+    telefono: formObject.telefono,
+    nivel: nivelUser,
+    empresa: {
+      id: empresa.id,
+    },
+    activo: true,
+  };
+};

@@ -4,9 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -60,5 +62,19 @@ public class UsuarioControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public boolean validarDistintoEmail(@PathVariable String email,@PathVariable int idUsuario) {
 		return usuarioService.validarEmailDistinto(email,idUsuario);
+	}
+	
+	@PutMapping(value = "/actualizar", produces = "application/json", consumes = "application/json")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public MensajeModel actualizarUser(@RequestBody UsuarioModel usuario) {
+		return usuarioService.actualizar(usuario);
+	}
+	
+	@DeleteMapping(value = "/eliminar/{idUser}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public MensajeModel eliminarUser(@PathVariable("idUser") Integer idUser) {
+		return usuarioService.eliminar(idUser);
 	}
 }
