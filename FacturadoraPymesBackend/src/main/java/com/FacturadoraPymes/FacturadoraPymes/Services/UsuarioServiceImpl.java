@@ -127,6 +127,16 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	 mensajeModel.setMensaje(Constantes.ELIMINACION_EXITOSA);
 	 return mensajeModel;
 	}
+
+	@Override
+	public List<UsuarioModel> mostrarUsuariosPersonalizado(int idEmpresa) {
+		List<UsuarioModel> usuarios = new LinkedList<>();
+		List<Usuario> usuarioEntities = usuarioRepository.consultaPersonalizada(idEmpresa,true);
+		usuarios = StreamSupport.stream(usuarioEntities.spliterator(), false).map((usuario) -> {
+			return mapperUsuario.mostrarUsuarios(usuario);
+		}).collect(Collectors.toList());
+		return usuarios;
+	}
 	
 	
 }

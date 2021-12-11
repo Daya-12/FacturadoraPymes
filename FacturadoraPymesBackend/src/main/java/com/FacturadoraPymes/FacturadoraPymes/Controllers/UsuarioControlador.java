@@ -77,4 +77,12 @@ public class UsuarioControlador {
 	public MensajeModel eliminarUser(@PathVariable("idUser") Integer idUser) {
 		return usuarioService.eliminar(idUser);
 	}
+	
+	
+	@GetMapping(value = "/consultaPersonalizada/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<UsuarioModel> mostrarUsuariosPersonalizado(@PathVariable int idEmpresa) {
+		return usuarioService.mostrarUsuariosPersonalizado(idEmpresa);
+	}
 }
