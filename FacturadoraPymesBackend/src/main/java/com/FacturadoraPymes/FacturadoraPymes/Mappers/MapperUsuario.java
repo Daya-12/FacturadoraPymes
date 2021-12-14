@@ -6,6 +6,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.Models.CiudadModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModelPersonalizado;
 
 
 public class MapperUsuario implements IMapperUsuario {
@@ -56,5 +57,24 @@ public class MapperUsuario implements IMapperUsuario {
 		usuario.setActivoUser(usuarioModel.isActivo());
 		return usuario;
 	}
+
+	@Override
+	public UsuarioModelPersonalizado mostrarUsuariosPersonalizado(Usuario usuario, String cantidad ) {
+		
+		Empresa empresaEntity = usuario.getEmpresa();
+		
+		UsuarioModelPersonalizado usuarioModel = new UsuarioModelPersonalizado();
+		usuarioModel.setId(usuario.getIdUsuario());
+		usuarioModel.setNombre(usuario.getNombreUser());
+		usuarioModel.setCorreo(usuario.getCorreoUser());
+		usuarioModel.setTelefono(usuario.getTelefonoUser());
+		usuarioModel.setNivel(usuario.getNivelUser());
+		usuarioModel.setId_empresa(empresaEntity.getIdEmpresa());
+		usuarioModel.setActivo(usuario.getActivoUser());
+		usuarioModel.setFacturas(Integer.parseInt(cantidad));
+		return usuarioModel;
+	}
+	
+
 
 }

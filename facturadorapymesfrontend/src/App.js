@@ -10,11 +10,13 @@ import MenuAdministrador from './@modules/Menu/menuAdministrador.component';
 import RegistroPyme from './@modules/Pymes/registro.component';
 import RegistroNuevoUsuario from './@modules/Usuarios/registroNuevo.component';
 import ActualizarEliminarUsuarios from './@modules/Usuarios/actualElimin.component';
+import ConsultarUsuarios from './@modules/Usuarios/consultar.component';
 export default function App() {
   return (
     <div className="container">
       <Router>
         <Switch>
+          <PrivateRoute exact path="/Menu/consultarUsuarios" component={ConsultarUsuarios}/>
           <PrivateRoute exact path="/Menu/actualizarEliminarUsuarios" component={ActualizarEliminarUsuarios}/>
           <PrivateRoute exact path="/Menu/registrarUsuarios" component={RegistroNuevoUsuario}/>
           <PrivateRoute exact path="/MenuAdministrador/:idEmpresa" component={MenuAdministrador}/>

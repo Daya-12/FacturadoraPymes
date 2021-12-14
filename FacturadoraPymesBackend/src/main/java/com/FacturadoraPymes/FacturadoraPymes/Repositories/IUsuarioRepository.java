@@ -30,9 +30,8 @@ public interface IUsuarioRepository extends CrudRepository<Usuario, Integer>{
 	
 	@Query(value = "select usuario.id_usuario,usuario.nombre_user,usuario.correo_user,usuario.pass_user,usuario.telefono_user,usuario.id_empresa,\r\n"
 			+ "case usuario.nivel_user when '0' then 'Administrador' when '1' then 'Básico' END AS \r\n"
-			+ "nivel_user,usuario.id_empresa,usuario.activo,count(factura.id_usuario) as facturas from usuario left join factura ON\r\n"
-			+ "usuario.id_usuario = factura.id_usuario\r\n"
-			+ "where usuario.activo=true and usuario.id_empresa=1 group by(usuario.id_usuario) ORDER BY usuario.nombre_user ASC ", nativeQuery = true)
+			+ "nivel_user,usuario.id_empresa,usuario.activo from usuario\r\n"
+			+ "where usuario.activo=true and usuario.id_empresa=1 group by(usuario.id_usuario) ORDER BY usuario.nombre_user ASC", nativeQuery = true)
 	public List<Usuario> consultaPersonalizada(@Param("idEmpresa") int idEmpresa,@Param("activo") boolean activo);
 
 }

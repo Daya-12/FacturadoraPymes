@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModelPersonalizado;
 
 public interface IUsuarioService {
 	UsuarioModel iniciarSesion(String email,String pass);
@@ -14,6 +15,6 @@ public interface IUsuarioService {
 	boolean validarEmailDistinto(String email,int idUsuario);
 	MensajeModel actualizar(UsuarioModel usuario);
 	MensajeModel eliminar(int idUser);
-	List<UsuarioModel> mostrarUsuariosPersonalizado(int idEmpresa);
+	List<UsuarioModelPersonalizado> mostrarUsuariosPersonalizado(int idEmpresa);
 
 }

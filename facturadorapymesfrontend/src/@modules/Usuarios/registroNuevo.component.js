@@ -142,6 +142,23 @@ export default class RegistroNuevoUsuario extends React.Component {
     }
   };
 
+  confirmarUsuario() {
+    Swal.fire({
+      title: "Confirmar usuario",
+      text: "¿Realmente deseas confirmar los datos del usuario a registrar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.registrar();
+      }
+    });
+  }
+
   registrar = async () => {
       let nivelNombre= this.state.form.nivel;
       let nivelUser;
@@ -155,14 +172,14 @@ export default class RegistroNuevoUsuario extends React.Component {
         Swal.fire({
           text: "¡El usuario " + this.state.form.nombre + " ha sido registrado exitosamente con permisos de usuario " + nivelNombre + "!",
           icon: "success",
-          timer: "6000"
+          timer: "3000"
       })
       setTimeout(function () { window.location.reload(1); }, 4000);
       }else{
         Swal.fire({
           text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser registrado",
           icon: "error",
-          timer: "4000"
+          timer: "3000"
       })
       }
     }
@@ -420,7 +437,7 @@ export default class RegistroNuevoUsuario extends React.Component {
                     outline
                     color="primary"
                     disabled={this.state.button === false}
-                    onClick={() => this.registrar()}
+                    onClick={() => this.confirmarUsuario()}
                   >
                     Registrar &nbsp;
                     <img

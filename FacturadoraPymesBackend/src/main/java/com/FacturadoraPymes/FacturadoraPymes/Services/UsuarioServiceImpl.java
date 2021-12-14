@@ -17,6 +17,8 @@ import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModelPersonalizado;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IFacturaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
@@ -26,13 +28,15 @@ import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 public class UsuarioServiceImpl implements IUsuarioService {
 	
 	private final IUsuarioRepository usuarioRepository;
+	private final IFacturaRepository facturaRepository;
 	private final IMapperUsuario mapperUsuario;
 	private final Validaciones validaciones;
 	
 	@Autowired
-	public UsuarioServiceImpl(IUsuarioRepository usuarioRepository, IMapperUsuario mapperUsuario,
+	public UsuarioServiceImpl(IUsuarioRepository usuarioRepository,IFacturaRepository facturaRepository, IMapperUsuario mapperUsuario,
 			Validaciones validaciones) {
 		this.usuarioRepository = usuarioRepository;
+		this.facturaRepository= facturaRepository;
 		this.mapperUsuario = mapperUsuario;
 		this.validaciones = validaciones;
 	}
@@ -129,12 +133,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public List<UsuarioModel> mostrarUsuariosPersonalizado(int idEmpresa) {
-		List<UsuarioModel> usuarios = new LinkedList<>();
-		List<Usuario> usuarioEntities = usuarioRepository.consultaPersonalizada(idEmpresa,true);
-		usuarios = StreamSupport.stream(usuarioEntities.spliterator(), false).map((usuario) -> {
-			return mapperUsuario.mostrarUsuarios(usuario);
-		}).collect(Collectors.toList());
+	public List<UsuarioModelPersonalizado> mostrarUsuariosPersonalizado(int idEmpresa) {
+		List<UsuarioModelPersonalizado> usuarios = new LinkedList<>();
+		Iterable<Usuario> usuarioEntities = usuarioRepository.consultaPersonalizada(idEmpresa,true);;
+		String cantidad;
+		for (Usuario usuario : usuarioEntities) {
+			cantidad = facturaRepository.consultarCantidad(usuario.getIdUsuario());
+			if (cantidad == null) {
+				cantidad = "0";
+			}
+			usuarios.add(mapperUsuario.mostrarUsuariosPersonalizado(usuario, cantidad));
+		}
 		return usuarios;
 	}
 	

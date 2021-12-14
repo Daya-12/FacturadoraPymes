@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModelPersonalizado;
 
 
 @RestController
@@ -82,7 +83,7 @@ public class UsuarioControlador {
 	@GetMapping(value = "/consultaPersonalizada/{idEmpresa}")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<UsuarioModel> mostrarUsuariosPersonalizado(@PathVariable int idEmpresa) {
+	public List<UsuarioModelPersonalizado> mostrarUsuariosPersonalizado(@PathVariable int idEmpresa) {
 		return usuarioService.mostrarUsuariosPersonalizado(idEmpresa);
 	}
 }

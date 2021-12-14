@@ -68,4 +68,16 @@ async function eliminar(idUser) {
     return response;
 };
 
-export default {validarEmail,registrar,consultarUsuarios,validarEmailDistinto,editar,eliminar};
+
+async function consultaPersonalizada(idEmpresa) {
+    const url = urlConexion+'user/consultaPersonalizada/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {validarEmail,registrar,consultarUsuarios,validarEmailDistinto,editar,eliminar,consultaPersonalizada};
