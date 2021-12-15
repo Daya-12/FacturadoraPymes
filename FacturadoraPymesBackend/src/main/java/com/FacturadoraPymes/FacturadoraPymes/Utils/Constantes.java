@@ -10,4 +10,5 @@ public class Constantes {
 	public static final String EMPRESA_EXISTENTE = "La empresa ya existe";
 	public static final String ACTUALIZACION_EXITOSA= "Se actualizó exitosamente el registro";
 	public static final String ELIMINACION_EXITOSA= "Se eliminó exitosamente el registro";
+	public static final String CATEGORIA_INEXISTENTE= "La categoria no existe";
 }

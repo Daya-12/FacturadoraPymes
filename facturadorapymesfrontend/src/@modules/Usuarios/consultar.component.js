@@ -37,7 +37,7 @@ export default class ConsultarUsuarios extends React.Component {
     this.setState({
       usuarios: respuesta.data,
     });
-    
+
     this.setState({
       usuarios2: this.state.usuarios.map((user) => {
         return {
@@ -159,42 +159,61 @@ export default class ConsultarUsuarios extends React.Component {
               </label>
             </div>
 
-            <div id="barraBusqueda" align="center">
-            <div align="right" id="barraBusquedahijo"              
-            style={{
-                color: "#000227",
-                fontSize: "10px",
-                fontFamily: "Segoe UI",
-                textAlign: "right",
-                fontWeight: "bold",
-              }}>
-              <label>Color de filas según número de facts. realizadas</label><br/>
-              <label>0 🔴</label><br/>
-              <label>1-5 🟠</label><br/>
-              <label>5-10 🟡</label><br/>
-              <label>10+🟢</label>
+            <div id="barraBusqueda">
+              <div align="center"
+                style={{
+                  marginTop:"2%",
+                  width: "100%"
+                }}
+              >
+                <input
+                  className="form-control"
+                  autoComplete="off"
+                  type="text"
+                  placeholder="🔍 Buscar"
+                  name="Busqueda"
+                  value={this.state.busqueda}
+                  onChange={this.onChange}
+                />
+              </div>
+              <div
+                align="right"
+                id="barraBusquedahijo"
+                style={{
+                  color: "#000227",
+                  fontSize: "10px",
+                  fontFamily: "Segoe UI",
+                  textAlign: "right",
+                  fontWeight: "bold",
+                }}
+              >
+                <label>Color de filas según número de facts. realizadas</label>
+                <br />
+                <label>0 🔴</label>
+                <br />
+                <label>1-5 🟠</label>
+                <br />
+                <label>5-10 🟡</label>
+                <br />
+                <label>10+ 🟢</label>
+              </div>
             </div>
-            <div id="barraBusquedahijo">
-                <input className="form-control" autoComplete="off" type="text" placeholder="🔍 Buscar" name="Busqueda" value={this.state.busqueda} onChange={this.onChange} />
-            </div>
-            </div>
-                    
           </div>
-          
+
           <div className="tablaFiltrada">
-          <DataTable
-                        columns={columnas}
-                        data={this.state.users}
-                        title="Usuarios registrados"
-                        pagination
-                        paginationComponentOptions={paginacionOpc}
-                        fixedHeader
-                        fixedHeaderScrollHeight="100%"
-                        noDataComponent={<span>No se encontró ningún registro</span>}
-                        customStyles={customStyles}
-                        conditionalRowStyles={conditionalRowStyles}
-                    />
-                    </div>
+            <DataTable
+              columns={columnas}
+              data={this.state.users}
+              title="Usuarios registrados"
+              pagination
+              paginationComponentOptions={paginacionOpc}
+              fixedHeader
+              fixedHeaderScrollHeight="100%"
+              noDataComponent={<span>No se encontró ningún registro</span>}
+              customStyles={customStyles}
+              conditionalRowStyles={conditionalRowStyles}
+            />
+          </div>
         </div>
       </div>
     );
@@ -202,69 +221,68 @@ export default class ConsultarUsuarios extends React.Component {
 }
 
 const customStyles = {
-    backgroundColor:'red',
-    title: {
-      style: {
-        fontColor: 'red',
-        fontWeight: '900',
-      }
+  backgroundColor: "red",
+  title: {
+    style: {
+      fontColor: "red",
+      fontWeight: "900",
     },
-    headCells: {
-      style: {
-        
-        fontSize: '15px',
-        color: '#03083E',
-        fontFamily:'Segoe UI',
-        fontWeight: 'bold',
-      },
+  },
+  headCells: {
+    style: {
+      fontSize: "15px",
+      color: "#03083E",
+      fontFamily: "Segoe UI",
+      fontWeight: "bold",
     },
-    cells: {
-      style: {
-        fontSize: '14px',
-        fontFamily:'Segoe UI',
-      },
+  },
+  cells: {
+    style: {
+      fontSize: "14px",
+      fontFamily: "Segoe UI",
     },
-  };
+  },
+};
 
-  const conditionalRowStyles = [
-    {
-      when: row => row.facturas===0,
-      style: {
-        backgroundColor: 'rgba(172, 27, 27, 0.274)',
-        color: 'black',
-        '&:hover': {
-          cursor: 'pointer',
-        },
+const conditionalRowStyles = [
+  {
+    when: (row) => row.facturas === 0,
+    style: {
+      backgroundColor: "rgba(172, 27, 27, 0.274)",
+      color: "black",
+      "&:hover": {
+        cursor: "pointer",
       },
     },
-    {
-        when: row => row.facturas>=1 && row.facturas<=5,
-        style: {
-          backgroundColor: 'rgba(202, 97, 27, 0.301)',
-          color: 'black',
-          '&:hover': {
-            cursor: 'pointer',
-          },
-        },
+  },
+  {
+    when: (row) => row.facturas >= 1 && row.facturas <= 5,
+    style: {
+      backgroundColor: "rgba(202, 97, 27, 0.301)",
+      color: "black",
+      "&:hover": {
+        cursor: "pointer",
       },
-      {
-        when: row => row.facturas>=5 && row.facturas<=10,
-        style: {
-          backgroundColor: 'rgba(196, 184, 23, 0.26)',
-          color: 'black',
-          '&:hover': {
-            cursor: 'pointer',
-          },
-        },
+    },
+  },
+  {
+    when: (row) => row.facturas >= 5 && row.facturas <= 10,
+    style: {
+      backgroundColor: "rgba(196, 184, 23, 0.26)",
+      color: "black",
+      "&:hover": {
+        cursor: "pointer",
       },
-      {
-        when: row => row.facturas>=10,
-        style: {
-          backgroundColor: 'rgba(35, 180, 35, 0.185)',
-          color: 'black',
-          '&:hover': {
-            cursor: 'pointer',
-          },
-        },
-      }
-  ];
+    },
+  },
+  {
+    when: (row) => row.facturas >= 10,
+    style: {
+      backgroundColor: "rgba(35, 180, 35, 0.185)",
+      color: "black",
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+  },
+];

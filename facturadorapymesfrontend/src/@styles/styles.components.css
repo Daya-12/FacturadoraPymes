@@ -572,14 +572,35 @@ h4 {
 }
 
 #barraBusqueda{
+  display: flex;
 }
 
-#barraBusqueda .form-control{  
+#barraBusqueda .form-control{ 
   width: 25%;
   background: rgba(204, 203, 203, 0.26);
   border: 1px solid rgb(6, 12, 70);
   box-shadow: none;
   outline: none;
   transition: background-color 0.5s;
-  color: rgba(17, 22, 87, 0.836);
+  color: rgb(3, 6, 49);
+  margin-right: 55%;
+  margin-left: 45%;
+}
+
+.productosFondo {
+  background-image: url(../@images/fondoRegistros.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: rgba(98, 109, 139, 0.747);
+  background-blend-mode: soft-light;
+  width: 100%;
+  max-width: 100vw;
+  min-height:100%;
+  position: absolute;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
 }

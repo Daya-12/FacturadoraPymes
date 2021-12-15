@@ -96,7 +96,6 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		empresaEntity.setTelefono(empresa.getTelefono());
 		empresaEntity.setActivo(empresa.isActivo());
 		
-		
 		MapperCategoria mapperCategorias = new MapperCategoria();
 		List<Categoria> categorias = new LinkedList<>();
 		for (CategoriaModel categoriaModel : empresa.getCategorias()) {

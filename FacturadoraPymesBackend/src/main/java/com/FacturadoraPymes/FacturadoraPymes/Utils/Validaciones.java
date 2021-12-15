@@ -17,9 +17,14 @@ import javax.crypto.spec.IvParameterSpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.InvalidAlgorithmParameterException;
+
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IProductoRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 
 public class Validaciones {
@@ -123,5 +128,21 @@ public class Validaciones {
 			throw new NoSuchElementException(Constantes.USUARIO_INEXISTENTE);
 		} else
 			return true;
+	}
+	
+	public boolean validarIdProducto(IProductoRepository productoRepository, int idProducto) {
+		Optional<Producto> productoValidacion = productoRepository.findById(idProducto);
+		if (productoValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public Optional<Categoria> validarCategoria(ICategoriaRepository categoriaRepository, int idCategoria) {
+		Optional<Categoria> categoriaValidacion = categoriaRepository.findById(idCategoria);
+		if (!categoriaValidacion.isPresent()) {
+			throw new NoSuchElementException(Constantes.CATEGORIA_INEXISTENTE);
+		} else
+			return categoriaValidacion;
 	}
 }
