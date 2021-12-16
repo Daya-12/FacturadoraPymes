@@ -78,4 +78,10 @@ public class ProductoServiceImpl implements IProductoService{
 		return null;
 	}
 
+	@Override
+	public boolean validarNombre(String nombre,int idEmpresa) {
+		boolean validarCorreo = validaciones.validarNombreProducto(productoRepository, nombre,idEmpresa);
+		return validarCorreo;
+	}
+
 }

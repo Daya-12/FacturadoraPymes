@@ -189,10 +189,8 @@ export default class RegistroNuevoUsuario extends React.Component {
     return (
       <div className="container">
         <div className="registros">
-          <br/><br/>
           <div
-            id="formUsuario"
-            className="row justify-content-center pt-6 mb-6 m-5 mt-5"
+            id="formUsuario" className="mx-auto" style={{width: "90%", marginTop:"6%"}}
           >
             <AvForm id="registros">
               <Row>

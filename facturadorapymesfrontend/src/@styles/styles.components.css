@@ -588,7 +588,7 @@ h4 {
 }
 
 .productosFondo {
-  background-image: url(../@images/fondoRegistros.jpg);
+  background-image: url(../@images/fondoProductos.jpg);
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
@@ -603,4 +603,13 @@ h4 {
   margin-left: 0px;
   margin-bottom: 0px;
   background-repeat: no-repeat;
+}
+
+#formProducto {
+  justify-content: center;
+  align-items: center;
+  background: rgba(174, 174, 187, 0.534);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(105, 103, 103, 0.568);
 }

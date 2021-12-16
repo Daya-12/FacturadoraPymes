@@ -12,4 +12,26 @@ async function consultarCategorias(idEmpresa) {
     return response;
 };
 
-export default {consultarCategorias};
+async function validarNombre(nombre,idEmpresa) {
+    const url = urlConexion+'producto/validarNombre/'+nombre+'/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function registrar(producto) {
+    const url = urlConexion+'producto/registrar'
+    let response = null;
+    try {      
+        response=await axios.post(url,producto);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCategorias,validarNombre,registrar};

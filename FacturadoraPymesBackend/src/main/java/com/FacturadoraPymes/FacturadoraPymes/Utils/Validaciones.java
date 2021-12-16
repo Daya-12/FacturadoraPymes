@@ -145,4 +145,13 @@ public class Validaciones {
 		} else
 			return categoriaValidacion;
 	}
+	
+	
+	public boolean validarNombreProducto(IProductoRepository productoRepository, String nombre, int idEmpresa) {
+		Optional<Producto> productoValidacion = productoRepository.validarNombreProducto(nombre,idEmpresa);
+		if (productoValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
 }

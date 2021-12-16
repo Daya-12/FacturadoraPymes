@@ -399,7 +399,7 @@ export default class RegistroPyme extends React.Component {
                           validate={{
                             required: { value: true },
                             pattern: {
-                              value: "^[A-Za-z0-9 -/*+]+$",
+                              value: "^[A-Za-z0-9 -/*+üáéíóú#]+$",
                               errorMessage:
                                 "No puedes digitar caracteres invalidos",
                             },
