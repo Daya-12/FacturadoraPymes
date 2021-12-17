@@ -370,7 +370,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
             </div>
             <div
               style={{
-                marginTop: "0.3%",
+                marginTop: "0.2%",
                 color: "#000227",
                 fontSize: "13px",
                 fontFamily: "Segoe UI",
@@ -391,7 +391,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               </label>
               <br />
               <label>
-                • Los usuarios se encuentra ordenados por el nombre de manera
+                • Los usuarios se encuentran ordenados por el nombre de manera
                 ascendente
               </label>
             </div>

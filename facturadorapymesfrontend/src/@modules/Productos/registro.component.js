@@ -252,7 +252,7 @@ export default class RegistroProducto extends React.Component {
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🏢</InputGroupText>
+                        <InputGroupText>📰</InputGroupText>
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
@@ -291,7 +291,7 @@ export default class RegistroProducto extends React.Component {
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🏢</InputGroupText>
+                        <InputGroupText>💲</InputGroupText>
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
@@ -329,7 +329,7 @@ export default class RegistroProducto extends React.Component {
                       </Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
-                          <InputGroupText>🗺️</InputGroupText>
+                          <InputGroupText>🗂️</InputGroupText>
                         </InputGroupAddon>
                         <select
                           defaultValue={"DEFAULT"}
