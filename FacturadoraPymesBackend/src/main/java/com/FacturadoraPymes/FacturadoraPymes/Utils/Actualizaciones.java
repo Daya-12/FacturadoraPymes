@@ -30,8 +30,7 @@ public class Actualizaciones {
 		if (productoModel.getValor() != productoEntity.getValorProducto()) {
 			productoEntity.setValorProducto(productoModel.getValor());
 		}
-		if (!(productoModel.getCategoria().getNombre()
-				.equals(productoEntity.getCategoria().getNombreCategoria()))) {
+		if (productoModel.getCategoria().getId() != productoEntity.getCategoria().getIdCategoria()) {
 			productoEntity.setCategoria(categoria);
 		}
 		return productoEntity;

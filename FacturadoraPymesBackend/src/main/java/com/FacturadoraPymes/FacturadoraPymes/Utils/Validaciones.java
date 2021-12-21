@@ -154,4 +154,13 @@ public class Validaciones {
 		} else
 			return false;
 	}
+	
+	public boolean validarNombreDistinto(IProductoRepository productoRepository, String nombre, int idProducto, int idEmpresa) {
+		Optional<Producto> productoValidacion = productoRepository.validarNombreDistintos(nombre,idProducto,idEmpresa);
+		if (productoValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
 }

@@ -1,6 +1,6 @@
 package com.FacturadoraPymes.FacturadoraPymes.Repositories;
+import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +12,11 @@ public interface IProductoRepository extends CrudRepository<Producto, Integer> {
 	
 	@Query(value = "SELECT producto FROM Producto producto WHERE producto.nombreProducto =:nombre and producto.empresa.idEmpresa=:idEmpresa", nativeQuery = false)
 	public Optional<Producto> validarNombreProducto(@Param("nombre") String nombre,@Param("idEmpresa") int idEmpresa);
+	
+	@Query(value = "select producto.id_producto,producto.nombre_producto,producto.valor_producto,producto.id_categoria,categoria.nombre_categoria,producto.id_empresa,producto.activo FROM Producto producto INNER JOIN Categoria categoria ON producto.id_categoria= categoria.id_categoria INNER JOIN Empresa empresa ON empresa.id_empresa=producto.id_empresa WHERE producto.id_empresa=:idEmpresa and producto.activo=:activo ORDER BY producto.nombre_producto ASC;", nativeQuery = true)
+	public List<Producto> consultarProductos(@Param("idEmpresa") int idEmpresa,@Param("activo") boolean activo);
+	
+	@Query(value = "SELECT DISTINCT producto FROM Producto producto WHERE producto.nombreProducto = :nombre AND producto.idProducto !=:idProducto AND producto.empresa.idEmpresa=:idEmpresa", nativeQuery = false)
+	public Optional<Producto> validarNombreDistintos(@Param("nombre") String nombre,
+			@Param("idProducto") int idProducto,@Param("idEmpresa") int idEmpresa);
 }

@@ -34,4 +34,37 @@ async function registrar(producto) {
     return response;
 };
 
-export default {consultarCategorias,validarNombre,registrar};
+async function consultarProductos(idEmpresa) {
+    const url = urlConexion+'producto/consultar/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function editar(producto) {
+    const url = urlConexion+'producto/actualizar'
+    let response = null;
+    try {      
+        response=await axios.put(url,producto);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function validarNombreDistinto(nombre,idProducto,idEmpresa) {
+    const url = urlConexion+'producto/validarDistintoNombre/'+nombre+'/'+idProducto+'/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCategorias,validarNombre,registrar,consultarProductos,editar,validarNombreDistinto};

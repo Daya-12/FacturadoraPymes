@@ -1,11 +1,13 @@
 package com.FacturadoraPymes.FacturadoraPymes.Services;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
@@ -13,6 +15,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperProducto;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IProductoService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IProductoRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
@@ -82,6 +85,22 @@ public class ProductoServiceImpl implements IProductoService{
 	public boolean validarNombre(String nombre,int idEmpresa) {
 		boolean validarCorreo = validaciones.validarNombreProducto(productoRepository, nombre,idEmpresa);
 		return validarCorreo;
+	}
+
+	@Override
+	public List<ProductoModelPersonalizado> mostrarProductos(int idEmpresa) {
+		List<ProductoModelPersonalizado> productos = new LinkedList<>();
+		List<Producto> productoEntities = productoRepository.consultarProductos(idEmpresa,true);
+		productos = StreamSupport.stream(productoEntities.spliterator(), false).map((producto) -> {
+			return mapperProducto.mostrarProductos(producto);
+		}).collect(Collectors.toList());
+		return productos;
+	}
+
+	@Override
+	public boolean validarNombreDistinto(String nombre, int idProducto, int idEmpresa) {
+		boolean validarNombreDistinto = validaciones.validarNombreDistinto(productoRepository, nombre,idProducto,idEmpresa);
+		return validarNombreDistinto;
 	}
 
 }

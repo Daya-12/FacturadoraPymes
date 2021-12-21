@@ -1,5 +1,7 @@
 package com.FacturadoraPymes.FacturadoraPymes.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IProductoService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelPersonalizado;
 
 @RestController
 @RequestMapping(path = "/producto")
@@ -45,5 +48,19 @@ public class ProductoControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public MensajeModel actualizar(@RequestBody ProductoModel producto) {
 		return productoService.actualizar(producto);
+	}
+	
+	@GetMapping(value = "/consultar/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<ProductoModelPersonalizado> mostrarProductos(@PathVariable int idEmpresa) {
+		return productoService.mostrarProductos(idEmpresa);
+	}
+	
+	@GetMapping(value = "/validarDistintoNombre/{nombre}/{idProducto}/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public boolean validarNombreDistinto(@PathVariable String nombre,@PathVariable int idProducto,@PathVariable int idEmpresa) {
+		return productoService.validarNombreDistinto(nombre,idProducto,idEmpresa);
 	}
 }

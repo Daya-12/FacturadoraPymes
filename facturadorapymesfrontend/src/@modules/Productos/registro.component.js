@@ -81,7 +81,7 @@ export default class RegistroProducto extends React.Component {
       (this.state.form.valor !== undefined &&
         this.state.form.valor.length < 3) ||
       (this.state.form.telefono !== undefined &&
-        this.state.form.telefono.length > 8) ||
+        this.state.form.valor.length > 8) ||
         this.state.form.categoria === null
     ) {
       this.setState({ button: false });
