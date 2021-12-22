@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Detalle;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperProducto;
@@ -101,6 +102,25 @@ public class ProductoServiceImpl implements IProductoService{
 	public boolean validarNombreDistinto(String nombre, int idProducto, int idEmpresa) {
 		boolean validarNombreDistinto = validaciones.validarNombreDistinto(productoRepository, nombre,idProducto,idEmpresa);
 		return validarNombreDistinto;
+	}
+
+	@Override
+	public int eliminar(int idProducto) {
+		int retorno=0;
+		List<Detalle> facturas = productoRepository.detallesProducto(idProducto);
+		boolean validarIdProducto = validaciones.validarIdProducto(productoRepository, idProducto);
+		if(facturas.isEmpty() && validarIdProducto) {
+			productoRepository.deleteById(idProducto);
+			retorno = 1;
+		}else if(!facturas.isEmpty() && validarIdProducto) {
+			Optional<Producto> productoConsult = productoRepository.findById(idProducto);
+			Producto productoEntity = productoConsult.get();
+			productoEntity.setActivo(false);
+			productoRepository.save(productoEntity);
+			retorno = 2;
+		}
+		
+		return retorno;
 	}
 
 }

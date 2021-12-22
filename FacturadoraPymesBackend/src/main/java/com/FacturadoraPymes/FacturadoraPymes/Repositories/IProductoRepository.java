@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Detalle;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 
 @Repository
@@ -19,4 +20,7 @@ public interface IProductoRepository extends CrudRepository<Producto, Integer> {
 	@Query(value = "SELECT DISTINCT producto FROM Producto producto WHERE producto.nombreProducto = :nombre AND producto.idProducto !=:idProducto AND producto.empresa.idEmpresa=:idEmpresa", nativeQuery = false)
 	public Optional<Producto> validarNombreDistintos(@Param("nombre") String nombre,
 			@Param("idProducto") int idProducto,@Param("idEmpresa") int idEmpresa);
+	
+	@Query(value = "SELECT detalle.producto FROM Detalle detalle INNER JOIN Producto producto ON producto.idProducto = detalle.producto.idProducto WHERE detalle.producto.idProducto=:idProducto", nativeQuery = false)
+	public List<Detalle> detallesProducto(@Param("idProducto") int idProducto);
 }

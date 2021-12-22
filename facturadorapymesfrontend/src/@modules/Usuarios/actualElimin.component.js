@@ -96,7 +96,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
   deleteUser = async () => {
     let respuesta = null;
     respuesta = await service.eliminar(this.state.form.id);
-    if (respuesta) {
+    if (respuesta.data == 1) {
       Swal.fire({
         text: "El usuario ha sido eliminado con éxito",
         icon: "success",
@@ -104,7 +104,15 @@ export default class ActualizarEliminarUsuarios extends React.Component {
       });
       this.componentDidMount();
     }
-    else{
+    else if(respuesta.data == 2) {
+      Swal.fire({
+        text: "Se realizó un borralo lógico para el usuario seleccionado debido a que existe información que depende de este registro",
+        icon: "success",
+        timer: "4000"
+    })
+    this.componentDidMount();
+    }
+    else if(respuesta==null){
       Swal.fire({
         text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser dado de baja",
         icon: "error",
@@ -414,7 +422,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
           </div>
 
           <Modal isOpen={this.state.modalActualizar}>
-            <ModalHeader style={{ display: "block" }} closeButton>
+            <ModalHeader style={{ display: "block" }} closebutton>
               <Button
                 size="sm"
                 color="danger"
@@ -447,7 +455,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                     <AvGroup>
                       <Label>Nombre: </Label>
                       <AvInput
-                        class="form-control"
+                        className="form-control"
                         type="text"
                         name="nombre"
                         readOnly
@@ -462,8 +470,8 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                     <AvGroup>
                       <Label>Correo electrónico: </Label>
                       <AvInput
-                        autocomplete="off"
-                        class="form-control"
+                        autoComplete="off"
+                        className="form-control"
                         type="email"
                         name="correo"
                         onChange={this.handleChange}
@@ -494,8 +502,8 @@ export default class ActualizarEliminarUsuarios extends React.Component {
                     <AvGroup>
                       <Label>Teléfono: </Label>
                       <AvInput
-                        autocomplete="off"
-                        class="form-control"
+                        autoComplete="off"
+                        className="form-control"
                         type="text"
                         name="telefono"
                         onChange={this.handleChange}
@@ -538,7 +546,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               </AvForm>
             </ModalBody>
             <ModalFooter>
-              <div class="col text-center">
+              <div className="col text-center">
                 <Button
                   outline
                   color="primary"

@@ -67,4 +67,15 @@ async function validarNombreDistinto(nombre,idProducto,idEmpresa) {
     return response;
 };
 
-export default {consultarCategorias,validarNombre,registrar,consultarProductos,editar,validarNombreDistinto};
+async function eliminar(idProducto) {
+    const url = urlConexion+'producto/eliminar/'+idProducto
+    let response = null;
+    try {      
+        response=await axios.delete(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCategorias,validarNombre,registrar,consultarProductos,editar,validarNombreDistinto,eliminar};

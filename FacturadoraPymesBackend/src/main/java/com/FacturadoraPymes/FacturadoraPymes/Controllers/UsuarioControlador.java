@@ -75,7 +75,7 @@ public class UsuarioControlador {
 	@DeleteMapping(value = "/eliminar/{idUser}")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.OK)
-	public MensajeModel eliminarUser(@PathVariable("idUser") Integer idUser) {
+	public int eliminarUser(@PathVariable("idUser") Integer idUser) {
 		return usuarioService.eliminar(idUser);
 	}
 	

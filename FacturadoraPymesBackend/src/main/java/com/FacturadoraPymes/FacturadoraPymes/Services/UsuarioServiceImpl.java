@@ -116,20 +116,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
-	public MensajeModel eliminar(int idUser) {
-		MensajeModel mensajeModel = new MensajeModel();
+	public int eliminar(int idUser) {
+		int retorno=0;
 		List<Factura> facturas = usuarioRepository.facturasCreadasUsuario(idUser);
 		boolean validarIdUsuario = validaciones.validarExistenciaUser(usuarioRepository, idUser);
 		if(facturas.isEmpty() && validarIdUsuario) {
 			usuarioRepository.deleteById(idUser);
+			retorno = 1;
 		}else if(!facturas.isEmpty() && validarIdUsuario) {
 			Optional<Usuario> usuarioConsult = usuarioRepository.findById(idUser);
 			Usuario usuarioEntity = usuarioConsult.get();
 			usuarioEntity.setActivoUser(false);
 			usuarioRepository.save(usuarioEntity);
+			retorno= 2;
 		}
-	 mensajeModel.setMensaje(Constantes.ELIMINACION_EXITOSA);
-	 return mensajeModel;
+		return retorno;
+
 	}
 
 	@Override

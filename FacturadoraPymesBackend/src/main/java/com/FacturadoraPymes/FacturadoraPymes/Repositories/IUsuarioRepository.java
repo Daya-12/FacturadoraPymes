@@ -25,7 +25,7 @@ public interface IUsuarioRepository extends CrudRepository<Usuario, Integer>{
 	public Optional<Usuario> validarCorreosDistintos(@Param("correoUser") String correoUser,
 			@Param("idUsuario") int idUsuario);
 	
-	@Query(value = "SELECT factura.idFactura FROM Factura factura INNER JOIN Usuario usuario ON usuario.idUsuario = factura.usuario.idUsuario WHERE usuario.idUsuario = :idUsuario", nativeQuery = false)
+	@Query(value = "SELECT factura FROM Factura factura INNER JOIN Usuario usuario ON usuario.idUsuario = factura.usuario.idUsuario WHERE usuario.idUsuario=:idUsuario", nativeQuery = false)
 	public List<Factura> facturasCreadasUsuario(@Param("idUsuario") int idUsuario);
 	
 	@Query(value = "select usuario.id_usuario,usuario.nombre_user,usuario.correo_user,usuario.pass_user,usuario.telefono_user,usuario.id_empresa,\r\n"

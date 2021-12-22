@@ -140,6 +140,64 @@ export default class ActualizarEliminarProductos extends React.Component {
   }
   };
 
+  seleccionarProductoEliminar = async (producto) => {
+    await this.setState({
+      form: {
+        id: producto.id,
+        nombre: producto.nombre,
+        valor: producto.valor,
+        categoria: producto.id_categoria
+      },
+    });
+    this.confirmacionEliminar();
+  };
+
+  confirmacionEliminar = () => {
+    Swal.fire({
+      title: "Dar de baja a productos",
+      text:
+        "¿Estas seguro de dar de baja al producto " +this.state.form.nombre +"?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.deleteProducto();
+      }
+    });
+  };
+
+  deleteProducto = async () => {
+    let respuesta = null;
+    respuesta = await service.eliminar(this.state.form.id);
+    if (respuesta.data == 1) {
+      Swal.fire({
+        text: "El producto ha sido eliminado con éxito",
+        icon: "success",
+        timer: "4000",
+      });
+      this.componentDidMount();
+    }
+    else if(respuesta.data == 2) {
+      Swal.fire({
+        text: "Se realizó un borralo lógico para el producto seleccionado debido a que existe información que depende de este registro",
+        icon: "success",
+        timer: "4000"
+    })
+    this.componentDidMount();
+    }
+    else if(respuesta==null){
+      Swal.fire({
+        text: "Uppss! El producto " + this.state.form.nombre + " no pudo ser dado de baja",
+        icon: "error",
+        timer: "4000"
+    })
+    }
+  };
+
   consultarCategorias = async () => {
     let respuesta = null;
     respuesta = await service.consultarCategorias(this.state.empresa.id);
@@ -269,7 +327,7 @@ export default class ActualizarEliminarProductos extends React.Component {
               borderRadius: "50%",
             }}
             onClick={() => {
-              this.seleccionarUserEliminar(producto);
+              this.seleccionarProductoEliminar(producto);
             }}
           >
             <img height="33" width="32" src={eliminar} alt="eliminar"></img>
@@ -363,7 +421,7 @@ export default class ActualizarEliminarProductos extends React.Component {
 
 
 <Modal isOpen={this.state.modalActualizar}>
-            <ModalHeader style={{ display: "block" }} closeButton>
+            <ModalHeader style={{ display: "block" }} closebutton>
               <Button
                 size="sm"
                 color="danger"
@@ -428,8 +486,8 @@ export default class ActualizarEliminarProductos extends React.Component {
                     <AvGroup>
                       <Label>Valor: </Label>
                       <AvInput
-                        autocomplete="off"
-                        class="form-control"
+                        autoComplete="off"
+                        className="form-control"
                         type="text"
                         name="valor"
                         onChange={this.handleChange}
@@ -475,7 +533,7 @@ export default class ActualizarEliminarProductos extends React.Component {
               </AvForm>
             </ModalBody>
             <ModalFooter>
-              <div class="col text-center">
+              <div className="col text-center">
                 <Button
                   outline
                   color="primary"

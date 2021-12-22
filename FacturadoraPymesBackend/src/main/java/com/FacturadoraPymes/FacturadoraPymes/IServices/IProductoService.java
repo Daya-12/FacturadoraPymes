@@ -12,5 +12,6 @@ public interface IProductoService {
 	boolean validarNombre(String nombre,int idEmpresa);
 	List<ProductoModelPersonalizado> mostrarProductos(int idEmpresa);
 	boolean validarNombreDistinto(String nombre,int idProducto,int idEmpresa);
+	int eliminar(int idProducto);
 
 }
