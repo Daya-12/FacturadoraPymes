@@ -268,7 +268,7 @@ export default class RegistroProducto extends React.Component {
                             value: true,
                           },
                           pattern: {
-                            value: "^[A-Za-z0-9 -/*+üáéíóú#]+$",
+                            value: "^[A-Za-z0-9 -/*+üáéíóú#ñ]+$",
                           },
                           minLength: {
                             value: 4,

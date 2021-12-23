@@ -164,7 +164,7 @@ export default class RegistroUsuario extends React.Component {
                           value: true,
                         },
                         pattern: {
-                          value: "^[A-Za-z0-9#.üáéíóú ]+$",
+                          value: "^[A-Za-z0-9#.üáéíóúñ ]+$",
                         },
                         minLength: {
                           value: 8,
@@ -199,7 +199,7 @@ export default class RegistroUsuario extends React.Component {
                           value: true,
                         },
                         pattern: {
-                          value: "^[A-Za-z0-9-/*+_@.]+$",
+                          value: "^[A-Za-z0-9-/*+_@.ñ]+$",
                         },
                         minLength: {
                           value: 12,
@@ -233,7 +233,7 @@ export default class RegistroUsuario extends React.Component {
                           value: true,
                         },
                         pattern: {
-                          value: "^[A-Za-z0-9-/*+_@.?¿<>]+$",
+                          value: "^[A-Za-z0-9-/*+_@.?¿<>ñ]+$",
                         },
                         minLength: {
                           value: 8,

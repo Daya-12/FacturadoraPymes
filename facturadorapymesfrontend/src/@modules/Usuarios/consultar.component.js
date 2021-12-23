@@ -41,7 +41,6 @@ export default class ConsultarUsuarios extends React.Component {
     this.setState({
       usuarios2: this.state.usuarios.map((user) => {
         return {
-          id: user.id,
           nombre: user.nombre,
           correo: user.correo,
           telefono: user.telefono,
@@ -61,7 +60,6 @@ export default class ConsultarUsuarios extends React.Component {
   filtrarElementos = () => {
     var search = this.state.usuarios2.filter((item) => {
       if (
-        item.id.toString().includes(this.state.busqueda) ||
         item.nombre
           .toLowerCase()
           .normalize("NFD")
@@ -154,8 +152,7 @@ export default class ConsultarUsuarios extends React.Component {
               }}
             >
               <label>
-                Puedes consultar a traves del identificador,el nombre,
-                e-mail,teléfono y nivel
+                Puedes consultar a traves del nombre, e-mail,teléfono y permiso otorgado
               </label>
             </div>
 

@@ -16,8 +16,10 @@ import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperProducto;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IProductoService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IFacturaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IProductoRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
@@ -27,17 +29,19 @@ import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
 public class ProductoServiceImpl implements IProductoService{
 	
 	private final IProductoRepository productoRepository;
+	private final IFacturaRepository facturaRepository;
 	private final ICategoriaRepository categoriaRepository;
 	private final IMapperProducto mapperProducto;
 	private final Validaciones validaciones;
 	
 	@Autowired
 	public ProductoServiceImpl(IProductoRepository productoRepository, IMapperProducto mapperProducto,
-			Validaciones validaciones,ICategoriaRepository categoriaRepository) {
+			Validaciones validaciones,ICategoriaRepository categoriaRepository,IFacturaRepository facturaRepository) {
 		this.productoRepository = productoRepository;
 		this.categoriaRepository= categoriaRepository;
 		this.mapperProducto = mapperProducto;
 		this.validaciones = validaciones;
+		this.facturaRepository= facturaRepository;
 	}
 	
 	@Override
@@ -121,6 +125,21 @@ public class ProductoServiceImpl implements IProductoService{
 		}
 		
 		return retorno;
+	}
+
+	@Override
+	public List<ProductoModelConsultaP> mostrarProductosPersonalizado(int idEmpresa) {
+		List<ProductoModelConsultaP> productos = new LinkedList<>();
+		Iterable<Producto> productoEntities = productoRepository.consultarProductos(idEmpresa,true);;
+		String cantidad;
+		for (Producto producto : productoEntities) {
+			cantidad = facturaRepository.consultarProductosTotal(producto.getIdProducto());
+			if (cantidad == null) {
+				cantidad = "0";
+			}
+			productos.add(mapperProducto.mostrarProductosPersonalizado(producto, cantidad));
+		}
+		return productos;
 	}
 
 }

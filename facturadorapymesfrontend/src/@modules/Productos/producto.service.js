@@ -78,4 +78,14 @@ async function eliminar(idProducto) {
     return response;
 };
 
-export default {consultarCategorias,validarNombre,registrar,consultarProductos,editar,validarNombreDistinto,eliminar};
+async function consultaPersonalizada(idEmpresa) {
+    const url = urlConexion+'producto/consultaPersonalizada/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+export default {consultarCategorias,validarNombre,registrar,consultarProductos,editar,validarNombreDistinto,eliminar,consultaPersonalizada};

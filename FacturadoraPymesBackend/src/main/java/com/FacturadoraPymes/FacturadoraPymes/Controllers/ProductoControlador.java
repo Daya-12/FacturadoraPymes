@@ -1,7 +1,6 @@
 package com.FacturadoraPymes.FacturadoraPymes.Controllers;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IProductoService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelPersonalizado;
 
 @RestController
@@ -70,5 +70,12 @@ public class ProductoControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public int eliminar(@PathVariable("idProducto") int idProducto) {
 		return productoService.eliminar(idProducto);
+	}
+	
+	@GetMapping(value = "/consultaPersonalizada/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<ProductoModelConsultaP> mostrarProductosPersonalizado(@PathVariable int idEmpresa) {
+		return productoService.mostrarProductosPersonalizado(idEmpresa);
 	}
 }
