@@ -324,7 +324,6 @@ export default class RegistroNuevoUsuario extends React.Component {
                     </InputGroup>
                   </AvGroup>
                 </Col>
-                <br/>
                 </Row>
                 <Row>
                 <Col md="4">

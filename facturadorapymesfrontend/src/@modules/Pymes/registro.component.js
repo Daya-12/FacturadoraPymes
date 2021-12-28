@@ -580,7 +580,7 @@ export default class RegistroPyme extends React.Component {
                               value: 10,
                             },
                             maxLength: {
-                              value: 150,
+                              value: 50,
                             },
                           }}
                         />

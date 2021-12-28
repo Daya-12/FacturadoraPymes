@@ -14,12 +14,18 @@ import ConsultarUsuarios from './@modules/Usuarios/consultar.component';
 import ConsultarProductos from './@modules/Productos/consultar.component';
 import RegistroProducto from './@modules/Productos/registro.component';
 import ActualizarEliminarProductos from './@modules/Productos/actualElimin.component';
+import ConsultarClientes from './@modules/Clientes/consultar.component';
+import RegistroClientes from './@modules/Clientes/registro.component';
+import ActualizarEliminarClientes from './@modules/Clientes/actualElimin.component';
 export default function App() {
   return (
     <div className="container">
       <Router>
         <Switch>
-        <PrivateRoute exact path="/Menu/consultarProductos" component={ConsultarProductos}/>
+          <PrivateRoute exact path="/Menu/consultarClientes" component={ConsultarClientes}/>
+          <PrivateRoute exact path="/Menu/actualizarEliminarClientes" component={ActualizarEliminarClientes}/> 
+          <PrivateRoute exact path="/Menu/registrarClientes" component={RegistroClientes}/>
+          <PrivateRoute exact path="/Menu/consultarProductos" component={ConsultarProductos}/>
           <PrivateRoute exact path="/Menu/actualizarEliminarProductos" component={ActualizarEliminarProductos}/> 
           <PrivateRoute exact path="/Menu/registrarProductos" component={RegistroProducto}/>
           <PrivateRoute exact path="/Menu/consultarUsuarios" component={ConsultarUsuarios}/>

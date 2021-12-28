@@ -193,15 +193,15 @@ html {
 }
 
 .cabeceraMenu {
-  display: grid;
   background: rgb(255, 255, 255);
-  grid-template-columns: 85% 50%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 80% 0fr;
 }
 
 .sub1Menu {
   margin-left: 30px;
-  display: grid;
-  grid-template-columns: 10% 25%;
+  display: flex;
   font: 15px sans-serif;
 }
 
@@ -635,6 +635,62 @@ h4 {
 }
 
 #formProducto .form-select {
+  background: rgba(199, 199, 199, 0.719);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+}
+
+.clientesFondo {
+  background-image: url(../@images/fondoClientes.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: rgba(98, 109, 139, 0.747);
+  background-blend-mode: soft-light;
+  width: 100%;
+  max-width: 100vw;
+  min-height:100%;
+  position: absolute;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
+}
+
+#formCliente {
+  justify-content: center;
+  align-items: center;
+  background: rgba(174, 174, 187, 0.534);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(105, 103, 103, 0.568);
+}
+
+#formCliente .form-control {
+  background: rgba(199, 199, 199, 0.719);
+  border-style: none;
+  box-shadow: none;
+  outline: none;
+  transition: background-color 0.5s;
+  color: rgb(13, 26, 85);
+  border-radius: 3px;
+}
+#formCliente .form-control:focus {
+  background: none;
+  box-shadow: none;
+  outline: none;
+  color: rgb(9, 19, 59);
+}
+
+#formCliente .form-control::placeholder {
+  color: rgba(167, 167, 187, 0.534);
+}
+
+#formCliente .form-select {
   background: rgba(199, 199, 199, 0.719);
   border-style: none;
   box-shadow: none;

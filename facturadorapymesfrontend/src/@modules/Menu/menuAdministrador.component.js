@@ -16,6 +16,29 @@ import Funcionalidad from '../../@images/funcionalidad.png';
 
 
 export default class MenuAdministrador extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+          usuario: {
+            id: "",
+            nombre: "",
+          },
+        };
+      }
+
+      componentDidMount = async () => {
+        this.consultarUsuarios();
+      };
+    
+      consultarUsuarios = async () => {
+        let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
+        await this.setState({
+            usuario: {
+            id: informacionLocalStorage.id,
+            nombre: informacionLocalStorage.nombre
+          },
+        });
+      };
 
     render(){
         return (
@@ -24,25 +47,21 @@ export default class MenuAdministrador extends React.Component{
                     <header id="main-header">
                         <div className="cabeceraMenu">
                             <div className="sub1Menu">
-                                <div className="btn-menu">
-                                    <br/><br/>
-                                    <label for="btn-menu"><img src={Menu} height="65" width="57" alt="Boton para abrir menu" /></label>
+                                <div className="btn-menu" style={{ marginTop: "2.5%"}}>
+                                    <label for="btn-menu"><img src={Menu} height="61" width="53" alt="Boton para abrir menu"/></label>
                                 </div>
-                                <div>
-                                    <br/>
+                                <div style={{ marginTop: "1%", marginLeft:"3%"}}>
                                     <img src={Logo} height="95" width="265" alt="Logo ITS" />
                                 </div>
                             </div>
 
-                            <div>
+                            <div style={{ marginTop: "15%"}}>
                                 <Navbar color="light" light expand="md">
                                     <Collapse navbar>
                                         <Nav className="mr-auto" navbar>
                                             <UncontrolledDropdown nav inNavbar>
-                                                <DropdownToggle nav caret>Mi perfil</DropdownToggle>
+                                                <DropdownToggle nav caret>{this.state.usuario.nombre}</DropdownToggle>
                                                 <DropdownMenu right>
-                                                    <DropdownItem>Informacion personal</DropdownItem>
-                                                    <DropdownItem divider />
                                                     <DropdownItem href="/Logout">Cerrar Sesión</DropdownItem>
                                                 </DropdownMenu>
                                             </UncontrolledDropdown>
@@ -50,7 +69,6 @@ export default class MenuAdministrador extends React.Component{
                                     </Collapse>
                                 </Navbar>
                             </div>
-                            <br></br>
                         </div>
                     </header>
                     <input type="checkbox" id="btn-menu"></input>
@@ -71,9 +89,9 @@ export default class MenuAdministrador extends React.Component{
 
                                     <li><a>Clientes</a>
                                         <ul>
-                                            <li><a href="/Menu/consultCustomers">Consultar</a></li>
-                                            <li><a href="/Menu/createCustomers">Registrar</a></li>
-                                            <li><a href="/Menu/updateordeleteC">Actualizar o dar de baja</a></li>
+                                            <li><a href="/Menu/consultarClientes">Consultar</a></li>
+                                            <li><a href="/Menu/registrarClientes">Registrar</a></li>
+                                            <li><a href="/Menu/actualizarEliminarClientes">Actualizar o dar de baja</a></li>
                                         </ul>
                                     </li>
 
@@ -94,7 +112,7 @@ export default class MenuAdministrador extends React.Component{
                                     <li> <a>Categorias</a>
                                     </li>
                                 </ul>
-                                <br></br><br></br>
+                                <br/><br/>
                             </nav>
                         </div>
                     </div>
