@@ -31,4 +31,26 @@ async function registrar(cliente) {
     return response;
 };
 
-export default {consultarCiudades,consultarDocumentos,registrar};
+async function validarDocumento(numIdentificacion,idTipo,idEmpresa) {
+    const url = urlConexion+'cliente/validarIdentificacion/'+numIdentificacion+'/'+idTipo+'/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function validarNombre(nombre,idEmpresa) {
+    const url = urlConexion+'cliente/validarNombre/'+nombre+'/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarDocumentos,registrar,validarDocumento,validarNombre};

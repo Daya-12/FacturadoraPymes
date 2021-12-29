@@ -141,20 +141,17 @@ public class EmpresaServiceImpl implements IEmpresaService{
 
 	@Override
 	public boolean validarNombreEmpresa(String nombreEmpresa) {
-		boolean validarEmpresa = validaciones.validarEmpresa(empresaRepository, nombreEmpresa);
-		return validarEmpresa;
+		return validaciones.validarEmpresa(empresaRepository, nombreEmpresa);
 	}
 	
 	@Override
 	public boolean validarIdentificacionEmpresa(String identificacionEmpresa) {
-		boolean validarEmpresa = validaciones.validarIdentificacionEmpresa(empresaRepository, identificacionEmpresa);
-		return validarEmpresa;
+		return validaciones.validarIdentificacionEmpresa(empresaRepository, identificacionEmpresa);
 	}
 	
 	@Override
 	public boolean validarEmailEmpresa(String emailEmpresa) {
-		boolean validarEmpresa = validaciones.validarEmailEmpresa(empresaRepository, emailEmpresa);
-		return validarEmpresa;
+		return validaciones.validarEmailEmpresa(empresaRepository, emailEmpresa);
 	}
 
 	@Override

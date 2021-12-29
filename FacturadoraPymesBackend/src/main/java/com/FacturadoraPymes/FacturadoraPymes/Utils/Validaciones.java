@@ -17,7 +17,6 @@ import javax.crypto.spec.IvParameterSpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.InvalidAlgorithmParameterException;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
@@ -165,8 +164,16 @@ public class Validaciones {
 			return false;
 	}
 	
-	public boolean validarIdentificacionCliente(IClienteRepository clienteRepository, String numIdentificacion, int idTipo) {
-		Optional<Cliente> clienteValidacion = clienteRepository.validarIdentificacion(numIdentificacion,idTipo);
+	public boolean validarIdentificacionCliente(IClienteRepository clienteRepository, String numIdentificacion, int idTipo, int idEmpresa) {
+		Optional<Cliente> clienteValidacion = clienteRepository.validarIdentificacion(numIdentificacion,idTipo,idEmpresa);
+		if (clienteValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean validarNombreCliente(IClienteRepository clienteRepository, String nombre, int idEmpresa) {
+		Optional<Cliente> clienteValidacion = clienteRepository.validarNombre(nombre,idEmpresa);
 		if (clienteValidacion.isPresent()) {
 			return true;
 		} else

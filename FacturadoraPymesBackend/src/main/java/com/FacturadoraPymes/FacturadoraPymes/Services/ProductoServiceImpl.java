@@ -88,8 +88,7 @@ public class ProductoServiceImpl implements IProductoService{
 
 	@Override
 	public boolean validarNombre(String nombre,int idEmpresa) {
-		boolean validarCorreo = validaciones.validarNombreProducto(productoRepository, nombre,idEmpresa);
-		return validarCorreo;
+		return validaciones.validarNombreProducto(productoRepository, nombre,idEmpresa);
 	}
 
 	@Override
@@ -104,8 +103,7 @@ public class ProductoServiceImpl implements IProductoService{
 
 	@Override
 	public boolean validarNombreDistinto(String nombre, int idProducto, int idEmpresa) {
-		boolean validarNombreDistinto = validaciones.validarNombreDistinto(productoRepository, nombre,idProducto,idEmpresa);
-		return validarNombreDistinto;
+		return validaciones.validarNombreDistinto(productoRepository, nombre,idProducto,idEmpresa);
 	}
 
 	@Override

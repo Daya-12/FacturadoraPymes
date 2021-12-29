@@ -30,11 +30,12 @@ public class ClienteServiceImpl implements IClienteService{
 		this.mapperCliente = mapperCliente;
 		this.validaciones = validaciones;
 	}
+	
 	@Override
 	public MensajeModel crear(ClienteModel cliente) {
 		MensajeModel mensajeModel = new MensajeModel();
 		Cliente clienteEntity = new Cliente();
-		boolean validarIdentificacion = validaciones.validarIdentificacionCliente(clienteRepository, cliente.getNumDocumento(), cliente.getDocumento().getId());
+		boolean validarIdentificacion = validaciones.validarIdentificacionCliente(clienteRepository, cliente.getNumDocumento(), cliente.getDocumento().getId(), cliente.getEmpresa().getId());
 		
 		if (!validarIdentificacion) {
 			Empresa empresa=new Empresa();
@@ -61,7 +62,22 @@ public class ClienteServiceImpl implements IClienteService{
 			return mensajeModel;
 		} else
 			throw new NoSuchElementException("El usuario no se pudo registrar");
-		
+	}
+	
+	@Override
+	public MensajeModel actualizar(ClienteModel cliente) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean validarIdentificacion(String numIdentificacion, int idTipo, int idEmpresa) {
+		return validaciones.validarIdentificacionCliente(clienteRepository, numIdentificacion, idTipo, idEmpresa);
+	}
+
+	@Override
+	public boolean validarNombre(String nombre, int idEmpresa) {
+		return validaciones.validarNombreCliente(clienteRepository, nombre, idEmpresa);
 	}
 
 }

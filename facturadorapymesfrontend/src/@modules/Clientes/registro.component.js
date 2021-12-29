@@ -173,6 +173,64 @@ export default class RegistroCliente extends React.Component {
     }
 };
 
+onBlurDocumento = async () => {
+  if (this.state.form.tipoDocumento !== null && this.state.form.numeroDocumento!=="") {
+    let respuesta = null;
+    respuesta = await service.validarDocumento(this.state.form.numeroDocumento,this.state.form.tipoDocumento,this.state.empresa.id);
+    if (respuesta !== null) {
+      if (respuesta.data === true) {
+        Swal.fire({
+          text: "Ya existe un cliente registrado con el mismo tipo y número de documento ingresado",
+          icon: "error",
+          timer: "5000",
+        });
+
+        this.setState({
+          form: {
+            tipoDocumento: this.state.form.tipoDocumento,
+            numeroDocumento: "",
+            nombre: this.state.form.nombre,
+            direccion: this.state.form.direccion,
+            ciudad: this.state.form.ciudad,
+            codigoPostal: this.state.form.codigoPostal,
+            telefono: this.state.form.telefono
+          },
+        });
+        this.validarCampos();
+      }
+    }
+  }
+};
+
+onBlurNombre = async () => {
+  if (this.state.form.nombre !== "") {
+    let respuesta = null;
+    respuesta = await service.validarNombre(this.state.form.nombre,this.state.empresa.id);
+    if (respuesta !== null) {
+      if (respuesta.data === true) {
+        Swal.fire({
+          text: "Ya existe un cliente registrado con el nombre o razón social ingresado",
+          icon: "error",
+          timer: "4000",
+        });
+
+        this.setState({
+          form: {
+            tipoDocumento: this.state.form.tipoDocumento,
+            numeroDocumento: this.state.form.numeroDocumento,
+            nombre: "",
+            direccion: this.state.form.direccion,
+            ciudad: this.state.form.ciudad,
+            codigoPostal: this.state.form.codigoPostal,
+            telefono: this.state.form.telefono
+          },
+        });
+        this.validarCampos();
+      }
+    }
+  }
+};
+
   render() {
     let ciudades;
     if (this.state.ciudades === null) {
@@ -286,6 +344,7 @@ export default class RegistroCliente extends React.Component {
                         name="nombre"
                         value={this.state.form.nombre}
                         onChange={this.handleChange}
+                        onBlur={this.onBlurNombre}
                         validate={{
                           required: {
                             value: true,
@@ -321,6 +380,7 @@ export default class RegistroCliente extends React.Component {
                         name="tipoDocumento"
                         value={this.state.form.tipoDocumento || null}
                         onChange={this.handleChange}
+                        onBlur={this.onBlurDocumento}
                       >
                         <option value="DEFAULT" disabled>
                           Selecciona un tipo de documento
@@ -347,8 +407,9 @@ export default class RegistroCliente extends React.Component {
                         className="form-control"
                         id="numeroDocumento"
                         name="numeroDocumento"
-                        value={this.state.form.numeroDocumento}
+                        value={this.state.form.numeroDocumento || ""}
                         onChange={this.handleChange}
+                        onBlur={this.onBlurDocumento}
                         validate={{
                           required: {
                             value: true,
