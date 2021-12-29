@@ -5,12 +5,14 @@ import org.springframework.context.annotation.Configuration;
 
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCategoria;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCiudad;
+import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCliente;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperDocumento;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperProducto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCategoria;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCiudad;
+import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCliente;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperDocumento;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperProducto;
@@ -48,6 +50,11 @@ public class FacturadoraPymesApplicationConfiguration{
 	@Bean
 	public IMapperDocumento getMapperDocumento() {
 		return new MapperDocumento();
+	}
+	
+	@Bean
+	public IMapperCliente getMapperCliente() {
+		return new MapperCliente();
 	}
 	
 	@Bean

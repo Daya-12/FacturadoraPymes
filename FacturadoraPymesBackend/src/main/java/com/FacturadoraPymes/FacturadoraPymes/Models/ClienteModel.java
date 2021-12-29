@@ -12,10 +12,11 @@ public class ClienteModel {
 	private int id;
 	private DocumentoModel documento;
 	private String numDocumento;
-	private String nombres;
-	private String apellidos;
+	private String nombre;
 	private String direccion;
 	private CiudadModel ciudad;
+	private EmpresaModel empresa;
 	private String codPostal;
 	private String telefono;
+	private boolean activo;
 }

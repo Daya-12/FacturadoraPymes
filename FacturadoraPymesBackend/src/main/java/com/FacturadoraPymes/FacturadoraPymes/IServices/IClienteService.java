@@ -1,5 +1,8 @@
 package com.FacturadoraPymes.FacturadoraPymes.IServices;
 
-public interface IClienteService {
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
+public interface IClienteService {
+	MensajeModel crear(ClienteModel cliente);
 }

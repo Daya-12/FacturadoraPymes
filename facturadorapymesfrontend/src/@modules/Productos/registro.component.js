@@ -97,6 +97,7 @@ export default class RegistroProducto extends React.Component {
         valor: 0,
         categoria: null
       },
+      button: false
     });
   };
 
@@ -204,7 +205,7 @@ export default class RegistroProducto extends React.Component {
                       this.cleanForm();
                     }}
                   >
-                    <img height="30" width="21" src={clean} alt="clean"></img>
+                    <img height="30" width="24" src={clean} alt="clean"></img>
                   </Button>
                 </Col>
               </Row>

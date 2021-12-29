@@ -19,10 +19,12 @@ import java.security.InvalidKeyException;
 import java.security.InvalidAlgorithmParameterException;
 
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IProductoRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
@@ -158,6 +160,14 @@ public class Validaciones {
 	public boolean validarNombreDistinto(IProductoRepository productoRepository, String nombre, int idProducto, int idEmpresa) {
 		Optional<Producto> productoValidacion = productoRepository.validarNombreDistintos(nombre,idProducto,idEmpresa);
 		if (productoValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean validarIdentificacionCliente(IClienteRepository clienteRepository, String numIdentificacion, int idTipo) {
+		Optional<Cliente> clienteValidacion = clienteRepository.validarIdentificacion(numIdentificacion,idTipo);
+		if (clienteValidacion.isPresent()) {
 			return true;
 		} else
 			return false;

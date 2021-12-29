@@ -18,20 +18,14 @@ public class Cliente implements Serializable {
 	@Column(name="activo")
 	private boolean activoCli;
 
-	@Column(name="apellidos_cli")
-	private String apellidosCli;
-
 	@Column(name="codpostal_cli")
 	private String codpostalCli;
 
 	@Column(name="direccion_cli")
 	private String direccionCli;
 
-	@Column(name="email_cli")
-	private String emailCli;
-
-	@Column(name="nombres_cli")
-	private String nombresCli;
+	@Column(name="nombre_cli")
+	private String nombreCli;
 
 	@Column(name="num_documento")
 	private String numDocumento;
@@ -77,14 +71,6 @@ public class Cliente implements Serializable {
 		this.activoCli = activoCli;
 	}
 
-	public String getApellidosCli() {
-		return this.apellidosCli;
-	}
-
-	public void setApellidosCli(String apellidosCli) {
-		this.apellidosCli = apellidosCli;
-	}
-
 	public String getCodpostalCli() {
 		return this.codpostalCli;
 	}
@@ -101,20 +87,12 @@ public class Cliente implements Serializable {
 		this.direccionCli = direccionCli;
 	}
 
-	public String getEmailCli() {
-		return this.emailCli;
+	public String getNombreCli() {
+		return this.nombreCli;
 	}
 
-	public void setEmailCli(String emailCli) {
-		this.emailCli = emailCli;
-	}
-
-	public String getNombresCli() {
-		return this.nombresCli;
-	}
-
-	public void setNombresCli(String nombresCli) {
-		this.nombresCli = nombresCli;
+	public void setNombreCli(String nombreCli) {
+		this.nombreCli = nombreCli;
 	}
 
 	public String getNumDocumento() {

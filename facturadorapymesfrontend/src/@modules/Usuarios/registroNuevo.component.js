@@ -112,6 +112,7 @@ export default class RegistroNuevoUsuario extends React.Component {
         telefono: "",
         nivel: null,
       },
+      button: false
     });
   };
 

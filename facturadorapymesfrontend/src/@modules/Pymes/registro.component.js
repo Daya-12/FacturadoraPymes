@@ -1,5 +1,4 @@
 import React from "react";
-import clean from "../../@images/cleanForms.png";
 import logo from "../../@images/logoProyecto.png";
 import registrarPyme from "../../@images/registrarPyme.png";
 import registrarPyme2 from "../../@images/registrarPyme2.png";
@@ -53,9 +52,8 @@ export default class RegistroPyme extends React.Component {
       form: {
         ...this.state.form,
         [e.target.name]: e.target.value,
-      },
+      }
     });
-
     this.validarCampos();
   };
 
@@ -80,31 +78,34 @@ export default class RegistroPyme extends React.Component {
   validarCampos = () => {
     if (
       this.state.form.razonSocial === "" ||
-
-      (this.state.form.razonSocial !== undefined && this.state.form.razonSocial.length < 3) ||
-      (this.state.form.razonSocial !== undefined && this.state.form.razonSocial.length > 30) ||
-
+      (this.state.form.razonSocial !== undefined &&
+        this.state.form.razonSocial.length < 3) ||
+      (this.state.form.razonSocial !== undefined &&
+        this.state.form.razonSocial.length > 30) ||
       this.state.form.slogan === "" ||
-      (this.state.form.slogan !== undefined && this.state.form.slogan.length < 10) ||
-      (this.state.form.slogan !== undefined && this.state.form.slogan.length > 150) ||
-
+      (this.state.form.slogan !== undefined &&
+        this.state.form.slogan.length < 10) ||
+      (this.state.form.slogan !== undefined &&
+        this.state.form.slogan.length > 150) ||
       this.state.form.nit === "" ||
       (this.state.form.nit !== undefined && this.state.form.nit.length < 9) ||
       (this.state.form.nit !== undefined && this.state.form.nit.length > 15) ||
-
       this.state.form.telefono === "" ||
-      (this.state.form.telefono !== undefined && this.state.form.telefono.length < 7) ||
-      (this.state.form.telefono !== undefined && this.state.form.telefono.length > 10) ||
-      
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length < 7) ||
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length > 10) ||
       this.state.form.email === "" ||
       this.validarEmail() === false ||
-      (this.state.form.email !== undefined && this.state.form.email.length < 12) ||
-      (this.state.form.email !== undefined && this.state.form.email.length > 50) ||
-
+      (this.state.form.email !== undefined &&
+        this.state.form.email.length < 12) ||
+      (this.state.form.email !== undefined &&
+        this.state.form.email.length > 50) ||
       this.state.form.direccion === "" ||
-      (this.state.form.direccion !== undefined && this.state.form.direccion.length < 10) ||
-      (this.state.form.direccion !== undefined && this.state.form.direccion.length > 50) ||
-
+      (this.state.form.direccion !== undefined &&
+        this.state.form.direccion.length < 10) ||
+      (this.state.form.direccion !== undefined &&
+        this.state.form.direccion.length > 50) ||
       this.state.form.logo === undefined ||
       this.state.form.logo === null ||
       this.state.form.ciudad === null
@@ -149,21 +150,6 @@ export default class RegistroPyme extends React.Component {
     });
   };
 
-  cleanForm = () => {
-    this.setState({
-      form: {
-        razonSocial: "",
-        slogan: "",
-        nit: "",
-        telefono: "",
-        email: "",
-        direccion: "",
-        logo: null,
-        ciudad: null,
-      },
-    });
-  };
-
   handleInvalidSubmit(event, errors, values) {
     this.setState({ errors, values });
   }
@@ -191,7 +177,7 @@ export default class RegistroPyme extends React.Component {
               email: this.state.form.email,
               direccion: this.state.form.direccion,
               logo: this.state.form.logo,
-              ciudad: this.state.form.ciudad
+              ciudad: this.state.form.ciudad,
             },
           });
           this.validarCampos();
@@ -223,7 +209,7 @@ export default class RegistroPyme extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.email !== "" && this.validarEmail()!=false) {
+    if (this.state.form.email !== "" && this.validarEmail() != false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.email);
       if (respuesta !== null) {
@@ -243,7 +229,7 @@ export default class RegistroPyme extends React.Component {
               email: "",
               direccion: this.state.form.direccion,
               logo: this.state.form.logo,
-              ciudad: this.state.form.ciudad
+              ciudad: this.state.form.ciudad,
             },
           });
           this.validarCampos();
@@ -251,7 +237,6 @@ export default class RegistroPyme extends React.Component {
       }
     }
   };
-
 
   activarEnlace = () => {
     Swal.fire({
@@ -274,7 +259,6 @@ export default class RegistroPyme extends React.Component {
         document.getElementById("logo").disabled = true;
         document.getElementById("ciudad").disabled = true;
         document.getElementById("botonValidar").disabled = true;
-        document.getElementById("btnCleanForm").disabled = true;
         document.getElementById("enlazarCategorias").style.display = "block";
       }
     });
@@ -283,36 +267,48 @@ export default class RegistroPyme extends React.Component {
   registrarLogo = async () => {
     let respuesta = null;
     let formData = new FormData();
-    formData.append('nombreEmpresa', this.state.form.razonSocial);
-    formData.append('imagen', this.state.form.logo);
+    formData.append("nombreEmpresa", this.state.form.razonSocial);
+    formData.append("imagen", this.state.form.logo);
     respuesta = await service.registrarPymeLogo(formData);
-    if(respuesta !== null && respuesta.data===true){
+    if (respuesta !== null && respuesta.data === true) {
       return respuesta.data;
     }
   };
 
   registrarPyme = async () => {
-    let registrarImagen= await this.registrarLogo();
-    if(registrarImagen === true){
+    let registrarImagen = await this.registrarLogo();
+    if (registrarImagen === true) {
       let respuesta = null;
-      const model = mapStateToModel(this.state.form, this.state.categorias,this.state.usuario);
+      const model = mapStateToModel(
+        this.state.form,
+        this.state.categorias,
+        this.state.usuario
+      );
       respuesta = await service.registrarPyme(model);
-      if(respuesta !== null){
+      if (respuesta !== null) {
         Swal.fire({
-          text: "¡La empresa " + this.state.form.razonSocial + " ha sido registrada exitosamente con " + this.state.categorias.length + " categoria(s) seleccionada(s)!",
+          text:
+            "¡La empresa " +
+            this.state.form.razonSocial +
+            " ha sido registrada exitosamente con " +
+            this.state.categorias.length +
+            " categoria(s) seleccionada(s)!",
           icon: "success",
-          timer: "6000"
-      })
-      document.getElementById("confirmarRegistro").style.display = "none";
-      document.getElementById("registrarUsuario").style.display = "none";
-      document.getElementById("enlazarCategorias").style.display = "none";
-      this.props.history.push("/Login");
-      }else{
+          timer: "6000",
+        });
+        document.getElementById("confirmarRegistro").style.display = "none";
+        document.getElementById("registrarUsuario").style.display = "none";
+        document.getElementById("enlazarCategorias").style.display = "none";
+        this.props.history.push("/Login");
+      } else {
         Swal.fire({
-          text: "Uppss! La empresa " + this.state.form.razonSocial + " no puedo ser registrada",
+          text:
+            "Uppss! La empresa " +
+            this.state.form.razonSocial +
+            " no puedo ser registrada",
           icon: "error",
-          timer: "4000"
-      })
+          timer: "4000",
+        });
       }
     }
   };
@@ -333,394 +329,379 @@ export default class RegistroPyme extends React.Component {
     return (
       <div className="container">
         <div className="pymeReg">
-            <div align="left" style={{ marginTop: "15px", marginLeft: "10px" }}>
-              <img src={logo} height="85" width="270" alt="Logo ITS" />
-            </div>
-            <h2
-              style={{
-                fontSize: "36px",
-                fontFamily: "Segoe UI",
-                textAlign: "center",
-                color: "#09065A",
-              }}
+          <div
+            id="formPyme"
+            className="mx-auto"
+            style={{ width: "95%", marginTop: "6%" }}
+          >
+            <AvForm
+              id="crearPymes"
+              onInvalidSubmit={this.handleInvalidSubmit}
+              onValidSubmit={this.handleValidSubmit}
             >
-              ¡Registra tu pyme!
-            </h2>
-            <br />
-            <div
-              id="formPyme"
-              className="row justify-content-center pt-8 mb-8 m-3"
-            >
-              <AvForm
-                id="crearPymes"
-                onInvalidSubmit={this.handleInvalidSubmit}
-                onValidSubmit={this.handleValidSubmit}
-              >
-                <Row>
-                  <Col md="11"></Col>
-                  <Col md="1">
-                    <Button
-                      type="reset"
-                      id="btnCleanForm"
-                      style={{
-                        outline: "0 none",
-                        border: "0",
-                        backgroundColor: "rgba(167, 167, 187, 0.534)",
-                        marginRight: "20px",
-                        borderRadius: "50%",
-                      }}
-                      onClick={() => {
-                        this.cleanForm();
-                      }}
-                    >
-                      <img height="37" width="30" src={clean} alt="clean"></img>
-                    </Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="4">
-                    <AvGroup>
-                      <Label className="label-registro" htmlFor="razonSocial">
-                        Razón social
-                      </Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📄</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          id="razonSocial"
-                          name="razonSocial"
-                          value={this.state.form.razonSocial || ""}
-                          onChange={this.handleChange}
-                          onBlur={this.onBlurRazonSocial}
-                          validate={{
-                            required: { value: true },
-                            pattern: {
-                              value: "^[A-Za-z0-9 -/*+üáéíóú#ñ]+$",
-                              errorMessage:
-                                "No puedes digitar caracteres invalidos",
-                            },
-                            minLength: { value: 3 },
-                            maxLength: { value: 30 },
-                          }}
-                        />
-                        <AvFeedback>La razón social es requerida</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                  <Col md="5">
-                    <AvGroup>
-                      <Label className="label-registro">Slogan</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>🛒</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          id="slogan"
-                          name="slogan"
-                          value={this.state.form.slogan}
-                          onChange={this.handleChange}
-                          validate={{
-                            required: {
-                              value: true,
-                            },
-                            pattern: {
-                              value: "^[A-Za-z0-9 -/*+üáéíóú#ñ]+$",
-                            },
-                            minLength: {
-                              value: 10,
-                            },
-                            maxLength: {
-                              value: 150,
-                            },
-                          }}
-                        />
-                        <AvFeedback>El slogan es requerido</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                  <Col md="3">
-                    <AvGroup>
-                      <Label className="label-registro">Identificación</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>🖋️</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          id="nit"
-                          name="nit"
-                          value={this.state.form.nit || ""}
-                          onChange={this.handleChange}
-                          onBlur={this.onBlurIdentificacion}
-                          validate={{
-                            required: {
-                              value: true,
-                            },
-                            pattern: {
-                              value: "^[A-Za-z0-9-/*+]+$",
-                            },
-                            minLength: {
-                              value: 9,
-                            },
-                            maxLength: {
-                              value: 15,
-                            },
-                          }}
-                        />
-                        <AvFeedback>La identificación es requerida</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="4">
-                    <AvGroup>
-                      <Label className="label-registro" htmlFor="razonSocial">
-                        Teléfono
-                      </Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📞</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          id="telefono"
-                          name="telefono"
-                          value={this.state.form.telefono}
-                          onChange={this.handleChange}
-                          validate={{
-                            required: {
-                              value: true,
-                            },
-                            pattern: {
-                              value: "^[0-9]+$",
-                            },
-                            minLength: {
-                              value: 7,
-                            },
-                            maxLength: {
-                              value: 10,
-                            },
-                          }}
-                        />
-                        <AvFeedback>El teléfono es requerido</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                  <Col md="4">
-                    <AvGroup>
-                      <Label className="label-registro">E-mail</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📧</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="email"
-                          className="form-control"
-                          placeholder="ejemplo@dominio.com"
-                          id="email"
-                          name="email"
-                          value={this.state.form.email || ""}
-                          onChange={this.handleChange}
-                          onBlur={this.onBlurEmail}
-                          validate={{
-                            required: {
-                              value: true,
-                            },
-                            pattern: {
-                              value: "^[A-Za-z0-9-/*+_@.ñ]+$",
-                            },
-                            minLength: {
-                              value: 12,
-                            },
-                            maxLength: {
-                              value: 50,
-                            },
-                          }}
-                        />
-                        <AvFeedback>El e-mail es requerido</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                  <Col md="4">
-                    <AvGroup>
-                      <Label className="label-registro">Dirección</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📌</InputGroupText>
-                        </InputGroupAddon>
-                        <AvInput
-                          autoComplete="off"
-                          type="text"
-                          className="form-control"
-                          id="direccion"
-                          name="direccion"
-                          value={this.state.form.direccion}
-                          onChange={this.handleChange}
-                          validate={{
-                            required: {
-                              value: true,
-                            },
-                            pattern: {
-                              value: "^[A-Za-z0-9#.ªº ]+$",
-                            },
-                            minLength: {
-                              value: 10,
-                            },
-                            maxLength: {
-                              value: 50,
-                            },
-                          }}
-                        />
-                        <AvFeedback>La dirección es requerida</AvFeedback>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md="5">
-                    <AvGroup>
-                      <Label className="label-registro" htmlFor="razonSocial">
-                        Logo
-                      </Label>
+              <Row>
+                <Col md="3">
+                  <img src={logo} height="85" width="270" alt="Logo ITS" />
+                </Col>
+                <Col md="9"></Col>
+              </Row>
+              <Row>
+                <h2
+                  style={{
+                    fontSize: "34px",
+                    fontFamily: "Segoe UI",
+                    textAlign: "center",
+                    color: "#09065A",
+                  }}
+                >
+                  ¡Registra tu pyme!
+                </h2>
+                <br />
+              </Row>
+              
+              <Row>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="razonSocial">
+                      Razón social
+                    </Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>📄</InputGroupText>
+                      </InputGroupAddon>
                       <AvInput
-                        type="file"
+                        autoComplete="off"
+                        type="text"
                         className="form-control"
-                        accept="image/*"
-                        id="logo"
-                        name="logo"
-                        onChange={this.handleFileInput}
+                        id="razonSocial"
+                        name="razonSocial"
+                        value={this.state.form.razonSocial || ""}
+                        onChange={this.handleChange}
+                        onBlur={this.onBlurRazonSocial}
+                        validate={{
+                          required: { value: true },
+                          pattern: {
+                            value: "^[A-Za-z0-9 -/*+üáéíóú#ñ]+$",
+                            errorMessage:
+                              "No puedes digitar caracteres invalidos",
+                          },
+                          minLength: { value: 3 },
+                          maxLength: { value: 30 },
+                        }}
+                      />
+                      <AvFeedback>La razón social es requerida</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+                <Col md="5">
+                  <AvGroup>
+                    <Label className="label-registro">Slogan</Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>🛒</InputGroupText>
+                      </InputGroupAddon>
+                      <AvInput
+                        autoComplete="off"
+                        type="text"
+                        className="form-control"
+                        id="slogan"
+                        name="slogan"
+                        value={this.state.form.slogan}
+                        onChange={this.handleChange}
                         validate={{
                           required: {
                             value: true,
                           },
+                          pattern: {
+                            value: "^[A-Za-z0-9 -/*+üáéíóú#ñ]+$",
+                          },
+                          minLength: {
+                            value: 10,
+                          },
+                          maxLength: {
+                            value: 150,
+                          },
                         }}
                       />
-                      <AvFeedback>El logo es requerido</AvFeedback>
-                    </AvGroup>
-                  </Col>
-                  <Col md="4">
-                    <AvGroup>
-                      <Label className="label-registro" htmlFor="razonSocial">
-                        Ciudad
-                      </Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>🗺️</InputGroupText>
-                        </InputGroupAddon>
-                        <select
-                          defaultValue={"DEFAULT"}
-                          className="form-select"
-                          id="ciudad"
-                          name="ciudad"
-                          value={this.state.form.ciudad || null}
-                          onChange={this.handleChange}
-                        >
-                          <option value="DEFAULT" disabled>
-                            Selecciona una ciudad
-                          </option>
-                          {ciudadestags}
-                        </select>
-                      </InputGroup>
-                    </AvGroup>
-                  </Col>
-                </Row>
-                <div
-                  align="right"
-                  style={{ marginTop: "50px", marginLeft: "10px" }}
-                >
-                  <Button
-                    id="botonValidar"
-                    size="lg"
-                    outline
-                    color="primary"
-                    disabled={this.state.button === false}
-                    onClick={() => this.activarEnlace()}
-                  >
-                    ¡Continuar! &nbsp;
-                    <img
-                      height="40"
-                      width="40"
-                      src={registrarPyme}
-                      alt="registrar"
-                    ></img>
-                  </Button>
-                </div>
-                <section id="enlazarCategorias" style={{ display: "none" }}>
-                  <ConsultaRelacion
-                    enviarCategorias={this.enlazarCategorias}
-                  ></ConsultaRelacion>
-                </section>
-                <section id="registrarUsuario" style={{ display: "none" }}>
-                  <RegistroUsuario registrarUsuario={this.registroUsuario}></RegistroUsuario>
-                </section>
-                <section id="confirmarRegistro" style={{ display: "none" }}>
-                  <Row>
-                    <Col md="2"></Col>
-                    <Col md="8" align="center">
-                      <Button
-                        outline
-                        color="primary"
-                        size="lg"
-                        onClick={() => {
-                          this.registrarPyme();
+                      <AvFeedback>El slogan es requerido</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+                <Col md="3">
+                  <AvGroup>
+                    <Label className="label-registro">Identificación</Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>🖋️</InputGroupText>
+                      </InputGroupAddon>
+                      <AvInput
+                        autoComplete="off"
+                        type="text"
+                        className="form-control"
+                        id="nit"
+                        name="nit"
+                        value={this.state.form.nit || ""}
+                        onChange={this.handleChange}
+                        onBlur={this.onBlurIdentificacion}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[A-Za-z0-9-/*+]+$",
+                          },
+                          minLength: {
+                            value: 9,
+                          },
+                          maxLength: {
+                            value: 15,
+                          },
                         }}
+                      />
+                      <AvFeedback>La identificación es requerida</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="razonSocial">
+                      Teléfono
+                    </Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>📞</InputGroupText>
+                      </InputGroupAddon>
+                      <AvInput
+                        autoComplete="off"
+                        type="text"
+                        className="form-control"
+                        id="telefono"
+                        name="telefono"
+                        value={this.state.form.telefono}
+                        onChange={this.handleChange}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[0-9]+$",
+                          },
+                          minLength: {
+                            value: 7,
+                          },
+                          maxLength: {
+                            value: 10,
+                          },
+                        }}
+                      />
+                      <AvFeedback>El teléfono es requerido</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro">E-mail</Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>📧</InputGroupText>
+                      </InputGroupAddon>
+                      <AvInput
+                        autoComplete="off"
+                        type="email"
+                        className="form-control"
+                        placeholder="ejemplo@dominio.com"
+                        id="email"
+                        name="email"
+                        value={this.state.form.email || ""}
+                        onChange={this.handleChange}
+                        onBlur={this.onBlurEmail}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[A-Za-z0-9-/*+_@.ñ]+$",
+                          },
+                          minLength: {
+                            value: 12,
+                          },
+                          maxLength: {
+                            value: 50,
+                          },
+                        }}
+                      />
+                      <AvFeedback>El e-mail es requerido</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro">Dirección</Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>📌</InputGroupText>
+                      </InputGroupAddon>
+                      <AvInput
+                        autoComplete="off"
+                        type="text"
+                        className="form-control"
+                        id="direccion"
+                        name="direccion"
+                        value={this.state.form.direccion}
+                        onChange={this.handleChange}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                          pattern: {
+                            value: "^[A-Za-z0-9#.ªº ]+$",
+                          },
+                          minLength: {
+                            value: 10,
+                          },
+                          maxLength: {
+                            value: 50,
+                          },
+                        }}
+                      />
+                      <AvFeedback>La dirección es requerida</AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="5">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="logo">
+                      Logo
+                    </Label>
+                    <AvInput
+                      type="file"
+                      className="form-control"
+                      accept="image/*"
+                      id="logo"
+                      name="logo"
+                      onChange={this.handleFileInput}
+                      validate={{
+                        required: {
+                          value: true,
+                        },
+                      }}
+                    />
+                    <AvFeedback>El logo es requerido</AvFeedback>
+                  </AvGroup>
+                </Col>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="ciudad">
+                      Ciudad
+                    </Label>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>🗺️</InputGroupText>
+                      </InputGroupAddon>
+                      <select
+                        defaultValue={"DEFAULT"}
+                        className="form-select"
+                        id="ciudad"
+                        name="ciudad"
+                        value={this.state.form.ciudad || null}
+                        onChange={this.handleChange}
                       >
-                        ¡Registrar mi pyme!&nbsp;&nbsp;
-                        <img
-                          height="48"
-                          width="45"
-                          src={registrarPyme2}
-                          alt="registrar"
-                        ></img>
-                      </Button>
-                    </Col>
-                    <Col md="2"></Col>
-                  </Row>
-                </section>
-              </AvForm>
-            </div>
+                        <option value="DEFAULT" disabled>
+                          Selecciona una ciudad
+                        </option>
+                        {ciudadestags}
+                      </select>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+              </Row>
+              <div align="right" style={{ marginTop: "1%", marginLeft: "3%" }}>
+                <Button
+                  id="botonValidar"
+                  size="lg"
+                  outline
+                  color="primary"
+                  disabled={this.state.button === false}
+                  onClick={() => this.activarEnlace()}
+                >
+                  ¡Continuar! &nbsp;
+                  <img
+                    height="40"
+                    width="40"
+                    src={registrarPyme}
+                    alt="registrar"
+                  ></img>
+                </Button>
+              </div>
+              <section id="enlazarCategorias" style={{ display: "none" }}>
+                <ConsultaRelacion
+                  enviarCategorias={this.enlazarCategorias}
+                ></ConsultaRelacion>
+              </section>
+              <section id="registrarUsuario" style={{ display: "none" }}>
+                <RegistroUsuario
+                  registrarUsuario={this.registroUsuario}
+                ></RegistroUsuario>
+              </section>
+              <section id="confirmarRegistro" style={{ display: "none" }}>
+                <Row>
+                  <Col md="2"></Col>
+                  <Col md="8" align="center">
+                    <Button
+                      outline
+                      color="primary"
+                      size="lg"
+                      onClick={() => {
+                        this.registrarPyme();
+                      }}
+                    >
+                      ¡Registrar mi pyme!&nbsp;&nbsp;
+                      <img
+                        height="48"
+                        width="45"
+                        src={registrarPyme2}
+                        alt="registrar"
+                      ></img>
+                    </Button>
+                  </Col>
+                  <Col md="2"></Col>
+                </Row>
+              </section>
+            </AvForm>
           </div>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToModel = function (formObject, listCategorias,usuario) {
+const mapStateToModel = function (formObject, listCategorias, usuario) {
   return {
+    id: 0,
+    razonSocial: formObject.razonSocial,
+    slogan: formObject.slogan,
+    nit: formObject.nit,
+    urlLogo: "",
+    correoElectronico: formObject.email,
+    direccion: formObject.direccion,
+    ciudad: {
+      id: formObject.ciudad,
+    },
+    telefono: formObject.telefono,
+    activo: true,
+    categorias: listCategorias,
+    usuario: {
       id: 0,
-      razonSocial:formObject.razonSocial,
-      slogan:formObject.slogan,
-      nit:formObject.nit,
-      urlLogo:"",
-      correoElectronico:formObject.email,
-      direccion:formObject.direccion,
-      ciudad: {
-          id: formObject.ciudad
-      },
-      telefono: formObject.telefono,
-      activo:true,
-      categorias: listCategorias,
-      usuario:{
-        id: 0,
-        nombre:usuario.nombre,
-        correo:usuario.correo,
-        pass: usuario.pass,
-        telefono: usuario.telefono,
-        nivel: 0,
-        activo :true
-      }
+      nombre: usuario.nombre,
+      correo: usuario.correo,
+      pass: usuario.pass,
+      telefono: usuario.telefono,
+      nivel: 0,
+      activo: true,
+    },
   };
-}
+};

@@ -28,8 +28,7 @@ export default class RegistroCliente extends React.Component {
       form: {
         tipoDocumento: null,
         numeroDocumento: "",
-        nombres: "",
-        apellidos: "",
+        nombre: "",
         direccion: "",
         ciudad: null,
         codigoPostal: "",
@@ -93,16 +92,11 @@ export default class RegistroCliente extends React.Component {
         this.state.form.numeroDocumento.length < 8) ||
       (this.state.form.numeroDocumento !== undefined &&
         this.state.form.numeroDocumento.length > 12) ||
-      this.state.form.nombres === "" ||
-      (this.state.form.nombres !== undefined &&
-        this.state.form.nombres.length < 3) ||
-      (this.state.form.nombres !== undefined &&
-        this.state.form.nombres.length > 30) ||
-      this.state.form.apellidos === "" ||
-      (this.state.form.apellidos !== undefined &&
-        this.state.form.apellidos.length < 3) ||
-      (this.state.form.apellidos !== undefined &&
-        this.state.form.apellidos.length > 30) ||
+      this.state.form.nombre === "" ||
+      (this.state.form.nombre !== undefined &&
+        this.state.form.nombre.length < 3) ||
+      (this.state.form.nombre !== undefined &&
+        this.state.form.nombre.length > 100) ||
       this.state.form.direccion === "" ||
       (this.state.form.direccion !== undefined &&
         this.state.form.direccion.length < 10) ||
@@ -131,15 +125,53 @@ export default class RegistroCliente extends React.Component {
       form: {
         tipoDocumento: null,
         numeroDocumento: "",
-        nombres: "",
-        apellidos: "",
+        nombre: "",
         direccion: "",
         ciudad: null,
         codigoPostal: "",
         telefono: "",
       },
+      button: false
     });
+
   };
+
+  confirmarCliente() {
+    Swal.fire({
+      title: "Confirmar cliente",
+      text: "¿Realmente deseas confirmar los datos del cliente a registrar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.registrar();
+      }
+    });
+  }
+
+  registrar = async () => {
+    let respuesta = null;
+    const model = mapStateToModel(this.state.form, this.state.empresa);
+    respuesta = await service.registrar(model);
+    if(respuesta !== null){
+      Swal.fire({
+        text: "¡El cliente " + this.state.form.nombre+" ha sido registrado exitosamente!",
+        icon: "success",
+        timer: "3000"
+    })
+    setTimeout(function () { window.location.reload(1); }, 4000);
+    }else{
+      Swal.fire({
+        text: "Uppss! El cliente " + this.state.form.nombre + " no pudo ser registrado",
+        icon: "error",
+        timer: "3000"
+    })
+    }
+};
 
   render() {
     let ciudades;
@@ -240,7 +272,7 @@ export default class RegistroCliente extends React.Component {
                 <Col md="4">
                   <AvGroup>
                     <Label className="label-registro">
-                      Nombre(s)
+                      Nombre o Razón Social
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
@@ -250,9 +282,9 @@ export default class RegistroCliente extends React.Component {
                         autoComplete="off"
                         type="text"
                         className="form-control"
-                        id="nombres"
-                        name="nombres"
-                        value={this.state.form.nombres}
+                        id="nombre"
+                        name="nombre"
+                        value={this.state.form.nombre}
                         onChange={this.handleChange}
                         validate={{
                           required: {
@@ -265,60 +297,22 @@ export default class RegistroCliente extends React.Component {
                             value: 3,
                           },
                           maxLength: {
-                            value: 30,
+                            value: 100,
                           },
                         }}
                       />
-                      <AvFeedback>El nombre es requerido</AvFeedback>
+                      <AvFeedback>El nombre o razón social es requerido</AvFeedback>
                     </InputGroup>
                   </AvGroup>
                 </Col> 
                 <Col md="4">
-                  <AvGroup>
-                    <Label className="label-registro">
-                      Apellido(s)
-                    </Label>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>👥</InputGroupText>
-                      </InputGroupAddon>
-                      <AvInput
-                        autoComplete="off"
-                        type="text"
-                        className="form-control"
-                        id="apellidos"
-                        name="apellidos"
-                        value={this.state.form.apellidos}
-                        onChange={this.handleChange}
-                        validate={{
-                          required: {
-                            value: true,
-                          },
-                          pattern: {
-                            value: "^[A-Za-z0-9#.üáéíóúñ ]+$",
-                          },
-                          minLength: {
-                            value: 3,
-                          },
-                          maxLength: {
-                            value: 30,
-                          },
-                        }}
-                      />
-                      <AvFeedback>El apellido es requerido</AvFeedback>
-                    </InputGroup>
-                  </AvGroup>
-                </Col>
-              </Row>
-              <Row>
-              <Col md="4">
                   <AvGroup>
                     <Label className="label-registro" htmlFor="tipoDocumento">
                       Tipo documento
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>🗺️</InputGroupText>
+                        <InputGroupText>🪪</InputGroupText>
                       </InputGroupAddon>
                       <select
                         defaultValue={"DEFAULT"}
@@ -336,6 +330,8 @@ export default class RegistroCliente extends React.Component {
                     </InputGroup>
                   </AvGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col md="4">
                   <AvGroup>
                     <Label className="label-registro" htmlFor="razonSocial">
@@ -343,7 +339,7 @@ export default class RegistroCliente extends React.Component {
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📞</InputGroupText>
+                        <InputGroupText>🆔</InputGroupText>
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
@@ -379,7 +375,7 @@ export default class RegistroCliente extends React.Component {
                       <Label className="label-registro">Dirección</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
-                          <InputGroupText>📌</InputGroupText>
+                          <InputGroupText>🏤</InputGroupText>
                         </InputGroupAddon>
                         <AvInput
                           autoComplete="off"
@@ -408,16 +404,14 @@ export default class RegistroCliente extends React.Component {
                       </InputGroup>
                     </AvGroup>
                   </Col>
-              </Row>
-              <Row>
-              <Col md="4">
+                  <Col md="4">
                   <AvGroup>
                     <Label className="label-registro" htmlFor="razonSocial">
                       Código postal
                     </Label>
                     <InputGroup>
                       <InputGroupAddon addonType="prepend">
-                        <InputGroupText>📞</InputGroupText>
+                        <InputGroupText>🔢</InputGroupText>
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
@@ -448,6 +442,8 @@ export default class RegistroCliente extends React.Component {
                     </InputGroup>
                   </AvGroup>
                 </Col>
+              </Row>
+              <Row>
                 <Col md="4">
                   <AvGroup>
                     <Label className="label-registro" htmlFor="tipoDocumento">
@@ -511,7 +507,7 @@ export default class RegistroCliente extends React.Component {
 
                 <div
                   align="right"
-                  style={{ marginTop: "50px", marginLeft: "10px" }}
+                  style={{ marginTop: "1%", marginLeft: "3%" }}
                 >
                   <Button
                     id="botonValidar"
@@ -519,7 +515,7 @@ export default class RegistroCliente extends React.Component {
                     outline
                     color="primary"
                     disabled={this.state.button === false}
-                    onClick={() => this.confirmarUsuario()}
+                    onClick={() => this.confirmarCliente()}
                   >
                     Registrar &nbsp;
                     <img
@@ -537,4 +533,24 @@ export default class RegistroCliente extends React.Component {
       </div>
     );
   }
+}
+const mapStateToModel = function (formObject, empresa) {
+  return {
+      id: 0,
+      documento: {
+        id: formObject.tipoDocumento
+      },
+      numDocumento:formObject.numeroDocumento,
+      nombre:formObject.nombre,
+      direccion: formObject.direccion,
+      ciudad:{
+        id: formObject.ciudad
+      },
+      empresa: {
+        id: empresa.id
+      },
+      codPostal: formObject.codigoPostal,
+      telefono: formObject.telefono,
+      activo:true
+  };
 }

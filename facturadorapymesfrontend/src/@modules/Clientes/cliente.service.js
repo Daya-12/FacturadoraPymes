@@ -20,4 +20,15 @@ async function consultarDocumentos() {
     }
     return response;
 };
-export default {consultarCiudades,consultarDocumentos};
+async function registrar(cliente) {
+    const url = urlConexion+'cliente/registrar'
+    let response = null;
+    try {      
+        response=await axios.post(url,cliente);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarDocumentos,registrar};
