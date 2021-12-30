@@ -131,6 +131,15 @@ public class Validaciones {
 			return true;
 	}
 	
+	public boolean validarExistenciaCliente(IClienteRepository clienteRepository, Integer idCliente) {
+		Optional<Cliente> clienteValidacion = clienteRepository.findById(idCliente);
+		if (!clienteValidacion.isPresent()) {
+			throw new NoSuchElementException(Constantes.CLIENTE_INEXISTENTE);
+		} else
+			return true;
+	}
+	
+	
 	public boolean validarIdProducto(IProductoRepository productoRepository, int idProducto) {
 		Optional<Producto> productoValidacion = productoRepository.findById(idProducto);
 		if (productoValidacion.isPresent()) {

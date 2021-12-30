@@ -1,8 +1,11 @@
 package com.FacturadoraPymes.FacturadoraPymes.Utils;
 
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 
@@ -34,6 +37,22 @@ public class Actualizaciones {
 			productoEntity.setCategoria(categoria);
 		}
 		return productoEntity;
+	}
+	
+	public Cliente validarActualizacionCliente(Cliente clienteEntity,ClienteModel clienteModel, Ciudad ciudadEntity) {
+		if (!(clienteModel.getDireccion().equals(clienteEntity.getDireccionCli()))) {
+			clienteEntity.setDireccionCli(clienteModel.getDireccion());
+		}
+		if (clienteModel.getCiudad().getId() != clienteEntity.getCiudad().getIdCiudad()) {
+			clienteEntity.setCiudad(ciudadEntity);
+		}
+		if (!(clienteModel.getCodPostal().equals(clienteEntity.getCodpostalCli()))) {
+			clienteEntity.setCodpostalCli(clienteModel.getCodPostal());
+		}
+		if (!(clienteModel.getTelefono().equals(clienteEntity.getTelefonoCli()))) {
+			clienteEntity.setTelefonoCli(clienteModel.getTelefono());
+		}
+		return clienteEntity;
 	}
 	
 }

@@ -5,6 +5,7 @@ public class Constantes {
 	}
 	public static final String MENSAJE_REGISTRAR = "Se realizó el registro correctamente";
 	public static final String USUARIO_INEXISTENTE = "El usuario no existe";
+	public static final String CLIENTE_INEXISTENTE = "El cliente no existe";
 	public static final String USUARIO_EXISTENTE = "El usuario ya existe";
 	public static final String EMPRESA_INEXISTENTE = "La empresa no existe";
 	public static final String EMPRESA_EXISTENTE = "La empresa ya existe";

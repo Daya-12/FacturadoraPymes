@@ -1,10 +1,14 @@
 package com.FacturadoraPymes.FacturadoraPymes.Services;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Documento;
@@ -12,21 +16,26 @@ import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCliente;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICiudadRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
 
 @Service
 public class ClienteServiceImpl implements IClienteService{
 	private final IClienteRepository clienteRepository;
+	private final ICiudadRepository ciudadRepository;
 	private final IMapperCliente mapperCliente;
 	private final Validaciones validaciones;
 	
 	@Autowired
-	public ClienteServiceImpl(IClienteRepository clienteRepository, IMapperCliente mapperCliente,
+	public ClienteServiceImpl(IClienteRepository clienteRepository,ICiudadRepository ciudadRepository,IMapperCliente mapperCliente,
 			Validaciones validaciones) {
 		this.clienteRepository = clienteRepository;
+		this.ciudadRepository = ciudadRepository;
 		this.mapperCliente = mapperCliente;
 		this.validaciones = validaciones;
 	}
@@ -66,7 +75,19 @@ public class ClienteServiceImpl implements IClienteService{
 	
 	@Override
 	public MensajeModel actualizar(ClienteModel cliente) {
-		// TODO Auto-generated method stub
+		boolean validarIdCliente = validaciones.validarExistenciaCliente(clienteRepository, cliente.getId());
+		if (validarIdCliente) {
+			Optional<Ciudad> ciudad = ciudadRepository.findById(cliente.getCiudad().getId());
+			
+			Actualizaciones actualizacionCliente = new Actualizaciones();
+			MensajeModel mensajeModel = new MensajeModel();
+			Optional<Cliente> clienteConsult = clienteRepository.findById(cliente.getId());
+			Cliente clienteEntity = clienteConsult.get();
+			actualizacionCliente.validarActualizacionCliente(clienteEntity, cliente,ciudad.get());
+			clienteRepository.save(clienteEntity);
+			mensajeModel.setMensaje(Constantes.ACTUALIZACION_EXITOSA);
+			return mensajeModel;
+		}
 		return null;
 	}
 	
@@ -78,6 +99,16 @@ public class ClienteServiceImpl implements IClienteService{
 	@Override
 	public boolean validarNombre(String nombre, int idEmpresa) {
 		return validaciones.validarNombreCliente(clienteRepository, nombre, idEmpresa);
+	}
+
+	@Override
+	public List<ClienteModelPersonalizado> mostrarClientes(int idEmpresa) {
+		List<ClienteModelPersonalizado> clientes = new LinkedList<>();
+		List<Cliente> clienteEntities = clienteRepository.consultarClientes(idEmpresa,true);
+		clientes = StreamSupport.stream(clienteEntities.spliterator(), false).map((cliente) -> {
+			return mapperCliente.mostrarClientes(cliente);
+		}).collect(Collectors.toList());
+		return clientes;
 	}
 
 }

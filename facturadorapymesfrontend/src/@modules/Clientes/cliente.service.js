@@ -53,4 +53,15 @@ async function validarNombre(nombre,idEmpresa) {
     return response;
 };
 
-export default {consultarCiudades,consultarDocumentos,registrar,validarDocumento,validarNombre};
+async function consultar(idEmpresa) {
+    const url = urlConexion+'cliente/consultar/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarDocumentos,registrar,validarDocumento,validarNombre,consultar};

@@ -139,7 +139,7 @@ export default class RegistroCliente extends React.Component {
   confirmarCliente() {
     Swal.fire({
       title: "Confirmar cliente",
-      text: "¿Realmente deseas confirmar los datos del cliente a registrar?",
+      text: "¿Realmente deseas confirmar los datos del cliente a registrar?\nRecuerda: Una vez registrado no puedes editar el tipo ni número de documento",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",

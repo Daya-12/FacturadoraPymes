@@ -1,6 +1,8 @@
 package com.FacturadoraPymes.FacturadoraPymes.IServices;
 
+import java.util.List;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
 public interface IClienteService {
@@ -8,4 +10,5 @@ public interface IClienteService {
 	MensajeModel actualizar(ClienteModel cliente);
 	boolean validarIdentificacion(String numIdentificacion,int idTipo,int idEmpresa);
 	boolean validarNombre(String nombre,int idEmpresa);
+	List<ClienteModelPersonalizado> mostrarClientes(int idEmpresa);
 }

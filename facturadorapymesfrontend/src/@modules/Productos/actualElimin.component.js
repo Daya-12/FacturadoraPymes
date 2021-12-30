@@ -68,8 +68,7 @@ export default class ActualizarEliminarProductos extends React.Component {
       this.state.form.valor === "" ||
       (this.state.form.valor !== undefined &&
         this.state.form.valor.length < 3) ||
-      (this.state.form.valor !== undefined &&
-        this.state.form.valor.length > 8)
+      (this.state.form.valor !== undefined && this.state.form.valor.length > 8)
     ) {
       this.setState({ button: false });
     } else {
@@ -92,9 +91,9 @@ export default class ActualizarEliminarProductos extends React.Component {
     let respuesta = null;
     respuesta = await service.consultarProductos(this.state.empresa.id);
     if (respuesta !== null) {
-       this.setState({
-        productos: respuesta.data
-      }); 
+      this.setState({
+        productos: respuesta.data,
+      });
     }
   };
 
@@ -110,8 +109,7 @@ export default class ActualizarEliminarProductos extends React.Component {
     Swal.fire({
       className: "swal",
       title: "Actualizacion de producto",
-      text:
-        "¿Deseas cancelar la actualización de datos para el producto seleccionado?",
+      text: "¿Deseas cancelar la actualización de datos para el producto seleccionado?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -126,18 +124,17 @@ export default class ActualizarEliminarProductos extends React.Component {
   };
 
   seleccionarProductoActualizar = async (producto) => {
-    await this.consultarCategorias();
-    if(this.state.categorias !== []){
-    await this.setState({
-      tipoModal: "actualizar",
-      form: {
-        id: producto.id,
-        nombre: producto.nombre,
-        valor: producto.valor,
-        categoria: producto.id_categoria
-      },
-    });
-  }
+    if (this.state.categorias !== []) {
+      await this.setState({
+        tipoModal: "actualizar",
+        form: {
+          id: producto.id,
+          nombre: producto.nombre,
+          valor: producto.valor,
+          categoria: producto.id_categoria,
+        },
+      });
+    }
   };
 
   seleccionarProductoEliminar = async (producto) => {
@@ -146,7 +143,7 @@ export default class ActualizarEliminarProductos extends React.Component {
         id: producto.id,
         nombre: producto.nombre,
         valor: producto.valor,
-        categoria: producto.id_categoria
+        categoria: producto.id_categoria,
       },
     });
     this.confirmacionEliminar();
@@ -156,7 +153,9 @@ export default class ActualizarEliminarProductos extends React.Component {
     Swal.fire({
       title: "Dar de baja a productos",
       text:
-        "¿Estas seguro de dar de baja al producto " +this.state.form.nombre +"?",
+        "¿Estas seguro de dar de baja al producto " +
+        this.state.form.nombre +
+        "?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -180,21 +179,22 @@ export default class ActualizarEliminarProductos extends React.Component {
         timer: "4000",
       });
       this.componentDidMount();
-    }
-    else if(respuesta.data == 2) {
+    } else if (respuesta.data == 2) {
       Swal.fire({
         text: "Se realizó un borralo lógico para el producto seleccionado debido a que existe información que depende de este registro",
         icon: "success",
-        timer: "4000"
-    })
-    this.componentDidMount();
-    }
-    else if(respuesta==null){
+        timer: "4000",
+      });
+      this.componentDidMount();
+    } else if (respuesta == null) {
       Swal.fire({
-        text: "Uppss! El producto " + this.state.form.nombre + " no pudo ser dado de baja",
+        text:
+          "Uppss! El producto " +
+          this.state.form.nombre +
+          " no pudo ser dado de baja",
         icon: "error",
-        timer: "4000"
-    })
+        timer: "4000",
+      });
     }
   };
 
@@ -237,35 +237,30 @@ export default class ActualizarEliminarProductos extends React.Component {
   };
 
   update = async () => {
-
-      let respuesta = null;
-      const model = mapStateToModel(
-        this.state.form,
-        this.state.empresa
-      );
-      respuesta = await service.editar(model);
-      if (respuesta !== null) {
-        this.cerrarModalEditar();
-        this.componentDidMount();
-        Swal.fire({
-          text:
-            "¡El usuario " +
-            this.state.form.nombre +
-            " ha sido actualizado exitosamente!",
-          icon: "success",
-          timer: "5000",
-        });
-      } else {
-        Swal.fire({
-          text:
-            "Uppss! El usuario " +
-            this.state.form.nombre +
-            " no puedo ser actualizado",
-          icon: "error",
-          timer: "4000",
-        });
-      }
-    
+    let respuesta = null;
+    const model = mapStateToModel(this.state.form, this.state.empresa);
+    respuesta = await service.editar(model);
+    if (respuesta !== null) {
+      this.cerrarModalEditar();
+      this.componentDidMount();
+      Swal.fire({
+        text:
+          "¡El usuario " +
+          this.state.form.nombre +
+          " ha sido actualizado exitosamente!",
+        icon: "success",
+        timer: "5000",
+      });
+    } else {
+      Swal.fire({
+        text:
+          "Uppss! El usuario " +
+          this.state.form.nombre +
+          " no puedo ser actualizado",
+        icon: "error",
+        timer: "4000",
+      });
+    }
   };
 
   confirmar = async () => {
@@ -289,7 +284,6 @@ export default class ActualizarEliminarProductos extends React.Component {
     });
   };
 
-
   render() {
     let productos;
     if (this.state.productos === null) {
@@ -301,7 +295,7 @@ export default class ActualizarEliminarProductos extends React.Component {
       <tr key={producto.id}>
         <td>{producto.nombre}</td>
         <td>{producto.valor}</td>
-        <td  style={{display:"none"}}>{producto.id_categoria}</td>
+        <td style={{ display: "none" }}>{producto.id_categoria}</td>
         <td>{producto.categoria}</td>
         <td>
           <button
@@ -405,22 +399,21 @@ export default class ActualizarEliminarProductos extends React.Component {
           </div>
           <br />
 
-<div className="row justify-content-center pt-6 mb-6 m-2 mt-1">
-  <Table cellSpacing="10" className="tableRegistros" striped>
-    <tr align="center" textalign="center">
-      <th scope="row">Nombre</th>
-      <th scope="row">Precio</th>
-      <th scope="row">Categoria</th>
-      <th colSpan="2">Acciones</th>
-    </tr>
-    <tbody className="bodyTable" align="center" textalign="center">
-      {productostags}
-    </tbody>
-  </Table>
-</div>
+          <div className="row justify-content-center pt-6 mb-6 m-2 mt-1">
+            <Table cellSpacing="10" className="tableRegistros" striped>
+              <tr align="center" textalign="center">
+                <th scope="row">Nombre</th>
+                <th scope="row">Precio</th>
+                <th scope="row">Categoria</th>
+                <th colSpan="2">Acciones</th>
+              </tr>
+              <tbody className="bodyTable" align="center" textalign="center">
+                {productostags}
+              </tbody>
+            </Table>
+          </div>
 
-
-<Modal isOpen={this.state.modalActualizar}>
+          <Modal isOpen={this.state.modalActualizar}>
             <ModalHeader style={{ display: "block" }} closebutton>
               <Button
                 size="sm"
@@ -441,9 +434,7 @@ export default class ActualizarEliminarProductos extends React.Component {
                 alt="Logo"
               />
               <div id="titulo">
-                <label>
-                  Actualizar producto
-                </label>
+                <label>Actualizar producto</label>
               </div>
             </ModalHeader>
 
@@ -527,9 +518,6 @@ export default class ActualizarEliminarProductos extends React.Component {
                     </AvGroup>
                   </Col>
                 </Row>
-
-
-
               </AvForm>
             </ModalBody>
             <ModalFooter>
@@ -545,23 +533,19 @@ export default class ActualizarEliminarProductos extends React.Component {
               </div>
             </ModalFooter>
           </Modal>
-
-
-
         </div>
       </div>
     );
   }
 }
 
-
 const mapStateToModel = function (formObject, empresa) {
   return {
     id: formObject.id,
     nombre: formObject.nombre,
     valor: formObject.valor,
-    categoria:{
-      id: formObject.categoria
+    categoria: {
+      id: formObject.categoria,
     },
     empresa: {
       id: empresa.id,
