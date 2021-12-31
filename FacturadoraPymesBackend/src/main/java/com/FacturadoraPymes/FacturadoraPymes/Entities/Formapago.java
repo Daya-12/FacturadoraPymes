@@ -12,43 +12,43 @@ public class Formapago implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_formaPago")
-	private int idformaPago;
+	@Column(name="id_formapago")
+	private int idformapago;
 
-	@Column(name="nombre_formaPago")
-	private String nombreformaPago;
+	@Column(name="nombre_formapago")
+	private String nombreformapago;
 	
 	@Column(name="activo")
-	private boolean activoformaPago;
+	private boolean activoformapago;
 	
-	@OneToMany(mappedBy="formaPago")
+	@OneToMany(mappedBy="formapago")
 	private List<Factura> facturas;
 	
 	public Formapago() {
 	}
 
-	public int getIdformaPago() {
-		return this.idformaPago;
+	public int getIdformapago() {
+		return this.idformapago;
 	}
 
-	public void setIdformaPago(int idformaPago) {
-		this.idformaPago = idformaPago;
+	public void setIdformapago(int idformapago) {
+		this.idformapago = idformapago;
 	}
 
-	public String getNombreformaPago() {
-		return this.nombreformaPago;
+	public String getNombreformapago() {
+		return this.nombreformapago;
 	}
 
-	public void setNombreformaPago(String nombreformaPago) {
-		this.nombreformaPago = nombreformaPago;
+	public void setNombreformapago(String nombreformapago) {
+		this.nombreformapago = nombreformapago;
 	}
 	
-	public boolean getActivoformaPago() {
-		return this.activoformaPago;
+	public boolean getActivoformapago() {
+		return this.activoformapago;
 	}
 
 	public void setActivoformaPago(boolean activoformaPago) {
-		this.activoformaPago = activoformaPago;
+		this.activoformapago = activoformaPago;
 	}
 	
 	public List<Factura> getFacturas() {

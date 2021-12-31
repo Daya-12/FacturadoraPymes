@@ -138,7 +138,7 @@ export default class ConsultarUsuarios extends React.Component {
               }}
             >
               <label>
-                Usuarios registrados en estado activo para{" "}
+                Usuarios registrados para{" "}
                 {this.state.empresa.razonSocial}
               </label>
             </div>

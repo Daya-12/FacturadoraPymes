@@ -60,10 +60,10 @@ PRIMARY KEY (id_estado)
 );
 
 CREATE TABLE FormaPago(
-id_formaPago INT AUTO_INCREMENT,
-nombre_formaPago VARCHAR (80) NOT NULL,
+id_formapago INT AUTO_INCREMENT,
+nombre_formapago VARCHAR (80) NOT NULL,
 activo BIT NOT NULL,
-PRIMARY KEY (id_formaPago)
+PRIMARY KEY (id_formapago)
 );
 
 CREATE TABLE Documento(
@@ -108,8 +108,8 @@ id_ciudad INT NOT NULL,
 id_cliente INT NOT NULL,
 id_usuario INT NOT NULL,
 id_estado INT NOT NULL,
-id_formaPago INT NOT NULL,
-formaPago_personalizada VARCHAR(100), 
+id_formapago INT NOT NULL,
+formapago_personalizada VARCHAR(100), 
 fecha_emision DATE NOT NULL, 
 fecha_vencimiento DATE NOT NULL,
 subtotal_factura DOUBLE NOT NULL,
@@ -121,7 +121,7 @@ FOREIGN KEY (id_ciudad) references Ciudad (id_ciudad),
 FOREIGN KEY (id_cliente) references Cliente (id_cliente),
 FOREIGN KEY (id_usuario) references Usuario (id_usuario),
 FOREIGN KEY (id_estado) references Estado (id_estado),
-FOREIGN KEY (id_formaPago) references FormaPago (id_formaPago)
+FOREIGN KEY (id_formapago) references FormaPago (id_formapago)
 );
 
 CREATE TABLE ImpuestoFactura (

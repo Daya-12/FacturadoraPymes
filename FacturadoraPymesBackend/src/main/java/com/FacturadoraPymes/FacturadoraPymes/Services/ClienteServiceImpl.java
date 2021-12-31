@@ -13,13 +13,19 @@ import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Documento;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCliente;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICiudadRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IFacturaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Actualizaciones;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
@@ -28,14 +34,16 @@ import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
 public class ClienteServiceImpl implements IClienteService{
 	private final IClienteRepository clienteRepository;
 	private final ICiudadRepository ciudadRepository;
+	private final IFacturaRepository facturaRepository;
 	private final IMapperCliente mapperCliente;
 	private final Validaciones validaciones;
 	
 	@Autowired
-	public ClienteServiceImpl(IClienteRepository clienteRepository,ICiudadRepository ciudadRepository,IMapperCliente mapperCliente,
+	public ClienteServiceImpl(IClienteRepository clienteRepository,IFacturaRepository facturaRepository,ICiudadRepository ciudadRepository,IMapperCliente mapperCliente,
 			Validaciones validaciones) {
 		this.clienteRepository = clienteRepository;
 		this.ciudadRepository = ciudadRepository;
+		this.facturaRepository = facturaRepository;
 		this.mapperCliente = mapperCliente;
 		this.validaciones = validaciones;
 	}
@@ -78,7 +86,6 @@ public class ClienteServiceImpl implements IClienteService{
 		boolean validarIdCliente = validaciones.validarExistenciaCliente(clienteRepository, cliente.getId());
 		if (validarIdCliente) {
 			Optional<Ciudad> ciudad = ciudadRepository.findById(cliente.getCiudad().getId());
-			
 			Actualizaciones actualizacionCliente = new Actualizaciones();
 			MensajeModel mensajeModel = new MensajeModel();
 			Optional<Cliente> clienteConsult = clienteRepository.findById(cliente.getId());
@@ -108,6 +115,40 @@ public class ClienteServiceImpl implements IClienteService{
 		clientes = StreamSupport.stream(clienteEntities.spliterator(), false).map((cliente) -> {
 			return mapperCliente.mostrarClientes(cliente);
 		}).collect(Collectors.toList());
+		return clientes;
+	}
+	
+	@Override
+	public int eliminar(int idCliente) {
+		int retorno=0;
+		List<Factura> facturas = clienteRepository.facturasCreadasCliente(idCliente);
+		boolean validarIdCliente = validaciones.validarExistenciaCliente(clienteRepository, idCliente);
+		if(facturas.isEmpty() && validarIdCliente) {
+			clienteRepository.deleteById(idCliente);
+			retorno = 1;
+		}else if(!facturas.isEmpty() && validarIdCliente) {
+			Optional<Cliente> clienteConsult = clienteRepository.findById(idCliente);
+			Cliente clienteEntity = clienteConsult.get();
+			clienteEntity.setActivo(false);
+			clienteRepository.save(clienteEntity);
+			retorno= 2;
+		}
+		return retorno;
+
+	}
+
+	@Override
+	public List<ClienteModelConsultaP> mostrarClientesPersonalizado(int idEmpresa) {
+		List<ClienteModelConsultaP> clientes = new LinkedList<>();
+		Iterable<Cliente> clienteEntities = clienteRepository.consultarClientes(idEmpresa,true);;
+		String cantidad;
+		for (Cliente cliente : clienteEntities) {
+			cantidad = facturaRepository.consultarTotalFacturado(cliente.getIdCliente());
+			if (cantidad == null) {
+				cantidad = "0";
+			}
+			clientes.add(mapperCliente.mostrarClientesPersonalizado(cliente, cantidad));
+		}
 		return clientes;
 	}
 

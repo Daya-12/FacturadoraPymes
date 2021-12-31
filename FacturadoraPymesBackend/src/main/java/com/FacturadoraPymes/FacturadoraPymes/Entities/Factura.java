@@ -25,11 +25,8 @@ public class Factura implements Serializable {
 	@Column(name="fecha_vencimiento")
 	private Date fechaVencimiento;
 
-	@Column(name="formaPago_personalizada")
+	@Column(name="formapago_personalizada")
 	private String formaPagoPers;
-
-	@Column(name="id_impuesto")
-	private int idImpuesto;
 
 	@Column(name="ref_pago")
 	private String refPago;
@@ -54,8 +51,8 @@ public class Factura implements Serializable {
 	
 	//bi-directional many-to-one association to formaPago
 	@ManyToOne
-	@JoinColumn(name="id_formaPago")
-	private Formapago formaPago;
+	@JoinColumn(name="id_formapago")
+	private Formapago formapago;
 	
 	//bi-directional many-to-one association to Ciudad
 	@ManyToOne
@@ -114,14 +111,6 @@ public class Factura implements Serializable {
 
 	public void setFormaPagoPersonalizada(String formaPagoPersonalizada) {
 		this.formaPagoPers = formaPagoPersonalizada;
-	}
-
-	public int getIdImpuesto() {
-		return this.idImpuesto;
-	}
-
-	public void setIdImpuesto(int idImpuesto) {
-		this.idImpuesto = idImpuesto;
 	}
 
 	public String getRefPago() {
@@ -212,11 +201,11 @@ public class Factura implements Serializable {
 	}
 	
 	public Formapago getFormaPago() {
-		return this.formaPago;
+		return this.formapago;
 	}
 
 	public void setFormaPago(Formapago formaPago) {
-		this.formaPago = formaPago;
+		this.formapago = formaPago;
 	}
 	
 	public List<Impuesto> getImpuestos() {

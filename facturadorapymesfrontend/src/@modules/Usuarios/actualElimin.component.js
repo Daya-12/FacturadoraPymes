@@ -79,7 +79,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     Swal.fire({
       title: "Dar de baja a usuarios",
       text:
-        "¿Estas seguro de dar de baja al usuario " +this.state.form.nombre +"?",
+        "¿Estas seguro de dar de baja al usuario " +this.state.form.nombre +"?\nUna vez eliminado el usuario, no puede volver a ingresar al sistema",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -114,7 +114,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
     }
     else if(respuesta==null){
       Swal.fire({
-        text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser dado de baja",
+        text: "Uppss! El usuario " + this.state.form.nombre + " no pudo ser dado de baja,¡Intentalo nuevamente!",
         icon: "error",
         timer: "4000"
     })

@@ -64,4 +64,37 @@ async function consultar(idEmpresa) {
     return response;
 };
 
-export default {consultarCiudades,consultarDocumentos,registrar,validarDocumento,validarNombre,consultar};
+async function editar(producto) {
+    const url = urlConexion+'cliente/actualizar'
+    let response = null;
+    try {      
+        response=await axios.put(url,producto);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function eliminar(idCliente) {
+    const url = urlConexion+'cliente/eliminar/'+idCliente
+    let response = null;
+    try {      
+        response=await axios.delete(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function consultaPersonalizada(idEmpresa) {
+    const url = urlConexion+'cliente/consultaPersonalizada/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarDocumentos,registrar,validarDocumento,validarNombre,consultar,editar,eliminar,consultaPersonalizada};

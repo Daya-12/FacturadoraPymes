@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
@@ -62,4 +64,19 @@ public class ClienteControlador {
 	public List<ClienteModelPersonalizado> mostrarClientes(@PathVariable int idEmpresa) {
 		return clienteService.mostrarClientes(idEmpresa);
 	}
+	
+	@DeleteMapping(value = "/eliminar/{idCliente}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public int eliminar(@PathVariable("idCliente") int idCliente) {
+		return clienteService.eliminar(idCliente);
+	}
+	
+	@GetMapping(value = "/consultaPersonalizada/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<ClienteModelConsultaP> mostrarClientesPersonalizado(@PathVariable int idEmpresa) {
+		return clienteService.mostrarClientesPersonalizado(idEmpresa);
+	}
+	
 }

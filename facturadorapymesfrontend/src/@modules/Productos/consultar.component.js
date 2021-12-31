@@ -132,7 +132,7 @@ export default class ConsultarProductos extends React.Component {
               }}
             >
               <label>
-                Productos registrados en estado activo para{" "}
+                Productos registrados para{" "}
                 {this.state.empresa.razonSocial}
               </label>
             </div>
@@ -202,7 +202,6 @@ export default class ConsultarProductos extends React.Component {
               conditionalRowStyles={conditionalRowStyles}
             />
           </div>
-
         </div>
       </div>
     );
@@ -243,6 +242,5 @@ const conditionalRowStyles = [
         cursor: "pointer",
       },
     },
-  }
+  },
 ];
-

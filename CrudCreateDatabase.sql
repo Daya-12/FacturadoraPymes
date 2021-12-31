@@ -1,4 +1,3 @@
-
 create database bd_facturadora;
 use bd_facturadora;
 
@@ -60,10 +59,10 @@ PRIMARY KEY (id_estado)
 );
 
 CREATE TABLE FormaPago(
-id_formaPago INT AUTO_INCREMENT,
-nombre_formaPago VARCHAR (80) NOT NULL,
+id_formapago INT AUTO_INCREMENT,
+nombre_formapago VARCHAR (80) NOT NULL,
 activo BIT NOT NULL,
-PRIMARY KEY (id_formaPago)
+PRIMARY KEY (id_formapago)
 );
 
 CREATE TABLE Documento(
@@ -88,14 +87,13 @@ FOREIGN KEY (id_empresa) references Empresa (id_empresa)
 CREATE TABLE Cliente(
 id_cliente INT AUTO_INCREMENT, 
 id_tdocumento INT NOT NULL, 
-num_documento INT NOT NULL,
-nombres_cli VARCHAR (100) NOT NULL,
-apellidos_cli VARCHAR (100) NOT NULL,
+num_documento VARCHAR (20) NOT NULL,
+nombre_cli VARCHAR (100) NOT NULL,
 direccion_cli VARCHAR (100) NOT NULL,
 id_ciudad INT NOT NULL,
 id_empresa INT NOT NULL,
-codpostal_cli INT NOT NULL,
-telefono_cli INT NOT NULL,
+codpostal_cli VARCHAR (10) NOT NULL,
+telefono_cli VARCHAR (30) NOT NULL,
 activo BIT NOT NULL, 
 PRIMARY KEY (id_cliente),
 FOREIGN KEY (id_tdocumento) references Documento (id_tdocumento),
@@ -109,8 +107,8 @@ id_ciudad INT NOT NULL,
 id_cliente INT NOT NULL,
 id_usuario INT NOT NULL,
 id_estado INT NOT NULL,
-id_formaPago INT NOT NULL,
-formaPago_personalizada VARCHAR(100), 
+id_formapago INT NOT NULL,
+formapago_personalizada VARCHAR(100), 
 fecha_emision DATE NOT NULL, 
 fecha_vencimiento DATE NOT NULL,
 subtotal_factura DOUBLE NOT NULL,
@@ -122,7 +120,7 @@ FOREIGN KEY (id_ciudad) references Ciudad (id_ciudad),
 FOREIGN KEY (id_cliente) references Cliente (id_cliente),
 FOREIGN KEY (id_usuario) references Usuario (id_usuario),
 FOREIGN KEY (id_estado) references Estado (id_estado),
-FOREIGN KEY (id_formaPago) references FormaPago (id_formaPago)
+FOREIGN KEY (id_formapago) references FormaPago (id_formapago)
 );
 
 CREATE TABLE ImpuestoFactura (

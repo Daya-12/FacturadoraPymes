@@ -76,7 +76,7 @@ public class Validaciones {
 	}
 	
 	public Optional<Usuario> validarSesion(IUsuarioRepository usuarioRepository, String email,String pass) {
-		Optional<Usuario> usuarioEntity = usuarioRepository.validarSesion(email,pass);
+		Optional<Usuario> usuarioEntity = usuarioRepository.validarSesion(email,pass,true);
 		if (!usuarioEntity.isPresent()) {
 			throw new NoSuchElementException(Constantes.USUARIO_INEXISTENTE);
 		} else
@@ -84,7 +84,7 @@ public class Validaciones {
 	}
 	
 	public boolean validarCorreo(IUsuarioRepository usuarioRepository, String email) {
-		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreo(email);
+		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreo(email,true);
 		if (usuarioValidacion.isPresent()) {
 			return true;
 		} else
@@ -116,7 +116,7 @@ public class Validaciones {
 	}
 	
 	public boolean validarCorreoDistinto(IUsuarioRepository usuarioRepository, String email,int idUsuario) {
-		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreosDistintos(email,idUsuario);
+		Optional<Usuario> usuarioValidacion = usuarioRepository.validarCorreosDistintos(email,idUsuario,true);
 		if (usuarioValidacion.isPresent()) {
 			return true;
 		} else
@@ -133,10 +133,10 @@ public class Validaciones {
 	
 	public boolean validarExistenciaCliente(IClienteRepository clienteRepository, Integer idCliente) {
 		Optional<Cliente> clienteValidacion = clienteRepository.findById(idCliente);
-		if (!clienteValidacion.isPresent()) {
-			throw new NoSuchElementException(Constantes.CLIENTE_INEXISTENTE);
-		} else
+		if (clienteValidacion.isPresent()) {
 			return true;
+		} else
+			return false;
 	}
 	
 	
@@ -158,7 +158,7 @@ public class Validaciones {
 	
 	
 	public boolean validarNombreProducto(IProductoRepository productoRepository, String nombre, int idEmpresa) {
-		Optional<Producto> productoValidacion = productoRepository.validarNombreProducto(nombre,idEmpresa);
+		Optional<Producto> productoValidacion = productoRepository.validarNombreProducto(nombre,idEmpresa,true);
 		if (productoValidacion.isPresent()) {
 			return true;
 		} else
@@ -166,7 +166,7 @@ public class Validaciones {
 	}
 	
 	public boolean validarNombreDistinto(IProductoRepository productoRepository, String nombre, int idProducto, int idEmpresa) {
-		Optional<Producto> productoValidacion = productoRepository.validarNombreDistintos(nombre,idProducto,idEmpresa);
+		Optional<Producto> productoValidacion = productoRepository.validarNombreDistintos(nombre,idProducto,idEmpresa,true);
 		if (productoValidacion.isPresent()) {
 			return true;
 		} else
@@ -174,7 +174,7 @@ public class Validaciones {
 	}
 	
 	public boolean validarIdentificacionCliente(IClienteRepository clienteRepository, String numIdentificacion, int idTipo, int idEmpresa) {
-		Optional<Cliente> clienteValidacion = clienteRepository.validarIdentificacion(numIdentificacion,idTipo,idEmpresa);
+		Optional<Cliente> clienteValidacion = clienteRepository.validarIdentificacion(numIdentificacion,idTipo,idEmpresa,true);
 		if (clienteValidacion.isPresent()) {
 			return true;
 		} else
@@ -182,7 +182,7 @@ public class Validaciones {
 	}
 	
 	public boolean validarNombreCliente(IClienteRepository clienteRepository, String nombre, int idEmpresa) {
-		Optional<Cliente> clienteValidacion = clienteRepository.validarNombre(nombre,idEmpresa);
+		Optional<Cliente> clienteValidacion = clienteRepository.validarNombre(nombre,idEmpresa,true);
 		if (clienteValidacion.isPresent()) {
 			return true;
 		} else

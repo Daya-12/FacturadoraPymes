@@ -94,6 +94,7 @@ export default class ActualizarEliminarProductos extends React.Component {
       this.setState({
         productos: respuesta.data,
       });
+      this.consultarCategorias();
     }
   };
 
@@ -151,11 +152,11 @@ export default class ActualizarEliminarProductos extends React.Component {
 
   confirmacionEliminar = () => {
     Swal.fire({
-      title: "Dar de baja a productos",
+      title: "Dar de baja productos",
       text:
         "¿Estas seguro de dar de baja al producto " +
         this.state.form.nombre +
-        "?",
+        "?\nUna vez eliminado el producto, no puedes volver a realizar facturas con el mismo",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -174,7 +175,7 @@ export default class ActualizarEliminarProductos extends React.Component {
     respuesta = await service.eliminar(this.state.form.id);
     if (respuesta.data == 1) {
       Swal.fire({
-        text: "El producto ha sido eliminado con éxito",
+        text: "El producto ha sido dado de baja con éxito",
         icon: "success",
         timer: "4000",
       });
@@ -191,7 +192,7 @@ export default class ActualizarEliminarProductos extends React.Component {
         text:
           "Uppss! El producto " +
           this.state.form.nombre +
-          " no pudo ser dado de baja",
+          " no pudo ser dado de baja,¡Intentalo nuevamente!",
         icon: "error",
         timer: "4000",
       });
@@ -217,7 +218,7 @@ export default class ActualizarEliminarProductos extends React.Component {
       if (respuesta !== null) {
         if (respuesta.data === true) {
           Swal.fire({
-            text: "Ya existe un producto registrado con el nombre ingresado",
+            text: "¡Ya existe un producto registrado con el nombre ingresado,puedes modificarlo!",
             icon: "error",
             timer: "4000",
           });
@@ -245,7 +246,7 @@ export default class ActualizarEliminarProductos extends React.Component {
       this.componentDidMount();
       Swal.fire({
         text:
-          "¡El usuario " +
+          "¡El producto " +
           this.state.form.nombre +
           " ha sido actualizado exitosamente!",
         icon: "success",
@@ -254,7 +255,7 @@ export default class ActualizarEliminarProductos extends React.Component {
     } else {
       Swal.fire({
         text:
-          "Uppss! El usuario " +
+          "Uppss! El producto " +
           this.state.form.nombre +
           " no puedo ser actualizado",
         icon: "error",

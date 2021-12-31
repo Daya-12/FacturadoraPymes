@@ -32,6 +32,7 @@ export default class ActualizarEliminarClientes extends React.Component {
       button: false,
       form: {
         id: "",
+        idTipoDocumento: "",
         tipoDocumento: null,
         numeroDocumento: "",
         nombre: "",
@@ -70,17 +71,8 @@ export default class ActualizarEliminarClientes extends React.Component {
       this.setState({
         clientes: respuesta.data,
       });
-      this.consultarDocumentos();
       this.consultarCiudades();
     }
-  };
-
-  consultarDocumentos = async () => {
-    let respuesta = null;
-    respuesta = await service.consultarDocumentos();
-    this.setState({
-      documentos: respuesta.data,
-    });
   };
 
   consultarCiudades = async () => {
@@ -105,6 +97,7 @@ export default class ActualizarEliminarClientes extends React.Component {
         tipoModal: "actualizar",
         form: {
           id: cliente.id,
+          idTipoDocumento: cliente.id_tdocumento,
           tipoDocumento: cliente.nombre_tdocumento,
           numeroDocumento: cliente.num_documento,
           nombre: cliente.nombre,
@@ -116,6 +109,178 @@ export default class ActualizarEliminarClientes extends React.Component {
       });
     }
   };
+
+
+  seleccionarClienteEliminar = async (cliente) => {
+    await this.setState({
+      form: {
+        id: cliente.id,
+        idTipoDocumento: cliente.id_tdocumento,
+        tipoDocumento: cliente.nombre_tdocumento,
+        numeroDocumento: cliente.num_documento,
+        nombre: cliente.nombre,
+        direccion: cliente.direccion,
+        codigoPostal: cliente.codPostal,
+        ciudad: cliente.id_ciudad,
+        telefono: cliente.telefono
+      },
+    });
+    this.confirmacionEliminar();
+  };
+
+  confirmacionEliminar = () => {
+    Swal.fire({
+      title: "Dar de baja clientes",
+      text:
+        "¿Estas seguro de dar de baja al cliente " +
+        this.state.form.nombre +
+        "?\nUna vez eliminado el cliente, no puedes volver a realizar facturas con el mismo",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.deleteCliente();
+      }
+    });
+  };
+
+  deleteCliente = async () => {
+    let respuesta = null;
+    respuesta = await service.eliminar(this.state.form.id);
+    if (respuesta.data == 1) {
+      Swal.fire({
+        text: "El cliente ha sido dado de baja con éxito",
+        icon: "success",
+        timer: "4000",
+      });
+      this.componentDidMount();
+    } else if (respuesta.data == 2) {
+      Swal.fire({
+        text: "Se realizó un borralo lógico para el cliente seleccionado debido a que existe información que depende de este registro",
+        icon: "success",
+        timer: "4000",
+      });
+      this.componentDidMount();
+    } else if (respuesta == null) {
+      Swal.fire({
+        text:
+          "Uppss! El cliente " +
+          this.state.form.nombre +
+          " no pudo ser dado de baja,¡Intentalo nuevamente!",
+        icon: "error",
+        timer: "4000",
+      });
+    }
+  };
+
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+    this.validarCampos();
+  };
+
+  validarCampos = () => {
+    if (
+      this.state.form.direccion === "" ||
+      (this.state.form.direccion !== undefined &&
+        this.state.form.direccion.length < 10) ||
+      (this.state.form.direccion !== undefined &&
+        this.state.form.direccion.length > 50) ||
+      this.state.form.ciudad === null ||
+      this.state.form.codigoPostal === "" ||
+      (this.state.form.codigoPostal !== undefined &&
+        this.state.form.codigoPostal.length < 4) ||
+      (this.state.form.codigoPostal !== undefined &&
+        this.state.form.codigoPostal.length > 8) ||
+      this.state.form.telefono === "" ||
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length < 7) ||
+      (this.state.form.telefono !== undefined &&
+        this.state.form.telefono.length > 10)
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
+  };
+
+
+  ocultarModalEditar = () => {
+    Swal.fire({
+      className: "swal",
+      title: "Actualizacion de producto",
+      text: "¿Deseas cancelar la actualización de datos para el cliente seleccionado?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.setState({ modalActualizar: false });
+      }
+    });
+  };
+
+  confirmar = async () => {
+    Swal.fire({
+      className: "swal",
+      title: "Actualizacion de cliente",
+      text:
+        "¿Deseas confirmar la actualización del cliente " +
+        this.state.form.nombre +
+        "?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#0D4C90",
+      cancelButtonColor: "#973232",
+      cancelButtonText: "No, cancelar",
+      confirmButtonText: "Si, proceder",
+    }).then((result) => {
+      if (result.value) {
+        this.actualizar();
+      }
+    });
+  };
+
+  actualizar = async () => {
+    let respuesta = null;
+    const model = mapStateToModel(this.state.form, this.state.empresa);
+    respuesta = await service.editar(model);
+    if (respuesta !== null) {
+      this.cerrarModalEditar();
+      this.componentDidMount();
+      Swal.fire({
+        text:
+          "¡El cliente " +
+          this.state.form.nombre +
+          " ha sido actualizado exitosamente!",
+        icon: "success",
+        timer: "5000",
+      });
+    } else {
+      Swal.fire({
+        text:
+          "Uppss! El cliente " +
+          this.state.form.nombre +
+          " no puedo ser actualizado",
+        icon: "error",
+        timer: "4000",
+      });
+    }
+  };
+
+
 
   render() {
     let clientes;
@@ -251,7 +416,7 @@ export default class ActualizarEliminarClientes extends React.Component {
             </Table>
           </div>
 
-          <Modal isOpen={this.state.modalActualizar}>
+          <Modal isOpen={this.state.modalActualizar} size="lg">
             <ModalHeader style={{ display: "block" }} closebutton>
               <Button
                 size="sm"
@@ -263,11 +428,11 @@ export default class ActualizarEliminarClientes extends React.Component {
               </Button>
               <img
                 src={logo}
-                height="55"
-                width="135"
+                height="70"
+                width="165"
                 style={{
                   marginLeft: "3%",
-                  marginTop: "3%",
+                  marginTop: "1%",
                 }}
                 alt="Logo"
               />
@@ -279,7 +444,7 @@ export default class ActualizarEliminarClientes extends React.Component {
             <ModalBody>
               <AvForm id="editar">
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Nombre: </Label>
                       <AvInput
@@ -291,9 +456,7 @@ export default class ActualizarEliminarClientes extends React.Component {
                       />
                     </AvGroup>
                   </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Tipo documento: </Label>
                       <AvInput
@@ -306,8 +469,9 @@ export default class ActualizarEliminarClientes extends React.Component {
                     </AvGroup>
                   </Col>
                 </Row>
+
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Número documento: </Label>
                       <AvInput
@@ -319,10 +483,7 @@ export default class ActualizarEliminarClientes extends React.Component {
                       />
                     </AvGroup>
                   </Col>
-                </Row>
-
-                <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Dirección: </Label>
                       <AvInput
@@ -330,7 +491,7 @@ export default class ActualizarEliminarClientes extends React.Component {
                         type="text"
                         className="form-control"
                         id="direccion"
-                        name="nomdireccionbre"
+                        name="direccion"
                         value={this.state.form.direccion}
                         onChange={this.handleChange}
                         validate={{
@@ -353,7 +514,7 @@ export default class ActualizarEliminarClientes extends React.Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Código postal: </Label>
                       <AvInput
@@ -381,9 +542,7 @@ export default class ActualizarEliminarClientes extends React.Component {
                       <AvFeedback>El código postal es requerido</AvFeedback>
                     </AvGroup>
                   </Col>
-                </Row>
-                <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Ciudad: </Label>
                       <select
@@ -397,9 +556,8 @@ export default class ActualizarEliminarClientes extends React.Component {
                     </AvGroup>
                   </Col>
                 </Row>
-
                 <Row>
-                  <Col md="12">
+                  <Col md="6">
                     <AvGroup>
                       <Label>Teléfono: </Label>
                       <AvInput
@@ -451,9 +609,9 @@ export default class ActualizarEliminarClientes extends React.Component {
 
 const mapStateToModel = function (formObject, empresa) {
   return {
-    id: 0,
+    id: formObject.id,
     documento: {
-      id: formObject.tipoDocumento,
+      id: formObject.idTipoDocumento,
     },
     numDocumento: formObject.numeroDocumento,
     nombre: formObject.nombre,

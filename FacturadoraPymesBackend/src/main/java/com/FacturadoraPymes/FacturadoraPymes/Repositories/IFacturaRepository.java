@@ -14,5 +14,8 @@ public interface IFacturaRepository extends CrudRepository<Factura, Integer> {
 	
 	@Query(value = "select IFNULL(SUM(d.valor_total), 0) as detalles FROM Producto p INNER JOIN Detalle d ON p.id_producto=d.id_producto INNER JOIN Factura f ON d.id_factura=f.id_factura INNER JOIN Estado e ON f.id_estado=e.id_estado WHERE d.id_producto=:idProducto and e.nombre_estado!='Anulado'", nativeQuery = true)
 	public String consultarProductosTotal(@Param("idProducto") int idProducto);
+	
+	@Query(value = "select IFNULL(SUM(f.total_fact), 0) as facturas FROM Cliente c INNER JOIN Factura f ON c.id_cliente=f.id_cliente INNER JOIN Estado e ON f.id_estado=e.id_estado WHERE c.id_cliente=:idCliente and e.nombre_estado!='Anulado'", nativeQuery = true)
+	public String consultarTotalFacturado(@Param("idCliente") int idCliente);
 
 }

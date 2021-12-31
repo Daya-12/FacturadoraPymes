@@ -139,7 +139,7 @@ export default class RegistroCliente extends React.Component {
   confirmarCliente() {
     Swal.fire({
       title: "Confirmar cliente",
-      text: "¿Realmente deseas confirmar los datos del cliente a registrar?\nRecuerda: Una vez registrado no puedes editar el tipo ni número de documento",
+      text: "¿Realmente deseas confirmar los datos del cliente a registrar?\nRecuerda: Una vez registrado no puedes editar el nombre,el tipo ni número de documento",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#0D4C90",
@@ -180,7 +180,7 @@ onBlurDocumento = async () => {
     if (respuesta !== null) {
       if (respuesta.data === true) {
         Swal.fire({
-          text: "Ya existe un cliente registrado con el mismo tipo y número de documento ingresado",
+          text: "¡Ya existe un cliente registrado con el mismo tipo y número de documento ingresado, puedes modificarlo!",
           icon: "error",
           timer: "5000",
         });

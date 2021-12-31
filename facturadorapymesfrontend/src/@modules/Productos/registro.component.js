@@ -108,7 +108,7 @@ export default class RegistroProducto extends React.Component {
       if (respuesta !== null) {
         if (respuesta.data === true) {
           Swal.fire({
-            text: "Ya existe un producto con el nombre ingresado",
+            text: "¡Ya existe un producto con el nombre ingresado,puedes modificarlo!",
             icon: "error",
             timer: "4000",
           });
