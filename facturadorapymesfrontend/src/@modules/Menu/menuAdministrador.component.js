@@ -82,7 +82,7 @@ export default class MenuAdministrador extends React.Component{
                                     <li><a>Facturas</a>
                                         <ul>
                                             <li><a href="!#">Consultar</a></li>
-                                            <li><a href="!#">Crear</a></li>
+                                            <li><a href="/Menu/crearFacturas">Crear</a></li>
                                             <li><a href="!#">Anular</a></li>
                                         </ul>
                                     </li>
