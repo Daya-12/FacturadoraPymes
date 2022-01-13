@@ -14,15 +14,12 @@ import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Documento;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
-import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
-import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperCliente;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
-import com.FacturadoraPymes.FacturadoraPymes.Models.ProductoModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICiudadRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IFacturaRepository;
@@ -134,7 +131,6 @@ public class ClienteServiceImpl implements IClienteService{
 			retorno= 2;
 		}
 		return retorno;
-
 	}
 
 	@Override

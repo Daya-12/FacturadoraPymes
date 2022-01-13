@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class FormaPagoModel {
 	private int id;
 	private String nombre;
+	private boolean activo;
 }
