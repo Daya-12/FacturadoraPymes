@@ -107,6 +107,13 @@ export default class RegistroFactura extends React.Component {
   render() {
     return (
       <div className="container">
+        <div className="facturasFondo">
+        <div
+            id="formFactura"
+            className="mx-auto"
+            style={{ width: "95%", marginTop: "4%" }}
+          >
+        
         <Autocomplete
           options={this.state.ciudades}
           getOptionLabel={option => option.nombre}
@@ -144,6 +151,8 @@ export default class RegistroFactura extends React.Component {
             <TextField {...params} label="Formas Pago" variant="standard" />
           )}
         />
+        </div>
+        </div>
       </div>
     );
   }

@@ -698,3 +698,28 @@ h4 {
   transition: background-color 0.5s;
   color: rgb(13, 26, 85);
 }
+
+.facturasFondo {
+  background-image: url(../@images/fondoFacturas.jpg);
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: rgba(113, 124, 155, 0.637);
+  background-blend-mode: soft-light;
+  width: 100%;
+  max-width: 100vw;
+  min-height:100%;
+  position: absolute;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
+}
+
+#formFactura {
+  background: rgba(190, 190, 202, 0.555);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(136, 136, 136, 0.692);
+}

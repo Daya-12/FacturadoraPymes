@@ -1,5 +1,4 @@
 package com.FacturadoraPymes.FacturadoraPymes.IServices;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,4 +15,5 @@ public interface IEmpresaService {
 	boolean validarEmailEmpresa(String emailEmpresa);
 	MensajeModel crearEmpresa(EmpresaModel empresa);
 	boolean registrarLogo(String razonSocial,MultipartFile imagen);
+	byte[] consultarLogo(int idEmpresa);
 }

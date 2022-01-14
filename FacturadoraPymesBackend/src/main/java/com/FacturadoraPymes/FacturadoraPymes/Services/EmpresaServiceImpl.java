@@ -1,5 +1,7 @@
 package com.FacturadoraPymes.FacturadoraPymes.Services;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.swing.DefaultListModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
@@ -40,6 +44,10 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	private final IUsuarioService usuarioService;
 	private final Validaciones validaciones;
 	private final String ruta ="src//main//resources//static/logos";
+	
+	
+	@Autowired
+	ResourceLoader resourceLoader;
 	
 	@Autowired
 	public EmpresaServiceImpl(IEmpresaRepository empresaRepository,ICategoriaRepository categoriaRepository, IMapperEmpresa mapperEmpresa,
@@ -190,5 +198,44 @@ public class EmpresaServiceImpl implements IEmpresaService{
             }
         }        
         return defaultListModel;
+	}
+
+	@Override
+	public byte[] consultarLogo(int idEmpresa) {
+		String razonSocial= empresaRepository.findById(idEmpresa).get().getRazonSocial();
+		
+        Path directorioImagenes=Path.of(ruta);
+        String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
+		String nombreFicheroCompleto="";
+		File directorio = new File(ruta);
+		DefaultListModel defaultListModel = buscarLogo(directorio,razonSocial);
+		nombreFicheroCompleto=defaultListModel.getElementAt(0).toString();
+		Path rutaCompleta= Paths.get(rutaAbsoluta+"//"+nombreFicheroCompleto);
+		Resource resource=null;
+		File file=null;
+		try {
+			file=resourceLoader.getResource("file:"+rutaCompleta.toString()).getFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	    		   
+        FileInputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        byte[] bytes = null;
+		try {
+			bytes = new byte[inputStream.available()];
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        try {
+			inputStream.read(bytes, 0, inputStream.available());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return bytes;
 	}
 }
