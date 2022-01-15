@@ -72,6 +72,8 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.files[0],
       },
     });
+
+    console.log(e.target.files[0]);
     this.validarCampos();
   };
 

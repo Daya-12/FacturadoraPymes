@@ -15,5 +15,5 @@ public interface IEmpresaService {
 	boolean validarEmailEmpresa(String emailEmpresa);
 	MensajeModel crearEmpresa(EmpresaModel empresa);
 	boolean registrarLogo(String razonSocial,MultipartFile imagen);
-	byte[] consultarLogo(int idEmpresa);
+	MultipartFile consultarLogo(int idEmpresa);
 }

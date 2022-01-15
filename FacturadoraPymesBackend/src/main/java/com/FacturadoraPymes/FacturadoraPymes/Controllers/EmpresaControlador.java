@@ -1,8 +1,8 @@
 package com.FacturadoraPymes.FacturadoraPymes.Controllers;
+import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.MultiPartModel;
 
 @RestController
 @RequestMapping(path = "/empresa")
@@ -71,11 +71,23 @@ public class EmpresaControlador {
 		return empresaService.crearEmpresa(empresa);
 	}
 	
-	@GetMapping(value = "/consultarLogo/{idEmpresa}",produces = MediaType.IMAGE_JPEG_VALUE)
-	@ResponseBody
+	@GetMapping(value = "/consultarLogo/{idEmpresa}")
 	@CrossOrigin
 	@ResponseStatus(code = HttpStatus.OK)
-	public byte[] consultarLogo(@PathVariable int idEmpresa) {
-		return empresaService.consultarLogo(idEmpresa);
+	public MultiPartModel consultarLogo(@PathVariable int idEmpresa) {
+		MultipartFile n=empresaService.consultarLogo(idEmpresa);
+		MultiPartModel np=new MultiPartModel();
+		
+		try {
+			np.setName(n.getName());
+			np.setOriginalFilename(n.getOriginalFilename());
+			np.setContentType(n.getContentType());
+			np.setBytes(n.getBytes());
+			np.setSize(n.getSize());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return np;
 	}
 }

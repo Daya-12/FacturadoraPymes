@@ -33,4 +33,16 @@ async function consultarFormasPago() {
     }
     return response;
 }; 
-export default {consultarCiudades,consultarClits,consultarFormasPago};
+
+async function consultarLogo(idEmpresa) {
+    const url = urlConexion+'empresa/consultarLogo/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo};

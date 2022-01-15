@@ -1,8 +1,10 @@
 package com.FacturadoraPymes.FacturadoraPymes.Services;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +18,7 @@ import javax.swing.DefaultListModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
@@ -32,6 +35,9 @@ import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
+
+import jdk.jfr.ContentType;
+
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 
 
@@ -201,7 +207,7 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	}
 
 	@Override
-	public byte[] consultarLogo(int idEmpresa) {
+	public MultipartFile consultarLogo(int idEmpresa) {
 		String razonSocial= empresaRepository.findById(idEmpresa).get().getRazonSocial();
 		
         Path directorioImagenes=Path.of(ruta);
@@ -236,6 +242,16 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        return bytes;
+        
+        InputStream inputt = new ByteArrayInputStream(bytes);
+        MultipartFile filemu=null;
+		try {
+			filemu = new MockMultipartFile(nombreFicheroCompleto,nombreFicheroCompleto,"image/"+nombreFicheroCompleto.replace(razonSocial+".", ""), inputt);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        		
+        return filemu;
 	}
 }

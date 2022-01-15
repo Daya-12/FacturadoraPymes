@@ -2,11 +2,13 @@ import React from "react";
 import service from "./factura.service";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import stringifyObject from 'stringify-object';
 
 export default class RegistroFactura extends React.Component {
   constructor() {
     super();
     this.state = {
+      logo:null,
       ciudades: [],
       clientes: [],
       formasPago: [],
@@ -42,6 +44,7 @@ export default class RegistroFactura extends React.Component {
     this.consultarCiudades();
     this.consultarClientes();
     this.consultarFormasPago();
+    this.consultarLogo();
   };
 
   consultarCiudades = async () => {
@@ -71,6 +74,15 @@ export default class RegistroFactura extends React.Component {
       });
     }
   };
+
+  consultarLogo = async () => {
+    let respuesta = null;
+    respuesta = await service.consultarLogo(this.state.empresa.id);
+    if (respuesta !== null) {
+      document.getElementById('gim').src='data:image/png;base64,'+respuesta.data.bytes;
+    }
+  };
+
   
   handleChangeCiudad = async (e,v) => {
     e.persist();
@@ -101,19 +113,26 @@ export default class RegistroFactura extends React.Component {
       }
     });
   };
-
-
+  
 
   render() {
     return (
       <div className="container">
         <div className="facturasFondo">
+          
         <div
             id="formFactura"
             className="mx-auto"
             style={{ width: "95%", marginTop: "4%" }}
           >
         
+        <div
+            id="cabecera"
+            className="row justify-content-center pt-6 mb-6 m-0 mt-0"
+          >
+  <img id="gim" src="" height="200" alt="Image preview..."/>
+
+            </div>
         <Autocomplete
           options={this.state.ciudades}
           getOptionLabel={option => option.nombre}
