@@ -90,4 +90,12 @@ public class EmpresaControlador {
 		}
 		return np;
 	}
+	
+	
+	@GetMapping(value = "/buscarPorId/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public EmpresaModel buscarPorId(@PathVariable int idEmpresa) {
+		return empresaService.buscarPorId(idEmpresa);
+	}
 }

@@ -16,4 +16,5 @@ public interface IEmpresaService {
 	MensajeModel crearEmpresa(EmpresaModel empresa);
 	boolean registrarLogo(String razonSocial,MultipartFile imagen);
 	MultipartFile consultarLogo(int idEmpresa);
+	EmpresaModel buscarPorId(int idEmpresa);
 }

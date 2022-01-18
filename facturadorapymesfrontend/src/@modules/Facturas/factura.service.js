@@ -45,4 +45,16 @@ async function consultarLogo(idEmpresa) {
     return response;
 };
 
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo};
+async function buscarPorId(idEmpresa) {
+    const url = urlConexion+'empresa/buscarPorId/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId};
