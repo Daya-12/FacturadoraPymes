@@ -728,19 +728,9 @@ h4 {
   border-radius: 15px;
 }
 
-
-.cabeceraFactura {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  width: 200px;
-  padding: 20px;
-  text-align:center;
-}
-
-
 .sub1Factura {
   display:inline-block;
+  width: 15%;
 }
 
 .titulosFactura {
@@ -752,6 +742,8 @@ h4 {
 
 .titulosFactura2 {
   display:inline-block;
-  width: 30%;
-  position: absolute;
+  width: 15%;
+  border-color: rgb(9, 19, 59);
+  border-width: 1px;
+  border-style: solid;
 }

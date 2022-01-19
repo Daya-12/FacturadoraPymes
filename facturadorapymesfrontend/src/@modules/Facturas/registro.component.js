@@ -2,7 +2,21 @@ import React from "react";
 import service from "./factura.service";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import {
+  AvForm,
+  AvGroup,
+  AvInput,
+  AvFeedback,
+} from "availity-reactstrap-validation";
+import {
+  Button,
+  InputGroupAddon,
+  InputGroup,
+  InputGroupText,
+  Label,
+  Row,
+  Col,
+} from "reactstrap";
 export default class RegistroFactura extends React.Component {
   constructor() {
     super();
@@ -11,7 +25,16 @@ export default class RegistroFactura extends React.Component {
       clientes: [],
       formasPago: [],
       button: false,
-      empresaCompleta: null,
+      empresaCompleta: {
+        id: "",
+        razonSocial: "",
+        slogan: "",
+        nit: "",
+        correoElectronico: "",
+        direccion: "",
+        ciudad: "",
+        telefono: "",
+      },
       empresa: {
         id: "",
         razonSocial: "",
@@ -39,6 +62,7 @@ export default class RegistroFactura extends React.Component {
         razonSocial: informacionLocalStorage.empresa.razonSocial,
       },
     });
+    this.completarInformacionEmpresa();
     this.consultarCiudades();
     this.consultarClientes();
     this.consultarFormasPago();
@@ -82,16 +106,25 @@ export default class RegistroFactura extends React.Component {
         respuesta.data.contentType +
         ";base64," +
         respuesta.data.bytes;
-      this.completarInformacionEmpresa();
     }
   };
 
   completarInformacionEmpresa = async () => {
     let respuesta = null;
     respuesta = await service.buscarPorId(this.state.empresa.id);
+    console.log("hoola" + this.state.empresa.id);
     if (respuesta !== null) {
       this.setState({
-        empresaCompleta: respuesta.data,
+        empresaCompleta: {
+          id: respuesta.data.id,
+          razonSocial: respuesta.data.razonSocial,
+          slogan: respuesta.data.slogan,
+          nit: respuesta.data.nit,
+          correoElectronico: respuesta.data.correoElectronico,
+          direccion: respuesta.data.direccion,
+          ciudad: respuesta.data.ciudad.nombre,
+          telefono: respuesta.data.telefono,
+        },
       });
     }
   };
@@ -135,11 +168,8 @@ export default class RegistroFactura extends React.Component {
             className="mx-auto"
             style={{ width: "95%", marginTop: "4%" }}
           >
-            <div id="cabeceraFactura">
-              <div
-                className="sub1Factura"
-                align="left"
-              >
+            <div>
+              <div className="sub1Factura" align="left">
                 <img
                   className="logoPyme"
                   id="logoPyme"
@@ -150,71 +180,127 @@ export default class RegistroFactura extends React.Component {
                 />
               </div>
 
-              <div
-                className="titulosFactura"
-                align="center"
-                style={{
-                  fontSize: "20px",
-                  color: "#000227",
-                  fontFamily: "Segoe UI",
-                  textAlign: "center",
-                  fontWeight: "bold"
-                }}
-              >
-                <label>{this.state.empresa.razonSocial}</label>
-                <br/>
-                <label>{this.state.empresa.razonSocial}</label>
-                <label>{this.state.empresa.razonSocial}</label>
+              <div className="titulosFactura" align="center">
+                <label
+                  style={{
+                    fontSize: "21px",
+                    color: "#000227",
+                    fontFamily: "Segoe UI",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {this.state.empresaCompleta.razonSocial}
+                </label>
+                <br />
+                <label
+                  style={{
+                    fontSize: "14px",
+                    color: "#000227",
+                    fontFamily: "Segoe UI",
+                    textAlign: "center",
+                    marginBottom: "1%",
+                  }}
+                >
+                  {this.state.empresaCompleta.slogan}
+                </label>
+                <br />
+                <label
+                  style={{
+                    fontSize: "14px",
+                    color: "#000227",
+                    fontFamily: "Segoe UI",
+                    textAlign: "center",
+                  }}
+                >
+                  {this.state.empresaCompleta.nit}
+                </label>
+                <br />
+                <hr />
+                <label
+                  style={{
+                    fontSize: "13px",
+                    color: "#000227",
+                    fontFamily: "Segoe UI",
+                    textAlign: "center",
+                  }}
+                >
+                  {this.state.empresaCompleta.direccion}&nbsp;-&nbsp;
+                  {this.state.empresaCompleta.ciudad}&nbsp;&nbsp;•&nbsp;&nbsp;
+                  {this.state.empresaCompleta.correoElectronico}
+                  &nbsp;&nbsp;•&nbsp;&nbsp;{this.state.empresaCompleta.telefono}
+                </label>
               </div>
               <div
                 className="titulosFactura2"
                 align="center"
                 style={{
-                  backgroundColor:"red"
+                  backgroundColor: "red",
                 }}
               >
                 <label>hola</label>
               </div>
-
             </div>
+            <hr /><br />
+            <AvForm id="registros">
+              <Row>
+                <Col md="4">
+                  <Autocomplete
+                    options={this.state.ciudades}
+                    getOptionLabel={(option) => option.nombre}
+                    filterSelectedOptions
+                    id="select-on-focus"
+                    selectOnFocus
+                    sx={{ width: 300 }}
+                    onInputChange={this.handleChangeCiudad}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Ciudad"
+                        variant="standard"
+                      />
+                    )}
+                  />
+                </Col>
+                <Col md="4">
+                  <Autocomplete
+                    options={this.state.clientes}
+                    getOptionLabel={(option) => option.nombre}
+                    filterSelectedOptions
+                    id="select-on-focus"
+                    selectOnFocus
+                    sx={{ width: 300 }}
+                    onInputChange={this.handleChangeCliente}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Cliente"
+                        variant="standard"
+                      />
+                    )}
+                  />
+                </Col>
 
-            <Autocomplete
-              options={this.state.ciudades}
-              getOptionLabel={(option) => option.nombre}
-              filterSelectedOptions
-              id="select-on-focus"
-              selectOnFocus
-              sx={{ width: 300 }}
-              onInputChange={this.handleChangeCiudad}
-              renderInput={(params) => (
-                <TextField {...params} label="Ciudad" variant="standard" />
-              )}
-            />
-            <Autocomplete
-              options={this.state.clientes}
-              getOptionLabel={(option) => option.nombre}
-              filterSelectedOptions
-              id="select-on-focus"
-              selectOnFocus
-              sx={{ width: 300 }}
-              onInputChange={this.handleChangeCliente}
-              renderInput={(params) => (
-                <TextField {...params} label="Clientes" variant="standard" />
-              )}
-            />
-
-            <Autocomplete
-              options={this.state.formasPago}
-              getOptionLabel={(option) => option.nombre}
-              filterSelectedOptions
-              id="select-on-focus"
-              selectOnFocus
-              sx={{ width: 300 }}
-              onInputChange={this.handleChangeFormaPago}
-              renderInput={(params) => (
-                <TextField {...params} label="Formas Pago" variant="standard" />
-              )}
-            />
+                <Col md="4">
+                  <Autocomplete
+                    options={this.state.formasPago}
+                    getOptionLabel={(option) => option.nombre}
+                    filterSelectedOptions
+                    id="select-on-focus"
+                    selectOnFocus
+                    sx={{ width: 300 }}
+                    onInputChange={this.handleChangeFormaPago}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Formas Pago"
+                        variant="standard"
+                      />
+                    )}
+                  />
+                </Col>
+              </Row>
+            </AvForm>
           </div>
         </div>
       </div>
