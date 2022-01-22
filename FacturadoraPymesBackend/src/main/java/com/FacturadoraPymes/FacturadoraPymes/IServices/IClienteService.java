@@ -4,6 +4,7 @@ import java.util.List;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
+import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
 public interface IClienteService {
@@ -14,4 +15,5 @@ public interface IClienteService {
 	List<ClienteModelPersonalizado> mostrarClientes(int idEmpresa);
 	int eliminar(int idCliente);
 	List<ClienteModelConsultaP> mostrarClientesPersonalizado(int idEmpresa);
+	ClienteModelPersonalizado buscarPorId(int idCliente);
 }

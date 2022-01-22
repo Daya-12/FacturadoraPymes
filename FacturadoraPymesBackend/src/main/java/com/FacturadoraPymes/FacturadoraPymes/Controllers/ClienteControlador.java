@@ -18,6 +18,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
+import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
 @RestController
@@ -77,6 +78,13 @@ public class ClienteControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ClienteModelConsultaP> mostrarClientesPersonalizado(@PathVariable int idEmpresa) {
 		return clienteService.mostrarClientesPersonalizado(idEmpresa);
+	}
+	
+	@GetMapping(value = "/buscarPorId/{idCliente}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public ClienteModelPersonalizado buscarPorId(@PathVariable int idEmpresa) {
+		return clienteService.buscarPorId(idEmpresa);
 	}
 	
 }

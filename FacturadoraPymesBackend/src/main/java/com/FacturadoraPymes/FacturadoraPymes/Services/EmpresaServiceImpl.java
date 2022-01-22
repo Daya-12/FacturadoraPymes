@@ -257,7 +257,6 @@ public class EmpresaServiceImpl implements IEmpresaService{
 
 	@Override
 	public EmpresaModel buscarPorId(int idEmpresa) {
-		EmpresaModel empresaModel = new EmpresaModel();
 		Optional<Empresa> empresa = empresaRepository.findById(idEmpresa);		
 		return mapperEmpresa.mostrarEmpresas(empresa.get());
 		

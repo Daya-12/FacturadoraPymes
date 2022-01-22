@@ -19,6 +19,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
+import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICiudadRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
@@ -146,6 +147,12 @@ public class ClienteServiceImpl implements IClienteService{
 			clientes.add(mapperCliente.mostrarClientesPersonalizado(cliente, cantidad));
 		}
 		return clientes;
+	}
+
+	@Override
+	public ClienteModelPersonalizado buscarPorId(int idCliente) {
+		Optional<Cliente> cliente = clienteRepository.findById(idCliente);		
+		return mapperCliente.mostrarClientes(cliente.get());
 	}
 
 }

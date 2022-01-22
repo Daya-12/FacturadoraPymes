@@ -25,6 +25,8 @@ export default class RegistroFactura extends React.Component {
       clientes: [],
       formasPago: [],
       button: false,
+      fechaEmision: null,
+      check: false,
       empresaCompleta: {
         id: "",
         razonSocial: "",
@@ -47,6 +49,13 @@ export default class RegistroFactura extends React.Component {
         ciudad: "",
         cliente: "",
       },
+      cliente: {
+        nombre_tdocumento: "",
+        num_documento: "",
+        nit: "",
+        direccion: "",
+        telefono: "",
+      },
     };
   }
 
@@ -65,8 +74,8 @@ export default class RegistroFactura extends React.Component {
     this.completarInformacionEmpresa();
     this.consultarCiudades();
     this.consultarClientes();
-    this.consultarFormasPago();
     this.consultarLogo();
+    this.consultarFormasPago();
   };
 
   consultarCiudades = async () => {
@@ -90,10 +99,14 @@ export default class RegistroFactura extends React.Component {
   consultarFormasPago = async () => {
     let respuesta = null;
     respuesta = await service.consultarFormasPago();
+    var f = new Date();
     if (respuesta !== null) {
       this.setState({
         formasPago: respuesta.data,
+        fechaEmision:
+          f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear(),
       });
+      document.getElementById("formaPagoPersonalizada").disabled = true;
     }
   };
 
@@ -112,7 +125,6 @@ export default class RegistroFactura extends React.Component {
   completarInformacionEmpresa = async () => {
     let respuesta = null;
     respuesta = await service.buscarPorId(this.state.empresa.id);
-    console.log("hoola" + this.state.empresa.id);
     if (respuesta !== null) {
       this.setState({
         empresaCompleta: {
@@ -147,6 +159,25 @@ export default class RegistroFactura extends React.Component {
         cliente: v,
       },
     });
+    let cliente = this.state.clientes.find((cliente) => cliente.nombre === v);
+    if (v !== "" && cliente != undefined) {
+      this.setState({
+        cliente: {
+          nombre_tdocumento:
+            cliente.nombre_tdocumento + " " + cliente.num_documento,
+          direccion: cliente.direccion,
+          telefono: cliente.telefono,
+        },
+      });
+    } else {
+      this.setState({
+        cliente: {
+          nombre_tdocumento: "",
+          direccion: "",
+          telefono: "",
+        },
+      });
+    }
   };
 
   handleChangeFormaPago = async (e, v) => {
@@ -157,6 +188,51 @@ export default class RegistroFactura extends React.Component {
         formaPago: v,
       },
     });
+    let formap = this.state.formasPago.find(
+      (formaPago) => formaPago.nombre === v
+    );
+    if (v !== "" && formap != undefined) {
+      document.getElementById("check").disabled = true;
+    } else if (v === "") {
+      document.getElementById("check").disabled = false;
+    }
+  };
+
+  handleChangeCheck = async (cb) => {
+    await this.setState({
+      check: cb.target.checked,
+    });
+    if (this.state.check) {
+      document.getElementById("formaPago").disabled = true;
+      this.setState({
+        form: {
+          ...this.state.form,
+          formaPago: "",
+        },
+      });
+
+      document.getElementById("formaPagoPersonalizada").disabled = false;
+    } else if (!this.state.check) {
+      this.setState({
+        form: {
+          ...this.state.form,
+          formaPagoPersonalizada: "",
+        },
+      });
+      document.getElementById("formaPago").disabled = false;
+      document.getElementById("formaPagoPersonalizada").disabled = true;
+    }
+  };
+
+  handleChange = async (e) => {
+    e.persist();
+    await this.setState({
+      form: {
+        ...this.state.form,
+        [e.target.name]: e.target.value,
+      },
+    });
+    //this.validarCampos();
   };
 
   render() {
@@ -241,29 +317,79 @@ export default class RegistroFactura extends React.Component {
                 <label>hola</label>
               </div>
             </div>
-            <hr /><br />
+            <hr />
+            <br />
             <AvForm id="registros">
               <Row>
-                <Col md="4">
-                  <Autocomplete
-                    options={this.state.ciudades}
-                    getOptionLabel={(option) => option.nombre}
-                    filterSelectedOptions
-                    id="select-on-focus"
-                    selectOnFocus
-                    sx={{ width: 300 }}
-                    onInputChange={this.handleChangeCiudad}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Ciudad"
-                        variant="standard"
+                <Col md="2">
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="fechaEmision">
+                      Fecha emisión
+                    </Label>
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className="form-control"
+                      id="fechaEmision"
+                      name="fechaEmision"
+                      value={this.state.fechaEmision}
+                      readOnly
+                    />
+                  </AvGroup>
+                </Col>
+                <Col md="2">
+                  <AvGroup>
+                    <Label
+                      className="label-registroF"
+                      htmlFor="fechaVencimiento"
+                    >
+                      Fecha vencimiento
+                    </Label>
+                    <InputGroup>
+                      <AvInput
+                        type="date"
+                        className="form-control"
+                        id="fechaVencimiento"
+                        name="fechaVencimiento"
+                        value={this.state.form.fechaVencimiento}
+                        onChange={this.handleChange}
+                        validate={{
+                          required: {
+                            value: true,
+                          },
+                        }}
                       />
-                    )}
-                  />
+                      <AvFeedback>
+                        La fecha de vencimiento es requerida
+                      </AvFeedback>
+                    </InputGroup>
+                  </AvGroup>
+                </Col>
+                <Col md="4">
+                  <AvGroup>
+                    <Autocomplete
+                      style={{ marginTop: "3%" }}
+                      options={this.state.ciudades}
+                      getOptionLabel={(option) => option.nombre}
+                      filterSelectedOptions
+                      id="select-on-focus"
+                      selectOnFocus
+                      sx={{ width: 300 }}
+                      onInputChange={this.handleChangeCiudad}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Ciudad"
+                          variant="standard"
+                          required
+                        />
+                      )}
+                    />
+                  </AvGroup>
                 </Col>
                 <Col md="4">
                   <Autocomplete
+                    style={{ marginTop: "3%" }}
                     options={this.state.clientes}
                     getOptionLabel={(option) => option.nombre}
                     filterSelectedOptions
@@ -276,30 +402,121 @@ export default class RegistroFactura extends React.Component {
                         {...params}
                         label="Cliente"
                         variant="standard"
+                        required
                       />
                     )}
                   />
                 </Col>
-
+              </Row>
+              <Row style={{ marginTop: "2%" }}>
+                <Col md="3">
+                  <AvGroup>
+                    <Label
+                      className="label-registroF"
+                      htmlFor="nombre_tdocumento"
+                    >
+                      Tipo y número documento cliente
+                    </Label>
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className="form-control"
+                      id="nombre_tdocumento"
+                      name="nombre_tdocumento"
+                      value={this.state.cliente.nombre_tdocumento}
+                      readOnly
+                    />
+                  </AvGroup>
+                </Col>
+                <Col md="4">
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="direccion">
+                      Dirección cliente
+                    </Label>
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className="form-control"
+                      id="direccion"
+                      name="direccion"
+                      value={this.state.cliente.direccion}
+                      readOnly
+                    />
+                  </AvGroup>
+                </Col>
+                <Col md="3">
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="telefono">
+                      Teléfono cliente
+                    </Label>
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className="form-control"
+                      id="telefono"
+                      name="telefono"
+                      value={this.state.cliente.telefono}
+                      readOnly
+                    />
+                  </AvGroup>
+                </Col>
+                <Col md="2"></Col>
+              </Row>
+              <Row style={{ marginTop: "2%" }}>
                 <Col md="4">
                   <Autocomplete
+                    style={{ marginTop: "3%" }}
                     options={this.state.formasPago}
                     getOptionLabel={(option) => option.nombre}
                     filterSelectedOptions
-                    id="select-on-focus"
+                    id="formaPago"
                     selectOnFocus
                     sx={{ width: 300 }}
                     onInputChange={this.handleChangeFormaPago}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Formas Pago"
+                        label="Forma de Pago"
                         variant="standard"
+                        value={this.state.form.formaPago || null}
                       />
                     )}
                   />
                 </Col>
+                <Col md="2" style={{ marginTop: "2%" }}>
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="fechaEmision">
+                      ¿F.Pago personalizada?&nbsp;&nbsp;
+                    </Label>
+                    <input
+                      type="checkbox"
+                      id="check"
+                      name="check"
+                      value={this.state.check}
+                      onChange={this.handleChangeCheck.bind(this)}
+                    />
+                  </AvGroup>
+                </Col>
+                <Col md="6">
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="fechaEmision">
+                      Forma de pago personalizada
+                    </Label>
+                    <input
+                      autoComplete="off"
+                      type="text"
+                      className="form-control"
+                      id="formaPagoPersonalizada"
+                      name="formaPagoPersonalizada"
+                      value={this.state.form.formaPagoPersonalizada}
+                      onChange={this.handleChange}
+                    />
+                  </AvGroup>
+                </Col>
               </Row>
+              <br />
+              <br />
+              <hr />
             </AvForm>
           </div>
         </div>
