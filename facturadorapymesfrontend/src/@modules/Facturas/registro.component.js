@@ -8,21 +8,10 @@ import {
   AvInput,
   AvFeedback,
 } from "availity-reactstrap-validation";
-import {
-  InputGroupAddon,
-  InputGroup,
-  InputGroupText,
-  Label,
-  Row,
-  Col,
-} from "reactstrap";
-
+import { InputGroup, Label, Row, Col, Table } from "reactstrap";
 
 import CreateIcon from "@material-ui/icons/Create";
-import {
-    Box, Button, Snackbar, Table,
-    TableBody, TableCell, TableHead, TableRow
-} from "@material-ui/core";
+import { Button, Snackbar, TableCell, TableRow } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DoneIcon from "@material-ui/icons/Done";
@@ -34,7 +23,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
 
 export default class RegistroFactura extends React.Component {
   constructor() {
@@ -75,11 +63,11 @@ export default class RegistroFactura extends React.Component {
         direccion: "",
         telefono: "",
       },
-      open:false,
-      isEdit:false,
-      disable:true,
-      showConfirm:false,
-      rows:[]
+      open: false,
+      isEdit: false,
+      disable: true,
+      showConfirm: false,
+      rows: [],
     };
   }
 
@@ -261,33 +249,31 @@ export default class RegistroFactura extends React.Component {
 
   handleClose = async (event, reason) => {
     if (reason === "clickaway") {
-        return;
+      return;
     }
     this.setState({
-      open: false
+      open: false,
     });
-
   };
 
   handleAdd = () => {
     this.setState({
-      
       rows: [
         ...this.state.rows,
         {
-  
-        id: this.state.rows.length + 1, 
-        firstname: "",
-        lastname: "", 
-        city: ""
-      }],
-      isEdit: true
+          id: this.state.rows.length + 1,
+          firstname: "",
+          lastname: "",
+          city: "",
+        },
+      ],
+      isEdit: true,
     });
   };
 
   handleEdit = (i) => {
     this.setState({
-      isEdit: !this.state.isEdit
+      isEdit: !this.state.isEdit,
     });
   };
 
@@ -296,25 +282,25 @@ export default class RegistroFactura extends React.Component {
       isEdit: !this.state.isEdit,
       rows: this.state.rows,
       disable: true,
-      open:true
+      open: true,
     });
   };
 
   handleInputChange = (e, index) => {
     this.setState({
-      disable: false
+      disable: false,
     });
     const list = [...this.state.rows];
-    list[index][e.target.name]= e.target.value;
+    list[index][e.target.name] = e.target.value;
 
     this.setState({
-      rows: list
+      rows: list,
     });
   };
 
   handleConfirm = () => {
     this.setState({
-      showConfirm: true
+      showConfirm: true,
     });
   };
 
@@ -324,13 +310,13 @@ export default class RegistroFactura extends React.Component {
 
     this.setState({
       rows: list,
-      showConfirm: true
+      showConfirm: true,
     });
   };
 
   handleNo = () => {
     this.setState({
-      showConfirm: false
+      showConfirm: false,
     });
   };
 
@@ -618,180 +604,188 @@ export default class RegistroFactura extends React.Component {
               <hr />
             </AvForm>
 
-
-
-
-
-            <TableBody         style={{ backgroundColor:"red" }}>
-      <Snackbar
-        open={this.state.open}
-        autoHideDuration={2000}
-        onClose={this.handleClose}
-      >
-        <Alert onClose={this.handleClose} severity="success">
-          ¡Registro guardado con éxito!
-        </Alert>
-      </Snackbar>
-      <Box>
-        <div>
-          <div>
-            {this.state.isEdit ? (
-              <div>
-                <Button onClick={this.handleAdd}>
-                  <AddBoxIcon onClick={this.handleAdd} />
-                  Agregar
-                </Button>
-                {this.state.rows.length !== 0 && (
+            <div>
+              <Snackbar
+                open={this.state.open}
+                autoHideDuration={2000}
+                onClose={this.handleClose}
+              >
+                <Alert onClose={this.handleClose} severity="success">
+                  ¡Registro guardado con éxito!
+                </Alert>
+              </Snackbar>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                {this.state.isEdit ? (
                   <div>
-                    {this.state.disable ? (
-                      <Button disabled align="right" onClick={this.handleSave}>
-                        <DoneIcon />
-                        Guardar
-                      </Button>
-                    ) : (
-                      <Button align="right" onClick={this.handleSave}>
-                        <DoneIcon />
-                        Guardar
-                      </Button>
+                    <Button onClick={this.handleAdd}>
+                      <AddBoxIcon onClick={this.handleAdd} />
+                      &nbsp;Agregar
+                    </Button>
+                    {this.state.rows.length !== 0 && (
+                      <div>
+                        {this.state.disable ? (
+                          <Button
+                            disabled
+                            align="right"
+                            onClick={this.handleSave}
+                          >
+                            <DoneIcon />
+                            &nbsp;Guardar
+                          </Button>
+                        ) : (
+                          <Button align="right" onClick={this.handleSave}>
+                            <DoneIcon />
+                            &nbsp;Guardar
+                          </Button>
+                        )}
+                      </div>
                     )}
+                  </div>
+                ) : (
+                  <div>
+                    <Button onClick={this.handleAdd}>
+                      <AddBoxIcon onClick={this.handleAdd} />
+                      &nbsp;Agregar
+                    </Button>
+                    <Button onClick={this.handleEdit}>
+                      <CreateIcon />
+                      &nbsp;Editar
+                    </Button>
                   </div>
                 )}
               </div>
-            ) : (
-              <div>
-                <Button onClick={this.handleAdd}>
-                  <AddBoxIcon onClick={this.handleAdd} />
-                  Agregar
-                </Button>
-                <Button align="right" onClick={this.handleEdit}>
-                  <CreateIcon />
-                  Editar
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-        <TableRow align="center"> </TableRow>
-  
-        <Table
-          //className={classes.table}
-          size="medium"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>City</TableCell>
-              <TableCell> </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.rows.map((row, i) => {
-              return (
-                <div>
-                  <TableRow>
-                    {this.state.isEdit ? (
-                      <div>
-                        <TableCell padding="none">
-                          <input
-                            value={row.firstname}
-                            name="firstname"
-                            onChange={(e) => this.handleInputChange(e, i)}
-                          />
-                        </TableCell>
-                        <TableCell padding="none">
-                          <input
-                            value={row.lastname}
-                            name="lastname"
-                            onChange={(e) => this.handleInputChange(e, i)}
-                          />
-                        </TableCell>
-                        <TableCell padding="none">
-                          <select
-                            name="city"
-                            value={row.city}
-                            onChange={(e) => this.handleInputChange(e, i)}
-                          >
-                            <option value=""></option>
-                            <option value="Karanja">Karanja</option>
-                            <option value="Hingoli">Hingoli</option>
-                            <option value="Bhandara">Bhandara</option>
-                            <option value="Amaravati">Amaravati</option>
-                            <option value="Pulgaon">Pulgaon</option>
-                          </select>
-                        </TableCell>
-                      </div>
-                    ) : (
-                      <div>
-                        <TableCell component="th" scope="row">
-                          {row.firstname}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {row.lastname}
-                        </TableCell>
-                        <TableCell component="th" scope="row" align="center">
-                          {row.city}
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          scope="row"
-                        ></TableCell>
-                      </div>
-                    )}
-                    {this.state.isEdit ? (
-                      <Button className="mr10" onClick={this.handleConfirm}>
-                        <ClearIcon />
-                      </Button>
-                    ) : (
-                      <Button className="mr10" onClick={this.handleConfirm}>
-                        <DeleteOutlineIcon />
-                      </Button>
-                    )}
-                    {this.state.showConfirm && (
-                      <div>
-                        <Dialog
-                          open={this.state.showConfirm}
-                          onClose={this.handleNo}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
-                        >
-                          <DialogTitle id="alert-dialog-title">
-                            {"Confirmar Eliminación"}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                              ¿Estas seguro de borrar el registro?
-                            </DialogContentText>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              onClick={() => this.handleRemoveClick(i)}
-                              color="primary"
-                              autoFocus
-                            >
-                              Sí
-                            </Button>
-                            <Button
-                              onClick={this.handleNo}
-                              color="primary"
-                              autoFocus
-                            >
-                              No
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </div>
-                    )}
-                  </TableRow>
-                </div>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-    </TableBody>
 
+              <Table cellSpacing="10" className="tableRegistros" striped>
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">City</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
+                {this.state.rows.map((row, i) => {
+                  return (
+                    <tbody>
+                      {this.state.isEdit ? (
+                        <tr>
+                          <td>
+                            <input
+                              value={row.firstname}
+                              name="firstname"
+                              onChange={(e) => this.handleInputChange(e, i)}
+                            />
+                          </td>
+                          <td>
+                            <input
+                              value={row.lastname}
+                              name="lastname"
+                              onChange={(e) => this.handleInputChange(e, i)}
+                            />
+                          </td>
+                          <td>
+                            <select
+                              name="city"
+                              value={row.city}
+                              onChange={(e) => this.handleInputChange(e, i)}
+                            >
+                              <option value=""></option>
+                              <option value="Karanja">Karanja</option>
+                              <option value="Hingoli">Hingoli</option>
+                              <option value="Bhandara">Bhandara</option>
+                              <option value="Amaravati">Amaravati</option>
+                              <option value="Pulgaon">Pulgaon</option>
+                            </select>
+                          </td>
+                          <td>
+                            {this.state.isEdit ? (
+                              <Button
+                                className="mr10"
+                                onClick={this.handleConfirm}
+                              >
+                                <ClearIcon />
+                              </Button>
+                            ) : (
+                              <Button
+                                className="mr10"
+                                onClick={this.handleConfirm}
+                              >
+                                <DeleteOutlineIcon />
+                              </Button>
+                            )}
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr>
+                          <td>
+                            {row.firstname}
+                          </td>
+                          <td>
+                            {row.lastname}
+                          </td>
+                          <td>
+                            {row.city}
+                          </td>
+                          <td component="th" scope="row">
+                            {this.state.isEdit ? (
+                              <Button
+                                className="mr10"
+                                onClick={this.handleConfirm}
+                              >
+                                <ClearIcon />
+                              </Button>
+                            ) : (
+                              <Button
+                                className="mr10"
+                                onClick={this.handleConfirm}
+                              >
+                                <DeleteOutlineIcon />
+                              </Button>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                      {this.state.showConfirm && (
+                          <div>
+                            <Dialog
+                              open={this.state.showConfirm}
+                              onClose={this.handleNo}
+                              aria-labelledby="alert-dialog-title"
+                              aria-describedby="alert-dialog-description"
+                            >
+                              <DialogTitle id="alert-dialog-title">
+                                {"Confirmar Eliminación"}
+                              </DialogTitle>
+                              <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                  ¿Estas seguro de borrar el registro?
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button
+                                  onClick={() => this.handleRemoveClick(i)}
+                                  color="primary"
+                                  autoFocus
+                                >
+                                  Sí
+                                </Button>
+                                <Button
+                                  onClick={this.handleNo}
+                                  color="primary"
+                                  autoFocus
+                                >
+                                  No
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
+                          </div>
+                        )}
+                    </tbody>
+                  );
+                })}
+              </Table>
+            </div>
           </div>
         </div>
       </div>
