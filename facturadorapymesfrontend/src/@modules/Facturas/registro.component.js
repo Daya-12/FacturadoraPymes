@@ -28,6 +28,7 @@ export default class RegistroFactura extends React.Component {
   constructor() {
     super();
     this.state = {
+      productos: [],
       ciudades: [],
       clientes: [],
       formasPago: [],
@@ -83,11 +84,22 @@ export default class RegistroFactura extends React.Component {
         razonSocial: informacionLocalStorage.empresa.razonSocial,
       },
     });
+    this.consultarProductos();
     this.completarInformacionEmpresa();
     this.consultarCiudades();
     this.consultarClientes();
     this.consultarLogo();
     this.consultarFormasPago();
+  };
+
+  consultarProductos = async () => {
+    let respuesta = null;
+    respuesta = await service.consultarProductos(this.state.empresa.id);
+    if (respuesta !== null) {
+      this.setState({
+        productos: respuesta.data,
+      });
+    }
   };
 
   consultarCiudades = async () => {
@@ -261,10 +273,10 @@ export default class RegistroFactura extends React.Component {
       rows: [
         ...this.state.rows,
         {
-          id: this.state.rows.length + 1,
-          firstname: "",
-          lastname: "",
-          city: "",
+          cantidad:"",
+          productoNombre: "",
+          valorUnitario: "",
+          valorTotal: "",
         },
       ],
       isEdit: true,
@@ -294,7 +306,18 @@ export default class RegistroFactura extends React.Component {
     list[index][e.target.name] = e.target.value;
 
     this.setState({
-      rows: list,
+      rows: list
+    });
+  };
+
+  handleInputChangeProducto = (e, v, index) => {
+    this.setState({
+      disable: false,
+    });
+    const list = [...this.state.rows];
+    list[index]["productoNombre"] = v;
+    this.setState({
+      rows: list
     });
   };
 
@@ -345,7 +368,7 @@ export default class RegistroFactura extends React.Component {
                 <label
                   style={{
                     fontSize: "21px",
-                    color: "#000227",
+                    color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     fontWeight: "bold",
@@ -357,7 +380,7 @@ export default class RegistroFactura extends React.Component {
                 <label
                   style={{
                     fontSize: "14px",
-                    color: "#000227",
+                    color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     marginBottom: "1%",
@@ -369,7 +392,7 @@ export default class RegistroFactura extends React.Component {
                 <label
                   style={{
                     fontSize: "14px",
-                    color: "#000227",
+                    color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                   }}
@@ -381,7 +404,7 @@ export default class RegistroFactura extends React.Component {
                 <label
                   style={{
                     fontSize: "13px",
-                    color: "#000227",
+                    color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                   }}
@@ -405,7 +428,7 @@ export default class RegistroFactura extends React.Component {
             <hr />
             <br />
             <AvForm id="registros">
-              <Row>
+              <Row style={{ marginTop: "1%" }}>
                 <Col md="2">
                   <AvGroup>
                     <Label className="label-registroF" htmlFor="fechaEmision">
@@ -451,46 +474,72 @@ export default class RegistroFactura extends React.Component {
                   </AvGroup>
                 </Col>
                 <Col md="4">
-                  <AvGroup>
+                <AvGroup>
+                    <Label
+                      className="label-registroF"
+                      htmlFor="ciudad"
+                    >
+                      Ciudad
+                    </Label>
                     <Autocomplete
-                      style={{ marginTop: "3%" }}
+                        className="form-control"
+                        sx={{
+                        display: 'inline-block',
+                        '& input': {
+                        width:360,
+                        bgcolor: 'rgba(206, 206, 206, 0.397)',
+                        color: (theme) =>
+                        theme.palette.getContrastText(theme.palette.background.paper),
+                        },
+                      }}
                       options={this.state.ciudades}
                       getOptionLabel={(option) => option.nombre}
                       filterSelectedOptions
-                      id="select-on-focus"
+                      id="custom-input-demo"
                       selectOnFocus
-                      sx={{ width: 300 }}
                       onInputChange={this.handleChangeCiudad}
                       renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Ciudad"
-                          variant="standard"
-                          required
-                        />
+                        <div ref={params.InputProps.ref}>
+                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                        </div>
+
                       )}
                     />
-                  </AvGroup>
+                    </AvGroup>
                 </Col>
                 <Col md="4">
-                  <Autocomplete
-                    style={{ marginTop: "3%" }}
-                    options={this.state.clientes}
-                    getOptionLabel={(option) => option.nombre}
-                    filterSelectedOptions
-                    id="select-on-focus"
-                    selectOnFocus
-                    sx={{ width: 300 }}
-                    onInputChange={this.handleChangeCliente}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Cliente"
-                        variant="standard"
-                        required
-                      />
-                    )}
-                  />
+                <AvGroup>
+                    <Label
+                      className="label-registroF"
+                      htmlFor="cliente"
+                    >
+                      Cliente
+                    </Label>
+                        <Autocomplete
+                        className="form-control"
+                        sx={{
+                        display: 'inline-block',
+                        '& input': {
+                        width:360,
+                        bgcolor: 'rgba(206, 206, 206, 0.397)',
+                        color: (theme) =>
+                        theme.palette.getContrastText(theme.palette.background.paper),
+                        },
+                      }}
+                      options={this.state.clientes}
+                      getOptionLabel={(option) => option.nombre}
+                      filterSelectedOptions
+                      id="custom-input-demo"
+                      selectOnFocus
+                      onInputChange={this.handleChangeCliente}
+                      renderInput={(params) => (
+                        <div ref={params.InputProps.ref}>
+                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                        </div>
+
+                      )}
+                    />
+                 </AvGroup>
                 </Col>
               </Row>
               <Row style={{ marginTop: "2%" }}>
@@ -549,24 +598,40 @@ export default class RegistroFactura extends React.Component {
               </Row>
               <Row style={{ marginTop: "2%" }}>
                 <Col md="4">
-                  <Autocomplete
-                    style={{ marginTop: "3%" }}
-                    options={this.state.formasPago}
-                    getOptionLabel={(option) => option.nombre}
-                    filterSelectedOptions
-                    id="formaPago"
-                    selectOnFocus
-                    sx={{ width: 300 }}
-                    onInputChange={this.handleChangeFormaPago}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Forma de Pago"
-                        variant="standard"
-                        value={this.state.form.formaPago || null}
-                      />
-                    )}
-                  />
+                <AvGroup>
+                    <Label
+                      className="label-registroF"
+                      htmlFor="formaPago"
+                    >
+                      Forma de Pago
+                    </Label>
+                      <Autocomplete
+                        className="form-control"
+                        sx={{
+                        display: 'inline-block',
+                        '& input': {
+                        width:360,
+                        bgcolor: 'rgba(206, 206, 206, 0.397)',
+                        color: (theme) =>
+                        theme.palette.getContrastText(theme.palette.background.paper),
+                        },
+                      }}
+                      options={this.state.formasPago}
+                      getOptionLabel={(option) => option.nombre}
+                      filterSelectedOptions
+                      id="formaPago"
+
+                      selectOnFocus
+                      onInputChange={this.handleChangeFormaPago}
+                      renderInput={(params) => (
+                        <div ref={params.InputProps.ref}>
+                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                        </div>
+
+                      )}
+                    />
+
+                  </AvGroup>
                 </Col>
                 <Col md="2" style={{ marginTop: "2%" }}>
                   <AvGroup>
@@ -604,14 +669,14 @@ export default class RegistroFactura extends React.Component {
               <hr />
             </AvForm>
 
-            <div>
+            <div className="parte2Facturas">
               <Snackbar
                 open={this.state.open}
                 autoHideDuration={2000}
                 onClose={this.handleClose}
               >
                 <Alert onClose={this.handleClose} severity="success">
-                  ¡Registro guardado con éxito!
+                  ¡Registro(s) guardado con éxito!
                 </Alert>
               </Snackbar>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -655,48 +720,74 @@ export default class RegistroFactura extends React.Component {
                 )}
               </div>
 
-              <Table cellSpacing="10" className="tableRegistros" striped>
+              <Table cellSpacing="10" className="tableFactura" striped>
                 <thead>
-                  <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">City</th>
-                    <th></th>
+                  <tr align="center" textalign="center">
+                    <th scope="col">Cantidad</th>
+                    <th colSpan="2">Producto</th>
+                    <th scope="col">Valor Unitario</th>
+                    <th scope="col">Valor Total</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
 
                 {this.state.rows.map((row, i) => {
                   return (
-                    <tbody>
+                    <tbody align="center" textalign="center">
                       {this.state.isEdit ? (
                         <tr>
                           <td>
                             <input
-                              value={row.firstname}
-                              name="firstname"
+                              autoComplete="off"
+                              type="number"
+                              id="cantidad"
+                              className="form-control"
+                              value={row.cantidad}
+                              name="cantidad"
+                              onChange={(e) => this.handleInputChange(e, i)}
+                            />
+                          </td>
+                          <td colSpan="2">
+                            <Autocomplete
+                            className="form-control"
+                                    sx={{
+                                      display: 'inline-block',
+                                      '& input': {
+                                        width:480,
+                                        bgcolor: 'rgba(214, 214, 214, 0.555)',
+                                        color: (theme) =>
+                                          theme.palette.getContrastText(theme.palette.background.paper),
+                                      },
+                                    }}
+                                    selectOnFocus
+                                    filterSelectedOptions
+                                    onInputChange={ (e,v) =>  this.handleInputChangeProducto(e,v,i)}
+                                    getOptionLabel={(option) => option.nombre}
+                                    id="custom-input-demo"
+                                    name="productoNombre"
+                                    options={this.state.productos}
+                                    renderInput={(params) => (
+                                      <div ref={params.InputProps.ref}>
+                                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} value={row.productoNombre}/>
+                                      </div>
+                                    )}
+                              />
+                          </td>
+                          <td>
+                            <input
+                              value={row.valorUnitario}
+                              name="valorUnitario"
+                              className="form-control"
                               onChange={(e) => this.handleInputChange(e, i)}
                             />
                           </td>
                           <td>
                             <input
-                              value={row.lastname}
-                              name="lastname"
+                              value={row.valorTotal}
+                              name="valorTotal"
+                              className="form-control"
                               onChange={(e) => this.handleInputChange(e, i)}
                             />
-                          </td>
-                          <td>
-                            <select
-                              name="city"
-                              value={row.city}
-                              onChange={(e) => this.handleInputChange(e, i)}
-                            >
-                              <option value=""></option>
-                              <option value="Karanja">Karanja</option>
-                              <option value="Hingoli">Hingoli</option>
-                              <option value="Bhandara">Bhandara</option>
-                              <option value="Amaravati">Amaravati</option>
-                              <option value="Pulgaon">Pulgaon</option>
-                            </select>
                           </td>
                           <td>
                             {this.state.isEdit ? (
@@ -719,13 +810,16 @@ export default class RegistroFactura extends React.Component {
                       ) : (
                         <tr>
                           <td>
-                            {row.firstname}
+                            {row.cantidad}
+                          </td>
+                          <td colSpan="2">
+                            {row.productoNombre}
                           </td>
                           <td>
-                            {row.lastname}
+                            {row.valorUnitario}
                           </td>
                           <td>
-                            {row.city}
+                            {row.valorTotal}
                           </td>
                           <td component="th" scope="row">
                             {this.state.isEdit ? (

@@ -57,4 +57,15 @@ async function buscarPorId(idEmpresa) {
 };
 
 
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId};
+async function consultarProductos(idEmpresa) {
+    const url = urlConexion+'producto/consultar/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos};
