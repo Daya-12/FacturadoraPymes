@@ -219,7 +219,7 @@ export default class RegistroProducto extends React.Component {
                     color: "#09065A",
                   }}
                 >
-                  Registro de nuevos usuarios
+                  Registro de nuevos productos
                 </h3>
               </Row>
               <Row>

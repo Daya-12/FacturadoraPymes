@@ -1,6 +1,5 @@
 import React from "react";
 import service from "./factura.service";
-import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import {
   AvForm,
@@ -299,26 +298,66 @@ export default class RegistroFactura extends React.Component {
   };
 
   handleInputChange = (e, index) => {
-    this.setState({
-      disable: false,
-    });
     const list = [...this.state.rows];
-    list[index][e.target.name] = e.target.value;
 
-    this.setState({
-      rows: list
-    });
+    if(e.target.value>0){
+      let nombreP=this.state.rows[index]["productoNombre"];
+      let producto = this.state.productos.find(
+        (producto) => producto.nombre === nombreP
+      );
+      list[index][e.target.name] = e.target.value;
+      if(producto!==undefined){
+        list[index]["valorTotal"] = e.target.value*list[index]["valorUnitario"];
+        this.setState({
+          rows: list
+        });
+      }
+    }
+    else{
+      list[index][e.target.name] = e.target.value;
+      list[index]["valorTotal"] = 0;
+      this.setState({
+        rows: list
+      });
+    }
+    if(this.state.rows[index]["productoNombre"]==="" || this.state.rows[index]["cantidad"]===""){
+      this.setState({
+        disable: true
+      });
+    }
+    else{
+      this.setState({
+        disable: false
+      });
+    }
   };
 
   handleInputChangeProducto = (e, v, index) => {
-    this.setState({
-      disable: false,
-    });
-    const list = [...this.state.rows];
-    list[index]["productoNombre"] = v;
-    this.setState({
-      rows: list
-    });
+    let producto = this.state.productos.find(
+      (producto) => producto.nombre === v
+    );
+    if(producto!==undefined){
+      const list = [...this.state.rows];
+      list[index]["productoNombre"] = v;
+      list[index]["valorUnitario"] = producto.valor;
+      if(list[index]["cantidad"]!=undefined){
+        list[index]["valorTotal"] = list[index]["cantidad"]*list[index]["valorUnitario"];
+      }
+      this.setState({
+        rows: list
+      });
+    }
+    if(this.state.rows[index]["productoNombre"]==="" || this.state.rows[index]["cantidad"]===""){
+      this.setState({
+        disable: true,
+      });
+    }
+    else{
+      this.setState({
+        disable: false,
+      });
+    }
+
   };
 
   handleConfirm = () => {
@@ -330,10 +369,9 @@ export default class RegistroFactura extends React.Component {
   handleRemoveClick = (i) => {
     const list = [...this.state.rows];
     list.splice(i, 1);
-
     this.setState({
       rows: list,
-      showConfirm: true,
+      showConfirm: false
     });
   };
 
@@ -630,7 +668,6 @@ export default class RegistroFactura extends React.Component {
 
                       )}
                     />
-
                   </AvGroup>
                 </Col>
                 <Col md="2" style={{ marginTop: "2%" }}>
@@ -719,8 +756,8 @@ export default class RegistroFactura extends React.Component {
                   </div>
                 )}
               </div>
-
-              <Table cellSpacing="10" className="tableFactura" striped>
+              <br/>
+              <Table border="1"  className="tableFactura" striped>
                 <thead>
                   <tr align="center" textalign="center">
                     <th scope="col">Cantidad</th>
@@ -738,7 +775,6 @@ export default class RegistroFactura extends React.Component {
                         <tr>
                           <td>
                             <input
-                              autoComplete="off"
                               type="number"
                               id="cantidad"
                               className="form-control"
@@ -763,12 +799,11 @@ export default class RegistroFactura extends React.Component {
                                     filterSelectedOptions
                                     onInputChange={ (e,v) =>  this.handleInputChangeProducto(e,v,i)}
                                     getOptionLabel={(option) => option.nombre}
-                                    id="custom-input-demo"
                                     name="productoNombre"
-                                    options={this.state.productos}
+                                    options={this.state.productos}  
                                     renderInput={(params) => (
                                       <div ref={params.InputProps.ref}>
-                                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} value={row.productoNombre}/>
+                                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} value={row.productoNombre || undefined}/>
                                       </div>
                                     )}
                               />
@@ -778,7 +813,7 @@ export default class RegistroFactura extends React.Component {
                               value={row.valorUnitario}
                               name="valorUnitario"
                               className="form-control"
-                              onChange={(e) => this.handleInputChange(e, i)}
+                              readOnly
                             />
                           </td>
                           <td>
@@ -786,7 +821,7 @@ export default class RegistroFactura extends React.Component {
                               value={row.valorTotal}
                               name="valorTotal"
                               className="form-control"
-                              onChange={(e) => this.handleInputChange(e, i)}
+                              readOnly
                             />
                           </td>
                           <td>

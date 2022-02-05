@@ -704,7 +704,7 @@ h4 {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
-  background-color: rgba(93, 100, 121, 0.664);
+  background-color: rgba(86, 93, 112, 0.664);
   background-blend-mode: soft-light;
   width: 100%;
   max-width: 100vw;
@@ -749,7 +749,7 @@ h4 {
 }
 
 #formFactura {
-  background: rgba(181, 181, 189, 0.473);
+  background: rgba(186, 186, 194, 0.418);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(136, 136, 136, 0.692);
@@ -776,14 +776,14 @@ h4 {
 }
 
 .parte2Facturas {
-  background: rgba(182, 179, 179, 0.315);
+  background: rgba(180, 179, 179, 0.315);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(136, 136, 136, 0.692);
 }
 
 #formFactura .parte2Facturas .form-control {
-  background: rgba(214, 214, 214, 0.466);
+  background: rgba(230, 230, 230, 0.466);
   border-style: none;
   box-shadow: none;
   outline: none;
