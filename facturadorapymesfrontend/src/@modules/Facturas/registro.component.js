@@ -7,15 +7,13 @@ import {
   AvInput,
   AvFeedback,
 } from "availity-reactstrap-validation";
-import { InputGroup, Label, Row, Col, Table } from "reactstrap";
-
+import { InputGroup, Label, Row, Col, Table,Input,Form,FormGroup } from "reactstrap";
 import CreateIcon from "@material-ui/icons/Create";
-import { Button, Snackbar, TableCell, TableRow } from "@material-ui/core";
+import { Button, Snackbar } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/core/styles";
 import Alert from "@material-ui/lab/Alert";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -68,6 +66,8 @@ export default class RegistroFactura extends React.Component {
       disable: true,
       showConfirm: false,
       rows: [],
+      asesor: "",
+      textarea: ""
     };
   }
 
@@ -89,8 +89,27 @@ export default class RegistroFactura extends React.Component {
     this.consultarClientes();
     this.consultarLogo();
     this.consultarFormasPago();
+    this.consultarUsuarioLogueado();
   };
 
+  numero = (numero) => {
+    const conversor = require('conversor-numero-a-letras-es-ar');
+    let ClaseConversor = conversor.conversorNumerosALetras;
+    let miConversor = new ClaseConversor();
+    var numeroEnLetras = miConversor.convertToText(25631545);    
+    this.setState({
+      textarea: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
+    });
+  }
+
+  consultarUsuarioLogueado = () => {
+    let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
+    this.setState({
+        asesor: "Factura creada por: "+informacionLocalStorage.nombre
+    });
+    this.numero();
+  }
+  
   consultarProductos = async () => {
     let respuesta = null;
     respuesta = await service.consultarProductos(this.state.empresa.id);
@@ -272,7 +291,7 @@ export default class RegistroFactura extends React.Component {
       rows: [
         ...this.state.rows,
         {
-          cantidad:"",
+          cantidad: "",
           productoNombre: "",
           valorUnitario: "",
           valorTotal: "",
@@ -300,34 +319,36 @@ export default class RegistroFactura extends React.Component {
   handleInputChange = (e, index) => {
     const list = [...this.state.rows];
 
-    if(e.target.value>0){
-      let nombreP=this.state.rows[index]["productoNombre"];
+    if (e.target.value > 0) {
+      let nombreP = this.state.rows[index]["productoNombre"];
       let producto = this.state.productos.find(
         (producto) => producto.nombre === nombreP
       );
       list[index][e.target.name] = e.target.value;
-      if(producto!==undefined){
-        list[index]["valorTotal"] = e.target.value*list[index]["valorUnitario"];
+      if (producto !== undefined) {
+        list[index]["valorTotal"] =
+          e.target.value * list[index]["valorUnitario"];
         this.setState({
-          rows: list
+          rows: list,
         });
       }
-    }
-    else{
+    } else {
       list[index][e.target.name] = e.target.value;
       list[index]["valorTotal"] = 0;
       this.setState({
-        rows: list
+        rows: list,
       });
     }
-    if(this.state.rows[index]["productoNombre"]==="" || this.state.rows[index]["cantidad"]===""){
+    if (
+      this.state.rows[index]["productoNombre"] === "" ||
+      this.state.rows[index]["cantidad"] === ""
+    ) {
       this.setState({
-        disable: true
+        disable: true,
       });
-    }
-    else{
+    } else {
       this.setState({
-        disable: false
+        disable: false,
       });
     }
   };
@@ -336,28 +357,30 @@ export default class RegistroFactura extends React.Component {
     let producto = this.state.productos.find(
       (producto) => producto.nombre === v
     );
-    if(producto!==undefined){
+    if (producto !== undefined) {
       const list = [...this.state.rows];
       list[index]["productoNombre"] = v;
       list[index]["valorUnitario"] = producto.valor;
-      if(list[index]["cantidad"]!=undefined){
-        list[index]["valorTotal"] = list[index]["cantidad"]*list[index]["valorUnitario"];
+      if (list[index]["cantidad"] != undefined) {
+        list[index]["valorTotal"] =
+          list[index]["cantidad"] * list[index]["valorUnitario"];
       }
       this.setState({
-        rows: list
+        rows: list,
       });
     }
-    if(this.state.rows[index]["productoNombre"]==="" || this.state.rows[index]["cantidad"]===""){
+    if (
+      this.state.rows[index]["productoNombre"] === "" ||
+      this.state.rows[index]["cantidad"] === ""
+    ) {
       this.setState({
         disable: true,
       });
-    }
-    else{
+    } else {
       this.setState({
         disable: false,
       });
     }
-
   };
 
   handleConfirm = () => {
@@ -371,7 +394,7 @@ export default class RegistroFactura extends React.Component {
     list.splice(i, 1);
     this.setState({
       rows: list,
-      showConfirm: false
+      showConfirm: false,
     });
   };
 
@@ -512,22 +535,21 @@ export default class RegistroFactura extends React.Component {
                   </AvGroup>
                 </Col>
                 <Col md="4">
-                <AvGroup>
-                    <Label
-                      className="label-registroF"
-                      htmlFor="ciudad"
-                    >
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="ciudad">
                       Ciudad
                     </Label>
                     <Autocomplete
-                        className="form-control"
-                        sx={{
-                        display: 'inline-block',
-                        '& input': {
-                        width:360,
-                        bgcolor: 'rgba(206, 206, 206, 0.397)',
-                        color: (theme) =>
-                        theme.palette.getContrastText(theme.palette.background.paper),
+                      className="form-control"
+                      sx={{
+                        display: "inline-block",
+                        "& input": {
+                          width: 360,
+                          bgcolor: "rgba(206, 206, 206, 0.397)",
+                          color: (theme) =>
+                            theme.palette.getContrastText(
+                              theme.palette.background.paper
+                            ),
                         },
                       }}
                       options={this.state.ciudades}
@@ -538,30 +560,36 @@ export default class RegistroFactura extends React.Component {
                       onInputChange={this.handleChangeCiudad}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
-                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                          <input
+                            style={{
+                              lineHeight: "100%",
+                              border: "0",
+                              background: "none",
+                            }}
+                            type="text"
+                            {...params.inputProps}
+                          />
                         </div>
-
                       )}
                     />
-                    </AvGroup>
+                  </AvGroup>
                 </Col>
                 <Col md="4">
-                <AvGroup>
-                    <Label
-                      className="label-registroF"
-                      htmlFor="cliente"
-                    >
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="cliente">
                       Cliente
                     </Label>
-                        <Autocomplete
-                        className="form-control"
-                        sx={{
-                        display: 'inline-block',
-                        '& input': {
-                        width:360,
-                        bgcolor: 'rgba(206, 206, 206, 0.397)',
-                        color: (theme) =>
-                        theme.palette.getContrastText(theme.palette.background.paper),
+                    <Autocomplete
+                      className="form-control"
+                      sx={{
+                        display: "inline-block",
+                        "& input": {
+                          width: 360,
+                          bgcolor: "rgba(206, 206, 206, 0.397)",
+                          color: (theme) =>
+                            theme.palette.getContrastText(
+                              theme.palette.background.paper
+                            ),
                         },
                       }}
                       options={this.state.clientes}
@@ -572,12 +600,19 @@ export default class RegistroFactura extends React.Component {
                       onInputChange={this.handleChangeCliente}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
-                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                          <input
+                            style={{
+                              lineHeight: "100%",
+                              border: "0",
+                              background: "none",
+                            }}
+                            type="text"
+                            {...params.inputProps}
+                          />
                         </div>
-
                       )}
                     />
-                 </AvGroup>
+                  </AvGroup>
                 </Col>
               </Row>
               <Row style={{ marginTop: "2%" }}>
@@ -636,36 +671,41 @@ export default class RegistroFactura extends React.Component {
               </Row>
               <Row style={{ marginTop: "2%" }}>
                 <Col md="4">
-                <AvGroup>
-                    <Label
-                      className="label-registroF"
-                      htmlFor="formaPago"
-                    >
+                  <AvGroup>
+                    <Label className="label-registroF" htmlFor="formaPago">
                       Forma de Pago
                     </Label>
-                      <Autocomplete
-                        className="form-control"
-                        sx={{
-                        display: 'inline-block',
-                        '& input': {
-                        width:360,
-                        bgcolor: 'rgba(206, 206, 206, 0.397)',
-                        color: (theme) =>
-                        theme.palette.getContrastText(theme.palette.background.paper),
+                    <Autocomplete
+                      className="form-control"
+                      sx={{
+                        display: "inline-block",
+                        "& input": {
+                          width: 360,
+                          bgcolor: "rgba(206, 206, 206, 0.397)",
+                          color: (theme) =>
+                            theme.palette.getContrastText(
+                              theme.palette.background.paper
+                            ),
                         },
                       }}
                       options={this.state.formasPago}
                       getOptionLabel={(option) => option.nombre}
                       filterSelectedOptions
                       id="formaPago"
-
                       selectOnFocus
                       onInputChange={this.handleChangeFormaPago}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
-                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} />
+                          <input
+                            style={{
+                              lineHeight: "100%",
+                              border: "0",
+                              background: "none",
+                            }}
+                            type="text"
+                            {...params.inputProps}
+                          />
                         </div>
-
                       )}
                     />
                   </AvGroup>
@@ -756,8 +796,8 @@ export default class RegistroFactura extends React.Component {
                   </div>
                 )}
               </div>
-              <br/>
-              <Table border="1"  className="tableFactura" striped>
+              <br />
+              <Table border="1" className="tableFactura" striped>
                 <thead>
                   <tr align="center" textalign="center">
                     <th scope="col">Cantidad</th>
@@ -785,28 +825,41 @@ export default class RegistroFactura extends React.Component {
                           </td>
                           <td colSpan="2">
                             <Autocomplete
-                            className="form-control"
-                                    sx={{
-                                      display: 'inline-block',
-                                      '& input': {
-                                        width:480,
-                                        bgcolor: 'rgba(214, 214, 214, 0.555)',
-                                        color: (theme) =>
-                                          theme.palette.getContrastText(theme.palette.background.paper),
-                                      },
+                              className="form-control"
+                              sx={{
+                                display: "inline-block",
+                                "& input": {
+                                  width: 480,
+                                  bgcolor: "rgba(214, 214, 214, 0.555)",
+                                  color: (theme) =>
+                                    theme.palette.getContrastText(
+                                      theme.palette.background.paper
+                                    ),
+                                },
+                              }}
+                              selectOnFocus
+                              filterSelectedOptions
+                              onInputChange={(e, v) =>
+                                this.handleInputChangeProducto(e, v, i)
+                              }
+                              getOptionLabel={(option) => option.nombre}
+                              name="productoNombre"
+                              options={this.state.productos}
+                              renderInput={(params) => (
+                                <div ref={params.InputProps.ref}>
+                                  <input
+                                    style={{
+                                      lineHeight: "100%",
+                                      border: "0",
+                                      background: "none",
                                     }}
-                                    selectOnFocus
-                                    filterSelectedOptions
-                                    onInputChange={ (e,v) =>  this.handleInputChangeProducto(e,v,i)}
-                                    getOptionLabel={(option) => option.nombre}
-                                    name="productoNombre"
-                                    options={this.state.productos}  
-                                    renderInput={(params) => (
-                                      <div ref={params.InputProps.ref}>
-                                        <input style={{ lineHeight: "100%",border: "0",background: "none"}} type="text" {...params.inputProps} value={row.productoNombre || undefined}/>
-                                      </div>
-                                    )}
-                              />
+                                    type="text"
+                                    {...params.inputProps}
+                                    value={row.productoNombre || undefined}
+                                  />
+                                </div>
+                              )}
+                            />
                           </td>
                           <td>
                             <input
@@ -844,18 +897,10 @@ export default class RegistroFactura extends React.Component {
                         </tr>
                       ) : (
                         <tr>
-                          <td>
-                            {row.cantidad}
-                          </td>
-                          <td colSpan="2">
-                            {row.productoNombre}
-                          </td>
-                          <td>
-                            {row.valorUnitario}
-                          </td>
-                          <td>
-                            {row.valorTotal}
-                          </td>
+                          <td>{row.cantidad}</td>
+                          <td colSpan="2">{row.productoNombre}</td>
+                          <td>{row.valorUnitario}</td>
+                          <td>{row.valorTotal}</td>
                           <td component="th" scope="row">
                             {this.state.isEdit ? (
                               <Button
@@ -876,44 +921,135 @@ export default class RegistroFactura extends React.Component {
                         </tr>
                       )}
                       {this.state.showConfirm && (
-                          <div>
-                            <Dialog
-                              open={this.state.showConfirm}
-                              onClose={this.handleNo}
-                              aria-labelledby="alert-dialog-title"
-                              aria-describedby="alert-dialog-description"
-                            >
-                              <DialogTitle id="alert-dialog-title">
-                                {"Confirmar Eliminación"}
-                              </DialogTitle>
-                              <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                  ¿Estas seguro de borrar el registro?
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button
-                                  onClick={() => this.handleRemoveClick(i)}
-                                  color="primary"
-                                  autoFocus
-                                >
-                                  Sí
-                                </Button>
-                                <Button
-                                  onClick={this.handleNo}
-                                  color="primary"
-                                  autoFocus
-                                >
-                                  No
-                                </Button>
-                              </DialogActions>
-                            </Dialog>
-                          </div>
-                        )}
+                        <div>
+                          <Dialog
+                            open={this.state.showConfirm}
+                            onClose={this.handleNo}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              {"Confirmar Eliminación"}
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                ¿Estas seguro de borrar el registro?
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button
+                                onClick={() => this.handleRemoveClick(i)}
+                                color="primary"
+                                autoFocus
+                              >
+                                Sí
+                              </Button>
+                              <Button
+                                onClick={this.handleNo}
+                                color="primary"
+                                autoFocus
+                              >
+                                No
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
+                      )}
                     </tbody>
                   );
                 })}
               </Table>
+            </div>
+          <br/><hr/>
+            <div>
+              <div className="footerFactura1" align="left">
+                <Input
+                style={{
+                  fontSize: "0.9rem",
+                  fontFamily: "sans-serif",
+                  color: "rgb(65, 65, 65)",
+                  fontWeight: "bold"
+                }}
+                  readOnly
+                  id="valorLetras"
+                  name="text"
+                  type="textarea"
+                  className="form-control"
+                  rows="2"
+                  value={this.state.textarea || ""}
+                />
+              </div>
+              <div className="footerFactura2"></div>
+              <div
+                className="footerFactura3"
+                align="right"
+              >
+                <Form>
+                  <FormGroup row>
+                  <Label className="labelsFooter" for="subtotal" sm={5}>Sub-Total: </Label>
+                    <Col sm={7}>
+                      <Input
+                        id="sinBorde"
+                        name="subtotal"
+                        type="text"
+                        readOnly
+                        value={this.state.subtotal || ""}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <br/>
+                  <FormGroup row>
+                  <Label check className="labelsFooter" for="subtotal" sm={5}>¿Incluye IVA?</Label>
+                  <Col sm={1}><Input type="checkbox" /></Col>
+                    <Col sm={6}>
+                      <Input
+                        id="sinBorde"
+                        name="iva"
+                        type="text"
+                        readOnly
+                        value={this.state.iva || ""}
+                      />
+                    </Col>
+                  </FormGroup>
+                  <br/>
+                  <FormGroup row>
+                  <Label className="labelsFooter" for="total" sm={5}>Total: </Label>
+                    <Col sm={7}>
+                      <Input
+                        id="sinBorde"
+                        name="total"
+                        type="text"
+                        readOnly
+                        value={this.state.total || ""}
+                      />
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </div>
+            </div>
+            <br/><hr/>
+            <div>
+                <div
+                  className="foot1"
+                  align="left"
+                >
+                  <Label style={{ fontWeight: "bold", marginLeft: "4%", marginTop:"2%"}} >{this.state.asesor || ""}</Label>
+                </div>
+                <div
+                  className="foot2"
+                  align="center"
+                >
+                  <Button
+                    id="botonValidar"
+                    size="md"
+                    outline
+                    color="primary"
+                    disabled={this.state.button === false}
+                    style={{ fontWeight: "bold"}}
+                  >
+                    Crear
+                  </Button>
+                </div>
             </div>
           </div>
         </div>
