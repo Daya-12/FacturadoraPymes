@@ -30,7 +30,7 @@ export default class RegistroFactura extends React.Component {
       clientes: [],
       formasPago: [],
       button: false,
-      fechaEmision: null,
+      fechaEmision: "",
       check: false,
       empresaCompleta: {
         id: "",
@@ -67,7 +67,11 @@ export default class RegistroFactura extends React.Component {
       showConfirm: false,
       rows: [],
       asesor: "",
-      textarea: ""
+      textarea: "",
+      subtotal:"",
+      iva:"",
+      checkIva: false,
+      total:""
     };
   }
 
@@ -92,22 +96,11 @@ export default class RegistroFactura extends React.Component {
     this.consultarUsuarioLogueado();
   };
 
-  numero = (numero) => {
-    const conversor = require('conversor-numero-a-letras-es-ar');
-    let ClaseConversor = conversor.conversorNumerosALetras;
-    let miConversor = new ClaseConversor();
-    var numeroEnLetras = miConversor.convertToText(25631545);    
-    this.setState({
-      textarea: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
-    });
-  }
-
   consultarUsuarioLogueado = () => {
     let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
     this.setState({
         asesor: "Factura creada por: "+informacionLocalStorage.nombre
     });
-    this.numero();
   }
   
   consultarProductos = async () => {
@@ -142,11 +135,16 @@ export default class RegistroFactura extends React.Component {
     let respuesta = null;
     respuesta = await service.consultarFormasPago();
     var f = new Date();
+    var dia=f.getDate()< 10 ? '0' + f.getDate(): f.getDate();
+    var mes=f.getMonth() + 1 < 10 ? '0' + (f.getMonth()+1): f.getMonth() + 1;
+
     if (respuesta !== null) {
-      this.setState({
+      await this.setState({
         formasPago: respuesta.data,
-        fechaEmision:
-          f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear(),
+        fechaEmision: f.getFullYear()+ "-" + mes + "-" +dia,
+        form:{
+          fechaEmision:dia + "/" + mes+ "/" + f.getFullYear(),
+        }
       });
       document.getElementById("formaPagoPersonalizada").disabled = true;
     }
@@ -307,14 +305,44 @@ export default class RegistroFactura extends React.Component {
     });
   };
 
-  handleSave = () => {
+  handleSave =async () => {
     this.setState({
       isEdit: !this.state.isEdit,
       rows: this.state.rows,
       disable: true,
       open: true,
     });
+
+    const sumaValorTotal = this.state.rows.reduce((prev, next) => prev + next.valorTotal, 0);
+    this.setState({
+      subtotal: sumaValorTotal
+    });
+
+    if (this.state.checkIva) {
+      this.setState({
+        iva: (sumaValorTotal*19)/100
+      });
+    } else if (!this.state.checkIva) {
+      this.setState({
+        iva: 0
+      });
+    }
+    await this.setState({
+      total: sumaValorTotal+this.state.iva
+    });
+
+    this.convertirALetras();
   };
+
+  convertirALetras = () => {
+    const conversor = require('conversor-numero-a-letras-es-ar');
+    let ClaseConversor = conversor.conversorNumerosALetras;
+    let miConversor = new ClaseConversor();
+    var numeroEnLetras = miConversor.convertToText(this.state.total);    
+    this.setState({
+      textarea: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
+    });
+  }
 
   handleInputChange = (e, index) => {
     const list = [...this.state.rows];
@@ -389,13 +417,31 @@ export default class RegistroFactura extends React.Component {
     });
   };
 
-  handleRemoveClick = (i) => {
+  handleRemoveClick = async(i) => {
     const list = [...this.state.rows];
     list.splice(i, 1);
-    this.setState({
+    await this.setState({
       rows: list,
       showConfirm: false,
     });
+    const sumaValorTotal = this.state.rows.reduce((prev, next) => prev + next.valorTotal, 0);
+    this.setState({
+      subtotal: sumaValorTotal
+    });
+
+    if (this.state.checkIva) {
+      this.setState({
+        iva: (sumaValorTotal*19)/100
+      });
+    } else if (!this.state.checkIva) {
+      this.setState({
+        iva: 0
+      });
+    }
+    await this.setState({
+      total: sumaValorTotal+this.state.iva
+    });
+    this.convertirALetras();
   };
 
   handleNo = () => {
@@ -403,6 +449,29 @@ export default class RegistroFactura extends React.Component {
       showConfirm: false,
     });
   };
+
+  handleChangeCheckIva = async (ci) => {
+    await this.setState({
+      checkIva: ci.target.checked,
+    });
+    if (!this.state.checkIva) {
+      await this.setState({
+        iva: 0
+      });
+    }
+    if(this.state.subtotal!=""){
+      if (this.state.checkIva) {
+        await this.setState({
+          iva: (this.state.subtotal*19)/100
+        });
+      }  
+      await this.setState({
+        total: this.state.subtotal+this.state.iva
+      });
+      this.convertirALetras();
+    }
+  };
+
 
   render() {
     return (
@@ -501,7 +570,7 @@ export default class RegistroFactura extends React.Component {
                       className="form-control"
                       id="fechaEmision"
                       name="fechaEmision"
-                      value={this.state.fechaEmision}
+                      value={this.state.form.fechaEmision}
                       readOnly
                     />
                   </AvGroup>
@@ -520,6 +589,7 @@ export default class RegistroFactura extends React.Component {
                         className="form-control"
                         id="fechaVencimiento"
                         name="fechaVencimiento"
+                        min={this.state.fechaEmision}
                         value={this.state.form.fechaVencimiento}
                         onChange={this.handleChange}
                         validate={{
@@ -994,13 +1064,17 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.subtotal || ""}
+                        style={{ fontWeight: "bold",textAlign:"right"}}
                       />
                     </Col>
                   </FormGroup>
                   <br/>
                   <FormGroup row>
                   <Label check className="labelsFooter" for="subtotal" sm={5}>¿Incluye IVA?</Label>
-                  <Col sm={1}><Input type="checkbox" /></Col>
+                  <Col sm={1}><Input type="checkbox"                       id="checkIva"
+                      name="checkIva"
+                      value={this.state.checkIva}
+                      onChange={this.handleChangeCheckIva.bind(this)} /></Col>
                     <Col sm={6}>
                       <Input
                         id="sinBorde"
@@ -1008,6 +1082,7 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.iva || ""}
+                        style={{ fontWeight: "bold",textAlign:"right"}}
                       />
                     </Col>
                   </FormGroup>
@@ -1021,6 +1096,7 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.total || ""}
+                        style={{ fontWeight: "bold",textAlign:"right"}}
                       />
                     </Col>
                   </FormGroup>
