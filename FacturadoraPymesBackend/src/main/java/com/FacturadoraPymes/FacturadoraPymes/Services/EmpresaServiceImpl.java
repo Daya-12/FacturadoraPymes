@@ -84,9 +84,29 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		return empresa;
 	}
 
+	private String generarAbreviacion(String abreviacion) {
+		 String palabra = ""; 
+		 int caracteres = (int)(Math.random()*2)+3; 
+		 for (int i=0; i<caracteres; i++){ 
+				int codigoAscii = (int)Math.floor(Math.random()*(122 - 97)+97); 
+				 palabra = palabra + (char)codigoAscii; 
+		 }
+		 return (abreviacion+palabra).toUpperCase();
+	}
 	@Override
 	public MensajeModel crearEmpresa(EmpresaModel empresa) {
-		if( (validarNombreEmpresa(empresa.getRazonSocial())==false) && (validarIdentificacionEmpresa(empresa.getNit())==false) &&
+		
+		 String subCadena = empresa.getRazonSocial().substring(0,3);
+		 
+		 String abreviacion=generarAbreviacion(subCadena);
+		 boolean existenciAbrevitura= validaciones.validarAbreviacionEmpresa(empresaRepository, abreviacion);
+		 
+		 while(existenciAbrevitura) {
+			 abreviacion=generarAbreviacion(subCadena);
+			 existenciAbrevitura= validaciones.validarAbreviacionEmpresa(empresaRepository, abreviacion);
+		 }
+		
+		if( (!existenciAbrevitura && validarNombreEmpresa(empresa.getRazonSocial())==false) && (validarIdentificacionEmpresa(empresa.getNit())==false) &&
 			(validarEmailEmpresa(empresa.getCorreoElectronico())==false) && (usuarioService.validarEmail(empresa.getUsuario().getCorreo())==false)) {
 		//obtener nombre imagen logo
 		File directorio = new File(ruta);
@@ -105,6 +125,7 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		empresaEntity.setNit(empresa.getNit());
 		empresaEntity.setUrlLogo(empresa.getUrlLogo());
 		empresaEntity.setCorreoElectronico(empresa.getCorreoElectronico());
+		empresaEntity.setAbreviacion(abreviacion);
 		empresaEntity.setDireccion(empresa.getDireccion());
 		empresaEntity.setCiudad(ciudadEntity);
 		empresaEntity.setTelefono(empresa.getTelefono());

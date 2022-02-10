@@ -1,9 +1,13 @@
 package com.FacturadoraPymes.FacturadoraPymes.Repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
 
 @Repository
@@ -17,5 +21,8 @@ public interface IFacturaRepository extends CrudRepository<Factura, Integer> {
 	
 	@Query(value = "select IFNULL(SUM(f.total_fact), 0) as facturas FROM Cliente c INNER JOIN Factura f ON c.id_cliente=f.id_cliente INNER JOIN Estado e ON f.id_estado=e.id_estado WHERE c.id_cliente=:idCliente and e.nombre_estado!='Anulado'", nativeQuery = true)
 	public String consultarTotalFacturado(@Param("idCliente") int idCliente);
+	
+	@Query(value = "SELECT factura FROM Factura factura WHERE factura.refPago=:referencia", nativeQuery = false)
+	public Optional<Factura> validarReferencia(@Param("referencia") String referencia);
 
 }

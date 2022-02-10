@@ -20,6 +20,7 @@ direccion VARCHAR(70) NOT NULL,
 id_ciudad INT NOT NULL,
 telefono VARCHAR(20) NOT NULL,
 activo BIT NOT NULL,
+abreviacion VARCHAR(10) NOT NULL,
 PRIMARY KEY (id_empresa),
 FOREIGN KEY (id_ciudad) references Ciudad (id_ciudad)
 );

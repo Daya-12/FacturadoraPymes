@@ -42,6 +42,9 @@ public class Empresa implements Serializable {
 
 	@Column(name="url_logo")
 	private String urlLogo;
+	
+	@Column(name="abreviacion")
+	private String abreviacion;
 
 	//bi-directional many-to-one association to Ciudad
 	@ManyToOne
@@ -96,6 +99,14 @@ public class Empresa implements Serializable {
 
 	public void setDireccion(String direccion) {
 		this.direccionE = direccion;
+	}
+	
+	public String getAbreviacion() {
+		return this.abreviacion;
+	}
+
+	public void setAbreviacion(String abreviacion) {
+		this.abreviacion = abreviacion;
 	}
 
 	public String getNit() {

@@ -20,11 +20,13 @@ import java.security.InvalidAlgorithmParameterException;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Usuario;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
+import com.FacturadoraPymes.FacturadoraPymes.Repositories.IFacturaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IProductoRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IUsuarioRepository;
 
@@ -184,6 +186,22 @@ public class Validaciones {
 	public boolean validarNombreCliente(IClienteRepository clienteRepository, String nombre, int idEmpresa) {
 		Optional<Cliente> clienteValidacion = clienteRepository.validarNombre(nombre,idEmpresa,true);
 		if (clienteValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean validarAbreviacionEmpresa(IEmpresaRepository empresaRepository, String abreviacion) {
+		Optional<Empresa> empresaValidacion = empresaRepository.validarAbreviacion(abreviacion,true);
+		if (empresaValidacion.isPresent()) {
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean validarReferenciaFactura(IFacturaRepository facturaRepository, String referencia) {
+		Optional<Factura> empresaValidacion = facturaRepository.validarReferencia(referencia);
+		if (empresaValidacion.isPresent()) {
 			return true;
 		} else
 			return false;

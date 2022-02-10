@@ -25,6 +25,7 @@ export default class RegistroFactura extends React.Component {
   constructor() {
     super();
     this.state = {
+      referenciaFactura: "",
       productos: [],
       ciudades: [],
       clientes: [],
@@ -94,6 +95,17 @@ export default class RegistroFactura extends React.Component {
     this.consultarLogo();
     this.consultarFormasPago();
     this.consultarUsuarioLogueado();
+    this.consultarReferenciaFactura();
+  };
+
+  consultarReferenciaFactura = async () => {
+    let respuesta = null;
+    respuesta = await service.consultarReferencia(this.state.empresa.id);
+    if (respuesta !== null) {
+      this.setState({
+        referenciaFactura: respuesta.data,
+      });
+    }
   };
 
   consultarUsuarioLogueado = () => {
@@ -548,11 +560,8 @@ export default class RegistroFactura extends React.Component {
               <div
                 className="titulosFactura2"
                 align="center"
-                style={{
-                  backgroundColor: "red",
-                }}
               >
-                <label>hola</label>
+                <label>Ref.<br/>{this.state.referenciaFactura}</label>
               </div>
             </div>
             <hr />

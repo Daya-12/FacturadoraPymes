@@ -19,7 +19,6 @@ import com.FacturadoraPymes.FacturadoraPymes.IServices.IClienteService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
-import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICiudadRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IClienteRepository;

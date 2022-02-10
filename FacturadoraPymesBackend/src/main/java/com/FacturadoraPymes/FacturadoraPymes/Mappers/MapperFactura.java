@@ -1,5 +1,7 @@
 package com.FacturadoraPymes.FacturadoraPymes.Mappers;
 
-public class MapperFactura {
+import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperFactura;
+
+public class MapperFactura implements IMapperFactura{
 
 }

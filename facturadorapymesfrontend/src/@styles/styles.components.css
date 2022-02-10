@@ -704,7 +704,7 @@ h4 {
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
-  background-color: rgba(86, 93, 112, 0.664);
+  background-color: rgba(86, 93, 112, 0.596);
   background-blend-mode: soft-light;
   width: 100%;
   max-width: 100vw;
@@ -733,11 +733,19 @@ h4 {
 }
 
 .titulosFactura2 {
+  border-color: rgb(4, 9, 32);
+  border-width: 0.5px;
+  border-style: solid;
   display:inline-block;
   width: 15%;
-  border-color: rgb(4, 9, 32);
-  border-width: 1px;
-  border-style: solid;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: sans-serif;
+  color: rgb(20, 20, 20);
+  background-color: rgba(218, 218, 218, 0.062);
+  padding: 5px;
+  border-radius: 10px;
+  border:1;
 }
 
 .label-registroF {
@@ -756,7 +764,7 @@ h4 {
 }
 
 #formFactura .form-control {
-  background: rgba(206, 206, 206, 0.397);
+  background: rgba(206, 206, 206, 0.459);
   border-style: none;
   box-shadow: none;
   outline: none;
@@ -776,14 +784,14 @@ h4 {
 }
 
 .parte2Facturas {
-  background: rgba(180, 179, 179, 0.315);
+  background: rgba(196, 196, 196, 0.548);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(136, 136, 136, 0.692);
 }
 
 #formFactura .parte2Facturas .form-control {
-  background: rgba(230, 230, 230, 0.466);
+  background: rgba(230, 230, 230, 0.575);
   border-style: none;
   box-shadow: none;
   outline: none;
@@ -814,7 +822,7 @@ h4 {
   box-shadow: none;
   outline: none;
   transition: background-color 0.5s;
-  color: rgb(31, 31, 31);
+  color: rgb(27, 27, 27);
   border-radius: 3px;
 }
 .footerFactura2 {

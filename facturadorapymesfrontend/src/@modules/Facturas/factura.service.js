@@ -68,4 +68,16 @@ async function consultarProductos(idEmpresa) {
     return response;
 };
 
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos};
+async function consultarReferencia(idEmpresa) {
+    const url = urlConexion+'factura/obtenerReferencia/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia};
