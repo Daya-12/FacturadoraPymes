@@ -2,8 +2,8 @@ import React from "react";
 import logo from "../../@images/logoProyecto.png";
 import DataTable from "react-data-table-component";
 import service from "./cliente.service";
-
-export default class ConsultarProductos extends React.Component {
+import ExportExcel from "react-export-excel";
+export default class consultarClientes extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -36,10 +36,9 @@ export default class ConsultarProductos extends React.Component {
   consultarClientes = async () => {
     let respuesta = null;
     respuesta = await service.consultaPersonalizada(this.state.empresa.id);
-    this.setState({
+    await this.setState({
       clientes: respuesta.data,
     });
-
     this.setState({
       clientes2: this.state.clientes.map((cliente) => {
         return {
@@ -93,6 +92,10 @@ export default class ConsultarProductos extends React.Component {
   };
 
   render() {
+    const ExcelFile = ExportExcel.ExcelFile;
+    const ExcelSheet = ExportExcel.ExcelShet;
+    const ExcelColumn = ExportExcel.ExcelColumn;
+
     const columnas = [
       {
         name: "Nombre",
@@ -183,6 +186,58 @@ export default class ConsultarProductos extends React.Component {
 
             <div id="barraBusqueda">
               <div
+                align="left"
+                id="barraBusquedahijo"
+                style={{
+                  color: "#000227",
+                  fontSize: "10px",
+                  fontFamily: "Segoe UI",
+                  textAlign: "left",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                <br />
+                <ExcelFile
+                  element={
+                    <button type="button" class="btn btn-success">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-file-excel"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M5.18 4.616a.5.5 0 0 1 .704.064L8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 0 1 .064-.704z" />
+                        <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                      </svg>
+                    </button>
+                  }
+                  filename={"Clientes " + this.state.empresa.razonSocial}
+                >
+                  <ExcelSheet data={this.state.clientes} name="Clientes">
+                    <ExcelColumn label="Nombre" value="nombre" />
+                    <ExcelColumn
+                      label="Tipo documento"
+                      value="nombre_tdocumento"
+                    />
+                    <ExcelColumn
+                      label="Número documento"
+                      value="num_documento"
+                    />
+                    <ExcelColumn label="Dirección" value="direccion" />
+                    <ExcelColumn label="Código postal" value="codPostal" />
+                    <ExcelColumn label="Ciudad" value="nombre_ciudad" />
+                    <ExcelColumn label="Teléfono" value="telefono" />
+                    <ExcelColumn
+                      label="Total Facturado"
+                      value="valorFacturado"
+                    />
+                  </ExcelSheet>
+                </ExcelFile>
+              </div>
+              <div
                 align="center"
                 style={{
                   marginTop: "2%",
@@ -235,47 +290,45 @@ export default class ConsultarProductos extends React.Component {
               conditionalRowStyles={conditionalRowStyles}
             />
           </div>
-
         </div>
       </div>
     );
   }
 }
 
-
 const customStyles = {
-    backgroundColor: "red",
-    title: {
-      style: {
-        fontColor: "red",
-        fontWeight: "900",
+  backgroundColor: "red",
+  title: {
+    style: {
+      fontColor: "red",
+      fontWeight: "900",
+    },
+  },
+  headCells: {
+    style: {
+      fontSize: "15px",
+      color: "#03083E",
+      fontFamily: "Segoe UI",
+      fontWeight: "bold",
+    },
+  },
+  cells: {
+    style: {
+      fontSize: "14px",
+      fontFamily: "Segoe UI",
+    },
+  },
+};
+
+const conditionalRowStyles = [
+  {
+    when: (row) => row.valorFacturado === 0,
+    style: {
+      backgroundColor: "rgba(172, 27, 27, 0.274)",
+      color: "black",
+      "&:hover": {
+        cursor: "pointer",
       },
     },
-    headCells: {
-      style: {
-        fontSize: "15px",
-        color: "#03083E",
-        fontFamily: "Segoe UI",
-        fontWeight: "bold",
-      },
-    },
-    cells: {
-      style: {
-        fontSize: "14px",
-        fontFamily: "Segoe UI",
-      },
-    },
-  };
-  
-  const conditionalRowStyles = [
-    {
-      when: (row) => row.valorFacturado === 0,
-      style: {
-        backgroundColor: "rgba(172, 27, 27, 0.274)",
-        color: "black",
-        "&:hover": {
-          cursor: "pointer",
-        },
-      },
-    },
-  ];
+  },
+];
