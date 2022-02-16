@@ -53,3 +53,6 @@ insert into Categoria values(0,'Papelería',true);
 insert into Categoria values(0,'Transporte',true);
 insert into Categoria values(0,'Viajes',true);
 insert into Categoria values(0,'Otras categorias',true);
+
+
+insert into Impuesto values(0,'IVA',19,true);

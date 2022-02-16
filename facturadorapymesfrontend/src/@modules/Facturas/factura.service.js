@@ -79,5 +79,15 @@ async function consultarReferencia(idEmpresa) {
     return response;
 };
 
+async function consultarImpuestosActivos() {
+    const url = urlConexion+'impuesto/consultar'
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+}; 
 
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia};
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia,consultarImpuestosActivos};

@@ -10,6 +10,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperDocumento;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperFactura;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperFormaPago;
+import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperImpuesto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperProducto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCategoria;
@@ -19,6 +20,7 @@ import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperDocumento;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperFactura;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperFormaPago;
+import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperImpuesto;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperProducto;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperUsuario;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
@@ -69,6 +71,11 @@ public class FacturadoraPymesApplicationConfiguration{
 	@Bean
 	public IMapperFactura getMapperFactura() {
 		return new MapperFactura();
+	}
+	
+	@Bean
+	public IMapperImpuesto getMapperImpuesto() {
+		return new MapperImpuesto();
 	}
 	
 	@Bean

@@ -26,10 +26,15 @@ export default class RegistroFactura extends React.Component {
     super();
     this.state = {
       referenciaFactura: "",
+      ivaActual: {
+        id:"",
+        porcentaje:""
+      },
       productos: [],
       ciudades: [],
       clientes: [],
       formasPago: [],
+      productosSeleccionados:[],
       button: false,
       fechaEmision: "",
       check: false,
@@ -67,8 +72,11 @@ export default class RegistroFactura extends React.Component {
       disable: true,
       showConfirm: false,
       rows: [],
-      asesor: "",
-      textarea: "",
+      asesor: {
+        id: "",
+        contenido:""
+      },
+      valorLetras: "",
       subtotal:"",
       iva:"",
       checkIva: false,
@@ -96,6 +104,23 @@ export default class RegistroFactura extends React.Component {
     this.consultarFormasPago();
     this.consultarUsuarioLogueado();
     this.consultarReferenciaFactura();
+    this.consultarImpuestos();
+  };
+
+  consultarImpuestos = async () => {
+    let respuesta = null;
+    respuesta = await service.consultarImpuestosActivos();
+    if (respuesta !== null) {
+      var iva=respuesta.data.find(
+        (porcentaje) => porcentaje.nombre === "IVA");
+
+      this.setState({
+        ivaActual: {
+          id:iva.id,
+          porcentaje: iva.porcentaje
+        }
+      });
+    }
   };
 
   consultarReferenciaFactura = async () => {
@@ -111,7 +136,10 @@ export default class RegistroFactura extends React.Component {
   consultarUsuarioLogueado = () => {
     let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
     this.setState({
-        asesor: "Factura creada por: "+informacionLocalStorage.nombre
+        asesor:{
+          id: informacionLocalStorage.id,
+          contenido:"Factura creada por: "+informacionLocalStorage.nombre
+        } 
     });
   }
   
@@ -332,7 +360,7 @@ export default class RegistroFactura extends React.Component {
 
     if (this.state.checkIva) {
       this.setState({
-        iva: (sumaValorTotal*19)/100
+        iva: (sumaValorTotal*this.state.ivaActual.porcentaje)/100
       });
     } else if (!this.state.checkIva) {
       this.setState({
@@ -352,13 +380,12 @@ export default class RegistroFactura extends React.Component {
     let miConversor = new ClaseConversor();
     var numeroEnLetras = miConversor.convertToText(this.state.total);    
     this.setState({
-      textarea: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
+      valorLetras: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
     });
   }
 
   handleInputChange = (e, index) => {
     const list = [...this.state.rows];
-
     if (e.target.value > 0) {
       let nombreP = this.state.rows[index]["productoNombre"];
       let producto = this.state.productos.find(
@@ -366,6 +393,7 @@ export default class RegistroFactura extends React.Component {
       );
       list[index][e.target.name] = e.target.value;
       if (producto !== undefined) {
+        list[index]["id"] = producto.id;
         list[index]["valorTotal"] =
           e.target.value * list[index]["valorUnitario"];
         this.setState({
@@ -399,6 +427,7 @@ export default class RegistroFactura extends React.Component {
     );
     if (producto !== undefined) {
       const list = [...this.state.rows];
+      list[index]["id"] = producto.id;
       list[index]["productoNombre"] = v;
       list[index]["valorUnitario"] = producto.valor;
       if (list[index]["cantidad"] != undefined) {
@@ -443,7 +472,7 @@ export default class RegistroFactura extends React.Component {
 
     if (this.state.checkIva) {
       this.setState({
-        iva: (sumaValorTotal*19)/100
+        iva: (sumaValorTotal*this.state.ivaActual.porcentaje)/100
       });
     } else if (!this.state.checkIva) {
       this.setState({
@@ -474,7 +503,7 @@ export default class RegistroFactura extends React.Component {
     if(this.state.subtotal!=""){
       if (this.state.checkIva) {
         await this.setState({
-          iva: (this.state.subtotal*19)/100
+          iva: (this.state.subtotal*this.state.ivaActual.porcentaje)/100
         });
       }  
       await this.setState({
@@ -1055,7 +1084,7 @@ export default class RegistroFactura extends React.Component {
                   type="textarea"
                   className="form-control"
                   rows="2"
-                  value={this.state.textarea || ""}
+                  value={this.state.valorLetras || ""}
                 />
               </div>
               <div className="footerFactura2"></div>
@@ -1118,7 +1147,7 @@ export default class RegistroFactura extends React.Component {
                   className="foot1"
                   align="left"
                 >
-                  <Label style={{ fontWeight: "bold", marginLeft: "4%", marginTop:"2%"}} >{this.state.asesor || ""}</Label>
+                  <Label style={{ fontWeight: "bold", marginLeft: "4%", marginTop:"2%"}} >{this.state.asesor.contenido || ""}</Label>
                 </div>
                 <div
                   className="foot2"
@@ -1142,3 +1171,68 @@ export default class RegistroFactura extends React.Component {
     );
   }
 }
+
+
+const mapStateToModel = function (formObject,asesor, listProductos, subtotalF, totalF, valorLetrasF, refPagoF,iva,incluyeIva) {
+  
+  if(incluyeIva==true){
+    return {
+      id: 0,
+      ciudad: {
+        nombre: formObject.ciudad
+      },
+      cliente: {
+        nombre: formObject.cliente
+      },
+      usuario: {
+        id: asesor.id
+      },
+      estado:{
+        nombre: "Emitido"
+      },
+      formaPago:{
+        nombre: formObject.formaPago
+      },
+      formaPagoPersonalizada: formObject.formaPagoPersonalizada,
+      fechaEmision: new Date(),
+      fechaVencimiento: formObject.fechaVencimiento,
+      subTotal:subtotalF,
+      total:totalF,
+      valorLetras:valorLetrasF,
+      refPago:refPagoF,
+      impuesto: {
+        id: iva.id
+      },
+      detalles: listProductos
+    };
+  }
+  else{
+    return {
+      id: 0,
+      ciudad: {
+        nombre: formObject.ciudad
+      },
+      cliente: {
+        nombre: formObject.cliente
+      },
+      usuario: {
+        id: asesor.id
+      },
+      estado:{
+        nombre: "Emitido"
+      },
+      formaPago:{
+        nombre: formObject.formaPago
+      },
+      formaPagoPersonalizada: formObject.formaPagoPersonalizada,
+      fechaEmision: new Date(),
+      fechaVencimiento: formObject.fechaVencimiento,
+      subTotal:subtotalF,
+      total:totalF,
+      valorLetras:valorLetrasF,
+      refPago:refPagoF,
+      impuesto: null,
+      detalles: listProductos
+    };
+  }
+};

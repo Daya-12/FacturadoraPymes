@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../../@images/logoProyecto.png";
 import DataTable from "react-data-table-component";
 import service from "./producto.service";
-
+import ExportExcel from "react-export-excel";
 export default class ConsultarProductos extends React.Component {
   constructor() {
     super();
@@ -82,6 +82,9 @@ export default class ConsultarProductos extends React.Component {
   };
 
   render() {
+    const ExcelFile = ExportExcel.ExcelFile;
+    const ExcelSheet = ExportExcel.ExcelShet;
+    const ExcelColumn = ExportExcel.ExcelColumn;
     const columnas = [
       {
         name: "Nombre",
@@ -99,7 +102,7 @@ export default class ConsultarProductos extends React.Component {
         sortable: true,
       },
       {
-        name: "Total facturado",
+        name: "Total Facturado",
         selector: "valorFacturado",
         sortable: true,
       },
@@ -151,6 +154,46 @@ export default class ConsultarProductos extends React.Component {
             </div>
 
             <div id="barraBusqueda">
+            <div
+                align="left"
+                id="barraBusquedahijo"
+                style={{
+                  color: "#000227",
+                  fontSize: "10px",
+                  fontFamily: "Segoe UI",
+                  textAlign: "left",
+                  fontWeight: "bold",
+                }}
+              >
+                <br />
+                <br />
+                <ExcelFile
+                  element={
+                    <button type="button" class="btn btn-success">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-file-excel"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M5.18 4.616a.5.5 0 0 1 .704.064L8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 0 1 .064-.704z" />
+                        <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+                      </svg>
+                    </button>
+                  }
+                  filename={"Productos " + this.state.empresa.razonSocial}
+                >
+                  <ExcelSheet data={this.state.productos} name="Productos">
+                    <ExcelColumn label="Nombre" value="nombre" />
+                    <ExcelColumn label="Valor" value="valor"/>
+                    <ExcelColumn label="Categoria" value="categoria"/>
+                    <ExcelColumn label="Total Facturado" value="valorFacturado" />
+                  </ExcelSheet>
+                </ExcelFile>
+              </div>
+
               <div
                 align="center"
                 style={{
