@@ -4,6 +4,13 @@ import Logo from "../../@images/logoProyecto.png";
 import { Collapse, Navbar, Nav, NavItem, NavLink, Button } from "reactstrap";
 import "../../@styles/styles.components.css";
 import Swal from "sweetalert2";
+import {
+  AvForm
+} from "availity-reactstrap-validation";
+import {
+  Row,
+  Col
+} from "reactstrap";
 export default class Home extends React.Component {
 
     consultarFactura = async () => {
@@ -22,6 +29,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div className="container">
+        <div className="subc1">
         <header id="main-header">
           <div className="cabecera">
             <div className="sub1">
@@ -38,13 +46,8 @@ export default class Home extends React.Component {
                     <NavItem>
                       <NavLink href="/">Inicio</NavLink>
                     </NavItem>
-
                     <NavItem>
                       <NavLink href="/">Sobre nosotros</NavLink>
-                    </NavItem>
-
-                    <NavItem>
-                      <NavLink href="/">Contactanos</NavLink>
                     </NavItem>
 
                     <NavItem>
@@ -58,8 +61,6 @@ export default class Home extends React.Component {
         </header>
 
         <div className="Inicio">
-          <div className="subc1">
-            <div className="col-12">
               <div className="input-group input-group-md w-50 mx-auto">
                 <div className="input-group-prepend">
                   <span className="input-group-text">📑</span>
@@ -80,15 +81,15 @@ export default class Home extends React.Component {
                   </Button>
                 </div>
               </div>
-            </div>
           </div>
+
         </div>
 
         <footer id="main-footer">
           <br></br>
           <p>
             <div align="center">
-              &copy; Copyrigth 2021. Diseñado por ISSMC Colombia |
+              &copy; Copyrigth 2022. Diseñado por ISSMC Colombia |
               Bogotá,Colombia
             </div>
           </p>

@@ -24,8 +24,6 @@ insert into Documento values(0,'D.N.I.',true);
 insert into Documento values(0,'P.E.P.',true);
 
 insert into Estado values(0,'Emitido',true);
-insert into Estado values(0,'Cancelado',true);
-insert into Estado values(0,'Vencido',true);
 insert into Estado values(0,'Anulado',true);
 
 insert into FormaPago values(0,'Contado',true);

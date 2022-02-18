@@ -90,4 +90,14 @@ async function consultarImpuestosActivos() {
     return response;
 }; 
 
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia,consultarImpuestosActivos};
+async function registrar(factura) {
+    const url = urlConexion+'factura/registrar'
+    let response = null;
+    try {      
+        response=await axios.post(url,factura);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia,consultarImpuestosActivos,registrar};

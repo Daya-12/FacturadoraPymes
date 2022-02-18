@@ -9,6 +9,7 @@ import {
 } from "availity-reactstrap-validation";
 import { InputGroup, Label, Row, Col, Table,Input,Form,FormGroup } from "reactstrap";
 import CreateIcon from "@material-ui/icons/Create";
+import SaveIcon from "@material-ui/icons/Save";
 import { Button, Snackbar } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
@@ -229,6 +230,7 @@ export default class RegistroFactura extends React.Component {
         ciudad: v,
       },
     });
+    this.validarCampos();
   };
 
   handleChangeCliente = async (e, v) => {
@@ -258,6 +260,7 @@ export default class RegistroFactura extends React.Component {
         },
       });
     }
+    this.validarCampos();
   };
 
   handleChangeFormaPago = async (e, v) => {
@@ -276,6 +279,7 @@ export default class RegistroFactura extends React.Component {
     } else if (v === "") {
       document.getElementById("check").disabled = false;
     }
+    this.validarCampos();
   };
 
   handleChangeCheck = async (cb) => {
@@ -312,7 +316,23 @@ export default class RegistroFactura extends React.Component {
         [e.target.name]: e.target.value,
       },
     });
-    //this.validarCampos();
+
+    this.validarCampos();
+  };
+
+  validarCampos = () => {
+    if (
+      this.state.form.fechaVencimiento === undefined ||
+      (this.state.form.formaPago === undefined && !this.state.check ||  
+      this.state.form.formaPagoPersonalizada === "" && this.state.check) ||
+      this.state.form.ciudad === undefined ||
+      this.state.form.cliente === undefined || 
+      this.state.rows.length===0
+    ) {
+      this.setState({ button: false });
+    } else {
+      this.setState({ button: true });
+    }
   };
 
   handleClose = async (event, reason) => {
@@ -372,6 +392,7 @@ export default class RegistroFactura extends React.Component {
     });
 
     this.convertirALetras();
+    this.validarCampos();
   };
 
   convertirALetras = () => {
@@ -513,6 +534,25 @@ export default class RegistroFactura extends React.Component {
     }
   };
 
+ registrar = async () => {
+    let respuesta = null;
+    const model = mapStateToModel(this.state.form, this.state.empresa);
+    respuesta = await service.registrar(model);
+    /*if(respuesta !== null){
+      Swal.fire({
+        text: "¡El producto " + this.state.form.nombre + " ha sido registrado exitosamente!",
+        icon: "success",
+        timer: "3000"
+    })
+    setTimeout(function () { window.location.reload(1); }, 4000);
+    }else{
+      Swal.fire({
+        text: "Uppss! El producto " + this.state.form.nombre + " no pudo ser registrado",
+        icon: "error",
+        timer: "3000"
+    })
+  }*/
+};
 
   render() {
     return (
@@ -1109,7 +1149,7 @@ export default class RegistroFactura extends React.Component {
                   <br/>
                   <FormGroup row>
                   <Label check className="labelsFooter" for="subtotal" sm={5}>¿Incluye IVA?</Label>
-                  <Col sm={1}><Input type="checkbox"                       id="checkIva"
+                  <Col sm={1}><Input type="checkbox" id="checkIva"
                       name="checkIva"
                       value={this.state.checkIva}
                       onChange={this.handleChangeCheckIva.bind(this)} /></Col>
@@ -1154,12 +1194,12 @@ export default class RegistroFactura extends React.Component {
                   align="center"
                 >
                   <Button
-                    id="botonValidar"
-                    size="md"
-                    outline
-                    color="primary"
-                    disabled={this.state.button === false}
-                    style={{ fontWeight: "bold"}}
+                  id="botonValidar"
+                  size="large"
+                  variant="outlined"
+                  startIcon={<SaveIcon />}
+                  disabled={this.state.button === false}
+                  style={{ fontWeight: "bold"}}  
                   >
                     Crear
                   </Button>
