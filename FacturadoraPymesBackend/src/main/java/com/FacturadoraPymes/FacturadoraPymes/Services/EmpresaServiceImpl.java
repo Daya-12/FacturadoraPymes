@@ -36,8 +36,6 @@ import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
 
-import jdk.jfr.ContentType;
-
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 
 

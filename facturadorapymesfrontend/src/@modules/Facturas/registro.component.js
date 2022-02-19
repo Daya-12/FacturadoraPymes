@@ -1,13 +1,23 @@
 import React from "react";
 import service from "./factura.service";
 import Autocomplete from "@mui/material/Autocomplete";
+import Swal from "sweetalert2";
 import {
   AvForm,
   AvGroup,
   AvInput,
   AvFeedback,
 } from "availity-reactstrap-validation";
-import { InputGroup, Label, Row, Col, Table,Input,Form,FormGroup } from "reactstrap";
+import {
+  InputGroup,
+  Label,
+  Row,
+  Col,
+  Table,
+  Input,
+  Form,
+  FormGroup,
+} from "reactstrap";
 import CreateIcon from "@material-ui/icons/Create";
 import SaveIcon from "@material-ui/icons/Save";
 import { Button, Snackbar } from "@material-ui/core";
@@ -28,14 +38,14 @@ export default class RegistroFactura extends React.Component {
     this.state = {
       referenciaFactura: "",
       ivaActual: {
-        id:"",
-        porcentaje:""
+        id: "",
+        porcentaje: "",
       },
       productos: [],
       ciudades: [],
       clientes: [],
       formasPago: [],
-      productosSeleccionados:[],
+      productosSeleccionados: [],
       button: false,
       fechaEmision: "",
       check: false,
@@ -75,13 +85,13 @@ export default class RegistroFactura extends React.Component {
       rows: [],
       asesor: {
         id: "",
-        contenido:""
+        contenido: "",
       },
       valorLetras: "",
-      subtotal:"",
-      iva:"",
+      subtotal: "",
+      iva: "",
       checkIva: false,
-      total:""
+      total: "",
     };
   }
 
@@ -112,14 +122,15 @@ export default class RegistroFactura extends React.Component {
     let respuesta = null;
     respuesta = await service.consultarImpuestosActivos();
     if (respuesta !== null) {
-      var iva=respuesta.data.find(
-        (porcentaje) => porcentaje.nombre === "IVA");
+      var iva = respuesta.data.find(
+        (porcentaje) => porcentaje.nombre === "IVA"
+      );
 
       this.setState({
         ivaActual: {
-          id:iva.id,
-          porcentaje: iva.porcentaje
-        }
+          id: iva.id,
+          porcentaje: iva.porcentaje,
+        },
       });
     }
   };
@@ -135,15 +146,15 @@ export default class RegistroFactura extends React.Component {
   };
 
   consultarUsuarioLogueado = () => {
-    let informacionLocalStorage=JSON.parse(localStorage.getItem("user"));
+    let informacionLocalStorage = JSON.parse(localStorage.getItem("user"));
     this.setState({
-        asesor:{
-          id: informacionLocalStorage.id,
-          contenido:"Factura creada por: "+informacionLocalStorage.nombre
-        } 
+      asesor: {
+        id: informacionLocalStorage.id,
+        contenido: "Factura creada por: " + informacionLocalStorage.nombre,
+      },
     });
-  }
-  
+  };
+
   consultarProductos = async () => {
     let respuesta = null;
     respuesta = await service.consultarProductos(this.state.empresa.id);
@@ -176,16 +187,17 @@ export default class RegistroFactura extends React.Component {
     let respuesta = null;
     respuesta = await service.consultarFormasPago();
     var f = new Date();
-    var dia=f.getDate()< 10 ? '0' + f.getDate(): f.getDate();
-    var mes=f.getMonth() + 1 < 10 ? '0' + (f.getMonth()+1): f.getMonth() + 1;
+    var dia = f.getDate() < 10 ? "0" + f.getDate() : f.getDate();
+    var mes =
+      f.getMonth() + 1 < 10 ? "0" + (f.getMonth() + 1) : f.getMonth() + 1;
 
     if (respuesta !== null) {
       await this.setState({
         formasPago: respuesta.data,
-        fechaEmision: f.getFullYear()+ "-" + mes + "-" +dia,
-        form:{
-          fechaEmision:dia + "/" + mes+ "/" + f.getFullYear(),
-        }
+        fechaEmision: f.getFullYear() + "-" + mes + "-" + dia,
+        form: {
+          fechaEmision: dia + "/" + mes + "/" + f.getFullYear(),
+        },
       });
       document.getElementById("formaPagoPersonalizada").disabled = true;
     }
@@ -323,11 +335,11 @@ export default class RegistroFactura extends React.Component {
   validarCampos = () => {
     if (
       this.state.form.fechaVencimiento === undefined ||
-      (this.state.form.formaPago === undefined && !this.state.check ||  
-      this.state.form.formaPagoPersonalizada === "" && this.state.check) ||
+      (this.state.form.formaPago === undefined && !this.state.check) ||
+      (this.state.form.formaPagoPersonalizada === "" && this.state.check) ||
       this.state.form.ciudad === undefined ||
-      this.state.form.cliente === undefined || 
-      this.state.rows.length===0
+      this.state.form.cliente === undefined ||
+      this.state.rows.length === 0
     ) {
       this.setState({ button: false });
     } else {
@@ -350,7 +362,7 @@ export default class RegistroFactura extends React.Component {
         ...this.state.rows,
         {
           cantidad: "",
-          productoNombre: "",
+          nombreProducto: "",
           valorUnitario: "",
           valorTotal: "",
         },
@@ -365,7 +377,7 @@ export default class RegistroFactura extends React.Component {
     });
   };
 
-  handleSave =async () => {
+  handleSave = async () => {
     this.setState({
       isEdit: !this.state.isEdit,
       rows: this.state.rows,
@@ -373,22 +385,25 @@ export default class RegistroFactura extends React.Component {
       open: true,
     });
 
-    const sumaValorTotal = this.state.rows.reduce((prev, next) => prev + next.valorTotal, 0);
+    const sumaValorTotal = this.state.rows.reduce(
+      (prev, next) => prev + next.valorTotal,
+      0
+    );
     this.setState({
-      subtotal: sumaValorTotal
+      subtotal: sumaValorTotal,
     });
 
     if (this.state.checkIva) {
       this.setState({
-        iva: (sumaValorTotal*this.state.ivaActual.porcentaje)/100
+        iva: (sumaValorTotal * this.state.ivaActual.porcentaje) / 100,
       });
     } else if (!this.state.checkIva) {
       this.setState({
-        iva: 0
+        iva: 0,
       });
     }
     await this.setState({
-      total: sumaValorTotal+this.state.iva
+      total: sumaValorTotal + this.state.iva,
     });
 
     this.convertirALetras();
@@ -396,25 +411,29 @@ export default class RegistroFactura extends React.Component {
   };
 
   convertirALetras = () => {
-    const conversor = require('conversor-numero-a-letras-es-ar');
+    const conversor = require("conversor-numero-a-letras-es-ar");
     let ClaseConversor = conversor.conversorNumerosALetras;
     let miConversor = new ClaseConversor();
-    var numeroEnLetras = miConversor.convertToText(this.state.total);    
+    var numeroEnLetras = miConversor.convertToText(this.state.total);
     this.setState({
-      valorLetras: numeroEnLetras.charAt(0).toUpperCase() + numeroEnLetras.slice(1)+" "+"pesos Mcte"
+      valorLetras:
+        numeroEnLetras.charAt(0).toUpperCase() +
+        numeroEnLetras.slice(1) +
+        " " +
+        "pesos Mcte",
     });
-  }
+  };
 
   handleInputChange = (e, index) => {
     const list = [...this.state.rows];
     if (e.target.value > 0) {
-      let nombreP = this.state.rows[index]["productoNombre"];
+      let nombreP = this.state.rows[index]["nombreProducto"];
       let producto = this.state.productos.find(
         (producto) => producto.nombre === nombreP
       );
       list[index][e.target.name] = e.target.value;
       if (producto !== undefined) {
-        list[index]["id"] = producto.id;
+        list[index]["idProducto"] = producto.id;
         list[index]["valorTotal"] =
           e.target.value * list[index]["valorUnitario"];
         this.setState({
@@ -429,7 +448,7 @@ export default class RegistroFactura extends React.Component {
       });
     }
     if (
-      this.state.rows[index]["productoNombre"] === "" ||
+      this.state.rows[index]["nombreProducto"] === "" ||
       this.state.rows[index]["cantidad"] === ""
     ) {
       this.setState({
@@ -448,8 +467,8 @@ export default class RegistroFactura extends React.Component {
     );
     if (producto !== undefined) {
       const list = [...this.state.rows];
-      list[index]["id"] = producto.id;
-      list[index]["productoNombre"] = v;
+      list[index]["idProducto"] = producto.id;
+      list[index]["nombreProducto"] = v;
       list[index]["valorUnitario"] = producto.valor;
       if (list[index]["cantidad"] != undefined) {
         list[index]["valorTotal"] =
@@ -460,7 +479,7 @@ export default class RegistroFactura extends React.Component {
       });
     }
     if (
-      this.state.rows[index]["productoNombre"] === "" ||
+      this.state.rows[index]["nombreProducto"] === "" ||
       this.state.rows[index]["cantidad"] === ""
     ) {
       this.setState({
@@ -479,29 +498,32 @@ export default class RegistroFactura extends React.Component {
     });
   };
 
-  handleRemoveClick = async(i) => {
+  handleRemoveClick = async (i) => {
     const list = [...this.state.rows];
     list.splice(i, 1);
     await this.setState({
       rows: list,
       showConfirm: false,
     });
-    const sumaValorTotal = this.state.rows.reduce((prev, next) => prev + next.valorTotal, 0);
+    const sumaValorTotal = this.state.rows.reduce(
+      (prev, next) => prev + next.valorTotal,
+      0
+    );
     this.setState({
-      subtotal: sumaValorTotal
+      subtotal: sumaValorTotal,
     });
 
     if (this.state.checkIva) {
       this.setState({
-        iva: (sumaValorTotal*this.state.ivaActual.porcentaje)/100
+        iva: (sumaValorTotal * this.state.ivaActual.porcentaje) / 100,
       });
     } else if (!this.state.checkIva) {
       this.setState({
-        iva: 0
+        iva: 0,
       });
     }
     await this.setState({
-      total: sumaValorTotal+this.state.iva
+      total: sumaValorTotal + this.state.iva,
     });
     this.convertirALetras();
   };
@@ -518,41 +540,71 @@ export default class RegistroFactura extends React.Component {
     });
     if (!this.state.checkIva) {
       await this.setState({
-        iva: 0
+        iva: 0,
       });
     }
-    if(this.state.subtotal!=""){
+    if (this.state.subtotal != "") {
       if (this.state.checkIva) {
         await this.setState({
-          iva: (this.state.subtotal*this.state.ivaActual.porcentaje)/100
+          iva: (this.state.subtotal * this.state.ivaActual.porcentaje) / 100,
         });
-      }  
+      }
       await this.setState({
-        total: this.state.subtotal+this.state.iva
+        total: this.state.subtotal + this.state.iva,
       });
       this.convertirALetras();
     }
   };
 
- registrar = async () => {
+  registrar = async () => {
     let respuesta = null;
-    const model = mapStateToModel(this.state.form, this.state.empresa);
+
+    var idCliente = this.state.clientes.find(
+      (cliente) => cliente.nombre === this.state.form.cliente
+    ).id;
+
+    var idCiudad = this.state.ciudades.find(
+      (ciudad) => ciudad.nombre === this.state.form.ciudad
+    ).id;
+
+    var idFormaPago;
+    if (this.state.form.formaPago != undefined) {
+      var idFormaPago = this.state.formasPago.find(
+        (formaPago) => formaPago.nombre === this.state.form.formaPago
+      )?.id;
+    }
+    const model = mapStateToModel(
+      this.state.fechaEmision,
+      idFormaPago,
+      idCliente,
+      idCiudad,
+      this.state.form,
+      this.state.asesor,
+      this.state.rows,
+      this.state.subtotal,
+      this.state.total,
+      this.state.valorLetras,
+      this.state.referenciaFactura,
+      this.state.ivaActual,
+      this.state.checkIva
+    );
     respuesta = await service.registrar(model);
-    /*if(respuesta !== null){
+    console.log(respuesta);
+    if(respuesta !== null){
       Swal.fire({
-        text: "¡El producto " + this.state.form.nombre + " ha sido registrado exitosamente!",
+        text: "¡La factura "+ this.state.referenciaFactura +" se ha creado con exito para el cliente " + this.state.form.cliente + "!",
         icon: "success",
-        timer: "3000"
+        timer: "5000"
     })
     setTimeout(function () { window.location.reload(1); }, 4000);
     }else{
       Swal.fire({
-        text: "Uppss! El producto " + this.state.form.nombre + " no pudo ser registrado",
+        text: "Uppss! La factura no pudo ser registrada, intentalo de nuevo",
         icon: "error",
         timer: "3000"
     })
-  }*/
-};
+  }
+  };
 
   render() {
     return (
@@ -626,11 +678,12 @@ export default class RegistroFactura extends React.Component {
                   &nbsp;&nbsp;•&nbsp;&nbsp;{this.state.empresaCompleta.telefono}
                 </label>
               </div>
-              <div
-                className="titulosFactura2"
-                align="center"
-              >
-                <label>Ref.<br/>{this.state.referenciaFactura}</label>
+              <div className="titulosFactura2" align="center">
+                <label>
+                  Ref.
+                  <br />
+                  {this.state.referenciaFactura}
+                </label>
               </div>
             </div>
             <hr />
@@ -692,7 +745,7 @@ export default class RegistroFactura extends React.Component {
                       sx={{
                         display: "inline-block",
                         "& input": {
-                          width: 360,
+                          width: "100%",
                           bgcolor: "rgba(206, 206, 206, 0.397)",
                           color: (theme) =>
                             theme.palette.getContrastText(
@@ -732,7 +785,7 @@ export default class RegistroFactura extends React.Component {
                       sx={{
                         display: "inline-block",
                         "& input": {
-                          width: 360,
+                          width: "100%",
                           bgcolor: "rgba(206, 206, 206, 0.397)",
                           color: (theme) =>
                             theme.palette.getContrastText(
@@ -828,7 +881,7 @@ export default class RegistroFactura extends React.Component {
                       sx={{
                         display: "inline-block",
                         "& input": {
-                          width: 360,
+                          width: "100%",
                           bgcolor: "rgba(206, 206, 206, 0.397)",
                           color: (theme) =>
                             theme.palette.getContrastText(
@@ -977,7 +1030,7 @@ export default class RegistroFactura extends React.Component {
                               sx={{
                                 display: "inline-block",
                                 "& input": {
-                                  width: 480,
+                                  width: 400,
                                   bgcolor: "rgba(214, 214, 214, 0.555)",
                                   color: (theme) =>
                                     theme.palette.getContrastText(
@@ -991,7 +1044,7 @@ export default class RegistroFactura extends React.Component {
                                 this.handleInputChangeProducto(e, v, i)
                               }
                               getOptionLabel={(option) => option.nombre}
-                              name="productoNombre"
+                              name="nombreProducto"
                               options={this.state.productos}
                               renderInput={(params) => (
                                 <div ref={params.InputProps.ref}>
@@ -1003,7 +1056,7 @@ export default class RegistroFactura extends React.Component {
                                     }}
                                     type="text"
                                     {...params.inputProps}
-                                    value={row.productoNombre || undefined}
+                                    value={row.nombreProducto || undefined}
                                   />
                                 </div>
                               )}
@@ -1046,7 +1099,7 @@ export default class RegistroFactura extends React.Component {
                       ) : (
                         <tr>
                           <td>{row.cantidad}</td>
-                          <td colSpan="2">{row.productoNombre}</td>
+                          <td colSpan="2">{row.nombreProducto}</td>
                           <td>{row.valorUnitario}</td>
                           <td>{row.valorTotal}</td>
                           <td component="th" scope="row">
@@ -1108,16 +1161,17 @@ export default class RegistroFactura extends React.Component {
                 })}
               </Table>
             </div>
-          <br/><hr/>
+            <br />
+            <hr />
             <div>
               <div className="footerFactura1" align="left">
                 <Input
-                style={{
-                  fontSize: "0.9rem",
-                  fontFamily: "sans-serif",
-                  color: "rgb(65, 65, 65)",
-                  fontWeight: "bold"
-                }}
+                  style={{
+                    fontSize: "0.9rem",
+                    fontFamily: "sans-serif",
+                    color: "rgb(65, 65, 65)",
+                    fontWeight: "bold",
+                  }}
                   readOnly
                   id="valorLetras"
                   name="text"
@@ -1128,13 +1182,12 @@ export default class RegistroFactura extends React.Component {
                 />
               </div>
               <div className="footerFactura2"></div>
-              <div
-                className="footerFactura3"
-                align="right"
-              >
+              <div className="footerFactura3" align="right">
                 <Form>
                   <FormGroup row>
-                  <Label className="labelsFooter" for="subtotal" sm={5}>Sub-Total: </Label>
+                    <Label className="labelsFooter" for="subtotal" sm={5}>
+                      Sub-Total:{" "}
+                    </Label>
                     <Col sm={7}>
                       <Input
                         id="sinBorde"
@@ -1142,17 +1195,24 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.subtotal || ""}
-                        style={{ fontWeight: "bold",textAlign:"right"}}
+                        style={{ fontWeight: "bold", textAlign: "right" }}
                       />
                     </Col>
                   </FormGroup>
-                  <br/>
+                  <br />
                   <FormGroup row>
-                  <Label check className="labelsFooter" for="subtotal" sm={5}>¿Incluye IVA?</Label>
-                  <Col sm={1}><Input type="checkbox" id="checkIva"
-                      name="checkIva"
-                      value={this.state.checkIva}
-                      onChange={this.handleChangeCheckIva.bind(this)} /></Col>
+                    <Label check className="labelsFooter" for="subtotal" sm={5}>
+                      ¿Incluye IVA?
+                    </Label>
+                    <Col sm={1}>
+                      <Input
+                        type="checkbox"
+                        id="checkIva"
+                        name="checkIva"
+                        value={this.state.checkIva}
+                        onChange={this.handleChangeCheckIva.bind(this)}
+                      />
+                    </Col>
                     <Col sm={6}>
                       <Input
                         id="sinBorde"
@@ -1160,13 +1220,15 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.iva || ""}
-                        style={{ fontWeight: "bold",textAlign:"right"}}
+                        style={{ fontWeight: "bold", textAlign: "right" }}
                       />
                     </Col>
                   </FormGroup>
-                  <br/>
+                  <br />
                   <FormGroup row>
-                  <Label className="labelsFooter" for="total" sm={5}>Total: </Label>
+                    <Label className="labelsFooter" for="total" sm={5}>
+                      Total:{" "}
+                    </Label>
                     <Col sm={7}>
                       <Input
                         id="sinBorde"
@@ -1174,36 +1236,40 @@ export default class RegistroFactura extends React.Component {
                         type="text"
                         readOnly
                         value={this.state.total || ""}
-                        style={{ fontWeight: "bold",textAlign:"right"}}
+                        style={{ fontWeight: "bold", textAlign: "right" }}
                       />
                     </Col>
                   </FormGroup>
                 </Form>
               </div>
             </div>
-            <br/><hr/>
+            <br />
+            <hr />
             <div>
-                <div
-                  className="foot1"
-                  align="left"
+              <div className="foot1" align="left">
+                <Label
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: "4%",
+                    marginTop: "2%",
+                  }}
                 >
-                  <Label style={{ fontWeight: "bold", marginLeft: "4%", marginTop:"2%"}} >{this.state.asesor.contenido || ""}</Label>
-                </div>
-                <div
-                  className="foot2"
-                  align="center"
-                >
-                  <Button
+                  {this.state.asesor.contenido || ""}
+                </Label>
+              </div>
+              <div className="foot2" align="center">
+                <Button
                   id="botonValidar"
                   size="large"
                   variant="outlined"
                   startIcon={<SaveIcon />}
                   disabled={this.state.button === false}
-                  style={{ fontWeight: "bold"}}  
-                  >
-                    Crear
-                  </Button>
-                </div>
+                  style={{ fontWeight: "bold" }}
+                  onClick={() => this.registrar()}
+                >
+                  Crear
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -1212,67 +1278,86 @@ export default class RegistroFactura extends React.Component {
   }
 }
 
-
-const mapStateToModel = function (formObject,asesor, listProductos, subtotalF, totalF, valorLetrasF, refPagoF,iva,incluyeIva) {
-  
-  if(incluyeIva==true){
+const mapStateToModel = function (
+  fechaEmision,
+  idFormaPago,
+  idCliente,
+  idCiudad,
+  formObject,
+  asesor,
+  listProductos,
+  subtotalF,
+  totalF,
+  valorLetrasF,
+  refPagoF,
+  iva,
+  incluyeIva
+) {
+  if (incluyeIva == true) {
     return {
       id: 0,
       ciudad: {
-        nombre: formObject.ciudad
+        id: idCiudad,
+        nombre: formObject.ciudad,
       },
       cliente: {
-        nombre: formObject.cliente
+        id: idCliente,
+        nombre: formObject.cliente,
       },
       usuario: {
-        id: asesor.id
+        id: asesor.id,
       },
-      estado:{
-        nombre: "Emitido"
+      estado: {
+        nombre: "Emitido",
       },
-      formaPago:{
-        nombre: formObject.formaPago
+      formaPago: {
+        id: idFormaPago,
+        nombre: formObject.formaPago,
       },
       formaPagoPersonalizada: formObject.formaPagoPersonalizada,
-      fechaEmision: new Date(),
+      fechaEmision: fechaEmision,
       fechaVencimiento: formObject.fechaVencimiento,
-      subTotal:subtotalF,
-      total:totalF,
-      valorLetras:valorLetrasF,
-      refPago:refPagoF,
-      impuesto: {
-        id: iva.id
-      },
-      detalles: listProductos
+      subTotal: subtotalF,
+      total: totalF,
+      valorLetras: valorLetrasF,
+      refPago: refPagoF,
+      impuestos: [
+        {
+          id: iva.id,
+        },
+      ],
+      detalles: listProductos,
     };
-  }
-  else{
+  } else {
     return {
       id: 0,
       ciudad: {
-        nombre: formObject.ciudad
+        id: idCiudad,
+        nombre: formObject.ciudad,
       },
       cliente: {
-        nombre: formObject.cliente
+        id: idCliente,
+        nombre: formObject.cliente,
       },
       usuario: {
-        id: asesor.id
+        id: asesor.id,
       },
-      estado:{
-        nombre: "Emitido"
+      estado: {
+        nombre: "Emitido",
       },
-      formaPago:{
-        nombre: formObject.formaPago
+      formaPago: {
+        id: idFormaPago,
+        nombre: formObject.formaPago,
       },
       formaPagoPersonalizada: formObject.formaPagoPersonalizada,
-      fechaEmision: new Date(),
+      fechaEmision: fechaEmision,
       fechaVencimiento: formObject.fechaVencimiento,
-      subTotal:subtotalF,
-      total:totalF,
-      valorLetras:valorLetrasF,
-      refPago:refPagoF,
-      impuesto: null,
-      detalles: listProductos
+      subTotal: subtotalF,
+      total: totalF,
+      valorLetras: valorLetrasF,
+      refPago: refPagoF,
+      impuestos: [],
+      detalles: listProductos,
     };
   }
 };

@@ -23,7 +23,7 @@ public class FacturaRegistroModel {
 	private double total;
 	private String valorLetras;
 	private String refPago;
-	private ImpuestoModel impuesto; 
+	private List<ImpuestoModel> impuestos; 
 	private List<DetallesRecibirModel> detalles;
 
 }

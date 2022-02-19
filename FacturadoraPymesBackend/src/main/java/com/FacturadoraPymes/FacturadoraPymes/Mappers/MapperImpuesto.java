@@ -14,4 +14,14 @@ public class MapperImpuesto implements IMapperImpuesto{
 		return impuestoM;
 	}
 
+	@Override
+	public Impuesto recibirImpuestos(ImpuestoModel impuestoModel) {
+		Impuesto impuesto = new Impuesto();
+		impuesto.setIdImpuesto(impuestoModel.getId());
+		impuesto.setNombreImpuesto(impuestoModel.getNombre());
+		impuesto.setPorcImpuesto(impuestoModel.getPorcentaje());
+		impuesto.setActivoImpuesto(impuestoModel.isActivo());
+		return impuesto;
+	}
+
 }
