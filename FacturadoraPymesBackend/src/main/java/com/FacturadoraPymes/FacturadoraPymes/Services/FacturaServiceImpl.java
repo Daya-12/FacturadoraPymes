@@ -2,11 +2,11 @@ package com.FacturadoraPymes.FacturadoraPymes.Services;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Detalle;
@@ -22,6 +22,7 @@ import com.FacturadoraPymes.FacturadoraPymes.IServices.IFacturaService;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperDetalle;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperImpuesto;
 import com.FacturadoraPymes.FacturadoraPymes.Models.DetallesRecibirModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultaTablaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaRegistroModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ImpuestoModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
@@ -147,10 +148,7 @@ public class FacturaServiceImpl implements IFacturaService{
 		}
 		impuestoRepository.save(impuestoEntity);
 		}
-		
-		List<Detalle> detallesProductos = new LinkedList<>();
 		Producto productoEntity = new Producto();
-		Detalle detalleEntity = new Detalle();
 		for (int i = 0; i < factura.getDetalles().size(); i++) {
 			int idProducto = factura.getDetalles().get(i).getIdProducto();
 			Optional<Producto> productosEntities = productoRepository.findById(idProducto);
@@ -162,6 +160,16 @@ public class FacturaServiceImpl implements IFacturaService{
 		}
 		
 		return null;
+	}
+
+	@Override
+	public List<FacturaConsultaTablaModel> consultaTabla(int idEmpresa) {
+		List<FacturaConsultaTablaModel> facturas = new LinkedList<>();
+		List<Factura> facturaEntities = facturaRepository.consultarFacturaTabla(idEmpresa);
+		facturas = StreamSupport.stream(facturaEntities.spliterator(), false).map((factura) -> {
+			return mapperFactura.mostrarFacturasTabla(factura);
+		}).collect(Collectors.toList());
+		return facturas;
 	}
 
 }

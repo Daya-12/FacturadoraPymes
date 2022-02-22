@@ -254,6 +254,8 @@ export default class ConsultarUsuarios extends React.Component {
               noDataComponent={<span>No se encontró ningún registro</span>}
               customStyles={customStyles}
               conditionalRowStyles={conditionalRowStyles}
+              defaultSortField="nombre"
+              defaultSortAsc={true}
             />
           </div>
         </div>
@@ -290,7 +292,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.facturas === 0,
     style: {
-      backgroundColor: "rgba(172, 27, 27, 0.274)",
+      backgroundColor: "#ff7571",
       color: "black",
       "&:hover": {
         cursor: "pointer",
@@ -300,7 +302,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.facturas >= 1 && row.facturas <= 5,
     style: {
-      backgroundColor: "rgba(202, 97, 27, 0.301)",
+      backgroundColor: "#ffb071",
       color: "black",
       "&:hover": {
         cursor: "pointer",
@@ -310,7 +312,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.facturas >= 5 && row.facturas <= 10,
     style: {
-      backgroundColor: "rgba(196, 184, 23, 0.26)",
+      backgroundColor: "#ffee71",
       color: "black",
       "&:hover": {
         cursor: "pointer",
@@ -320,7 +322,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.facturas >= 10,
     style: {
-      backgroundColor: "rgba(35, 180, 35, 0.185)",
+      backgroundColor: "#96ff71",
       color: "black",
       "&:hover": {
         cursor: "pointer",

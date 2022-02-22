@@ -4,7 +4,6 @@ import java.util.List;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelConsultaP;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
-import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
 public interface IClienteService {

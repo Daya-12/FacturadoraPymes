@@ -243,6 +243,8 @@ export default class ConsultarProductos extends React.Component {
               noDataComponent={<span>No se encontró ningún registro</span>}
               customStyles={customStyles}
               conditionalRowStyles={conditionalRowStyles}
+              defaultSortField="nombre"
+              defaultSortAsc={true}
             />
           </div>
         </div>
@@ -279,7 +281,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.valorFacturado === 0,
     style: {
-      backgroundColor: "rgba(172, 27, 27, 0.274)",
+      backgroundColor: "#ff7571",
       color: "black",
       "&:hover": {
         cursor: "pointer",

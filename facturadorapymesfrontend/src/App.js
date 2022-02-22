@@ -18,12 +18,14 @@ import ConsultarClientes from './@modules/Clientes/consultar.component';
 import RegistroClientes from './@modules/Clientes/registro.component';
 import ActualizarEliminarClientes from './@modules/Clientes/actualElimin.component';
 import RegistroFactura from './@modules/Facturas/registro.component';
+import ConsultarAnularFacturas from './@modules/Facturas/consultarAnular.component';
 
 export default function App() {
   return (
     <div className="container">
       <Router>
         <Switch>
+          <PrivateRoute exact path="/Menu/consultarAnularFacturas" component={ConsultarAnularFacturas}/>
           <PrivateRoute exact path="/Menu/crearFacturas" component={RegistroFactura}/>
           <PrivateRoute exact path="/Menu/consultarClientes" component={ConsultarClientes}/>
           <PrivateRoute exact path="/Menu/actualizarEliminarClientes" component={ActualizarEliminarClientes}/> 

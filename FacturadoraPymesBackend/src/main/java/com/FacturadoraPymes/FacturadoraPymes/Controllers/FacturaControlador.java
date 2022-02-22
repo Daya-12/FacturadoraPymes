@@ -1,4 +1,6 @@
 package com.FacturadoraPymes.FacturadoraPymes.Controllers;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IFacturaService;
+import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultaTablaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaRegistroModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
@@ -35,6 +38,13 @@ public class FacturaControlador {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public MensajeModel registrar(@RequestBody FacturaRegistroModel factura) {
 		return facturaService.registrar(factura);
+	}
+	
+	@GetMapping(value = "/consultarTabla/{idEmpresa}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<FacturaConsultaTablaModel> consultaTabla(@PathVariable int idEmpresa) {
+		return facturaService.consultaTabla(idEmpresa);
 	}
 
 }
