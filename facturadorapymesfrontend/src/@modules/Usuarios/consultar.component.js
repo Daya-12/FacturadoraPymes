@@ -292,7 +292,7 @@ const conditionalRowStyles = [
   {
     when: (row) => row.facturas === 0,
     style: {
-      backgroundColor: "#ff7571",
+      backgroundColor: "#ff8480",
       color: "black",
       "&:hover": {
         cursor: "pointer",

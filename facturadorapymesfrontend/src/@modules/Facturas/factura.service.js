@@ -100,4 +100,26 @@ async function registrar(factura) {
     }
     return response;
 };
-export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia,consultarImpuestosActivos,registrar};
+
+async function consultaTabla(idEmpresa) {
+    const url = urlConexion+'factura/consultarTabla/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function anular(factura) {
+    const url = urlConexion+'factura/anular'
+    let response = null;
+    try {      
+        response=await axios.patch(url,factura);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+export default {consultarCiudades,consultarClits,consultarFormasPago,consultarLogo,buscarPorId,consultarProductos,consultarReferencia,consultarImpuestosActivos,registrar,consultaTabla, anular};

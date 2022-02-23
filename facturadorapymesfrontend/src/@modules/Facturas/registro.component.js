@@ -557,6 +557,10 @@ export default class RegistroFactura extends React.Component {
   };
 
   registrar = async () => {
+    var f = new Date();
+    var dia = f.getDate()+1 < 10 ? "0" + (f.getDate()+1) : f.getDate()+1;
+    var mes =f.getMonth() + 1 < 10 ? "0" + (f.getMonth() + 1) : f.getMonth() + 1;
+    var fechaEmision= f.getFullYear() + "-" + mes + "-" + dia;
     let respuesta = null;
 
     var idCliente = this.state.clientes.find(
@@ -574,7 +578,7 @@ export default class RegistroFactura extends React.Component {
       )?.id;
     }
     const model = mapStateToModel(
-      this.state.fechaEmision,
+      fechaEmision, 
       idFormaPago,
       idCliente,
       idCiudad,
@@ -596,7 +600,7 @@ export default class RegistroFactura extends React.Component {
         icon: "success",
         timer: "5000"
     })
-    setTimeout(function () { window.location.reload(1); }, 4000);
+    setTimeout(function () { window.location.reload(1); }, 3000);
     }else{
       Swal.fire({
         text: "Uppss! La factura no pudo ser registrada, intentalo de nuevo",

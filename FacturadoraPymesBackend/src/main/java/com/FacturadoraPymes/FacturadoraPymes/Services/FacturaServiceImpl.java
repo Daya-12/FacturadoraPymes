@@ -93,7 +93,7 @@ public class FacturaServiceImpl implements IFacturaService{
 		usuarioEntity.setIdUsuario(factura.getUsuario().getId());
 		
 		Estado estadoEntity = new Estado();
-		estadoEntity.setIdEstado(estadoRepository.consultarId(factura.getEstado().getNombre(), true));
+		estadoEntity.setIdEstado(estadoRepository.consultarId(factura.getEstado().getNombre(), true).get().getIdEstado());
 		estadoEntity.setNombreEstado(factura.getEstado().getNombre());
 		
 		Formapago formaPagoEntity = new Formapago();
@@ -170,6 +170,24 @@ public class FacturaServiceImpl implements IFacturaService{
 			return mapperFactura.mostrarFacturasTabla(factura);
 		}).collect(Collectors.toList());
 		return facturas;
+	}
+
+	@Override
+	public MensajeModel anular(FacturaConsultaTablaModel factura) {
+		Factura facturaEntity = new Factura();
+		facturaEntity= facturaRepository.findById(factura.getId()).get();
+		boolean validacion=validaciones.validarReferenciaFactura(facturaRepository, factura.getReferencia());
+		if(validacion && facturaEntity!=null) {
+		MensajeModel mensajeModel = new MensajeModel();
+		facturaEntity= facturaRepository.findById(factura.getId()).get();
+		Estado estadoEntity = new Estado();
+		estadoEntity= estadoRepository.consultarId("Anulado", true).get();
+		facturaEntity.setEstado(estadoEntity);
+		facturaRepository.save(facturaEntity);
+		mensajeModel.setMensaje(Constantes.ACTUALIZACION_EXITOSA);
+		return mensajeModel;
+		}
+		else {return null;}
 	}
 
 }

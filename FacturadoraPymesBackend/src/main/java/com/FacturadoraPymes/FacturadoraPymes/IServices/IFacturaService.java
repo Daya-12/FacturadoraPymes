@@ -10,5 +10,6 @@ public interface IFacturaService {
 	String obtenerReferencia(int idEmpresa);
 	MensajeModel registrar(FacturaRegistroModel factura);
 	List<FacturaConsultaTablaModel> consultaTabla(int idEmpresa);
+	MensajeModel anular(FacturaConsultaTablaModel factura);
 
 }
