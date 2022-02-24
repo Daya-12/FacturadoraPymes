@@ -26,6 +26,7 @@ export default function App() {
       <Router>
         <Switch>
           <PrivateRoute exact path="/Menu/consultarAnularFacturas" component={ConsultarAnularFacturas}/>
+          <PrivateRoute exact path="/Menu/consultarAnularFacturas" component={ConsultarAnularFacturas}/>
           <PrivateRoute exact path="/Menu/crearFacturas" component={RegistroFactura}/>
           <PrivateRoute exact path="/Menu/consultarClientes" component={ConsultarClientes}/>
           <PrivateRoute exact path="/Menu/actualizarEliminarClientes" component={ActualizarEliminarClientes}/> 
@@ -40,7 +41,7 @@ export default function App() {
           <PrivateRoute exact path="/Logout" component={Logout}/>
           <Route exact path="/Registrarse" component={RegistroPyme}/>
           <Route exact path="/Login" component={Login}/>
-          <Route exact path="/consultaFactura/:refFactura" component={ConsultarFactura}/>
+          <Route exact path="/exportarFactura/:refFactura" component={ConsultarFactura}/>
           <Route exact path="/" component={Home}/>
           <Route path="*" component={NotFound}></Route>
         </Switch>

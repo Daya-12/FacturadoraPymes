@@ -22,7 +22,7 @@ export default class Home extends React.Component {
         timer: "3000",
       });
     } else {
-      this.props.history.push("/consultaFactura/"+refFactura, {refFactura:refFactura})
+      window.open("/exportarFactura/"+refFactura, "_blank");
     }
   };
   

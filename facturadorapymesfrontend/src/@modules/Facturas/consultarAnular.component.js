@@ -3,6 +3,7 @@ import logo from "../../@images/logoProyecto.png";
 import DataTable from "react-data-table-component";
 import service from "./factura.service";
 import anular from "../../@images/anular.png";
+import pdf from "../../@images/Exportarpdf.png";
 import Swal from "sweetalert2";
 export default class ConsultarAnularFacturas extends React.Component {
     constructor() {
@@ -96,6 +97,9 @@ export default class ConsultarAnularFacturas extends React.Component {
         this.setState({ facts: search });
       };
 
+  consultarFactura = async (referencia) => {
+    window.open("/exportarFactura/"+referencia, "_blank");
+  }
       
   confirmarAnularFactura = async (row) => {
 
@@ -163,12 +167,12 @@ export default class ConsultarAnularFacturas extends React.Component {
         sortable: true,
       },
       {
-        name: "Fecha emisión",
+        name: "F.Emisión",
         selector: "fechaEmision",
         sortable: true,
       },
       {
-        name: "Fecha vencimiento",
+        name: "F.Vencimiento",
         selector: "fechaVencimiento",
         sortable: true,
       },
@@ -180,7 +184,7 @@ export default class ConsultarAnularFacturas extends React.Component {
       {
         name: "Cliente",
         selector: "cliente",
-        sortable: true,
+        sortable: true
       },
       {
         name: "Valor",
@@ -195,8 +199,19 @@ export default class ConsultarAnularFacturas extends React.Component {
       {
         name: "Estado",
         selector: "estado",
-        sortable: true,
+        sortable: true
       },
+      {
+        name: "Ver",
+        cell: (row) => row.estado ==="Emitido" ? ( <button style={{
+            outline: "0 none",
+            border: "0",
+            backgroundColor: "none",
+          }} onClick={() => this.consultarFactura(row.referencia)}><img height="27" width="22" src={pdf} alt="anular"></img></button>) : (<></>),
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true
+    },
 
     ];
     const paginacionOpc = {

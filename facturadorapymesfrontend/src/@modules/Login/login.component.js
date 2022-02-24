@@ -74,7 +74,8 @@ export default class Login extends React.Component {
           isAuthenticated
             ? this.props.history.replace("/MenuAdministrador/" + idEmpresa, {
                 idEmpresa: idEmpresa,
-              })
+              }
+              )
             : window.alert("Error");
         }
       } else {
