@@ -23,6 +23,7 @@ import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperDetalle;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperImpuesto;
 import com.FacturadoraPymes.FacturadoraPymes.Models.DetallesRecibirModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultaTablaModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultarReferencia;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaRegistroModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ImpuestoModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
@@ -188,6 +189,23 @@ public class FacturaServiceImpl implements IFacturaService{
 		return mensajeModel;
 		}
 		else {return null;}
+	}
+
+	@Override
+	public FacturaConsultarReferencia consultarPorReferencia(String referencia) {
+		Factura factura=new Factura();
+		factura=facturaRepository.validarReferencia(referencia).get(); ///AQUI ESTA LA FACTURA A MAPEAR!!!!
+		List<DetallesRecibirModel> detallesFactura=new LinkedList<>();
+		
+		MapperDetalle mapperDetalle=new MapperDetalle();
+		detallesFactura = StreamSupport.stream(factura.getDetalles().spliterator(), false).map((detalle) -> {
+			return mapperDetalle.entregarDetalles(detalle);
+		}).collect(Collectors.toList());
+		
+		FacturaConsultarReferencia facturaRetornar=new FacturaConsultarReferencia();
+		facturaRetornar=mapperFactura.facturaPorReferencia(factura);
+		facturaRetornar.setDetalles(detallesFactura);
+		return facturaRetornar;
 	}
 
 }

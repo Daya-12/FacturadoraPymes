@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IFacturaService;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultaTablaModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultarReferencia;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaRegistroModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 
@@ -53,6 +54,13 @@ public class FacturaControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public MensajeModel anular(@RequestBody FacturaConsultaTablaModel factura) {
 		return facturaService.anular(factura);
+	}
+	
+	@GetMapping(value = "/consultarPorReferencia/{referencia}")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public FacturaConsultarReferencia consultarPorReferencia(@PathVariable String referencia) {
+		return facturaService.consultarPorReferencia(referencia);
 	}
 
 }

@@ -8,9 +8,7 @@ public class MapperDetalle implements IMapperDetalle{
 
 	@Override
 	public Detalle recibirDetalles(DetallesRecibirModel detalleModel) {
-		
 		Detalle detalle = new Detalle();
-		
 		Producto productoEntity = new Producto();
 		productoEntity.setIdProducto(detalleModel.getIdProducto());
 		detalle.setProducto(productoEntity);
@@ -19,6 +17,17 @@ public class MapperDetalle implements IMapperDetalle{
 		detalle.setValorTotal(detalleModel.getValorTotal());
 		return detalle;
 		
+	}
+
+	@Override
+	public DetallesRecibirModel entregarDetalles(Detalle detalle) {
+		DetallesRecibirModel detalleM = new DetallesRecibirModel();
+		detalleM.setIdProducto(detalle.getProducto().getIdProducto());
+		detalleM.setNombreProducto(detalle.getProducto().getNombreProducto());
+		detalleM.setCantidad(detalle.getCantidad());
+		detalleM.setValorUnitario(detalle.getValorUnitario());
+		detalleM.setValorTotal(detalle.getValorTotal());
+		return detalleM;
 	}
 
 }
