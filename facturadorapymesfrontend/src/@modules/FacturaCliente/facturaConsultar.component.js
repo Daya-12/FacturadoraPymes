@@ -2,7 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import x from "../../@images/anular.png";
-//import service from "./facturaConsultar.service";
+import service from "./facturaConsultar.service";
 import Loading from "../Loading/loading";
 import {
   pdf,
@@ -21,6 +21,22 @@ export default class ConsultarFactura extends React.Component {
     super();
     this.state = {
       refFactura: "",
+      form:{
+        referencia:"",
+        ciudad:"",
+        cliente:{
+          nombre: "",
+          nombre_tdocumento: "",
+          num_documento: "",
+          direccion: "",
+          nombre_ciudad: "",
+          id_empresa: "",
+          codPostal: "",
+          telefono: "",
+        },
+
+
+      }
     };
   }
   componentDidMount= async () => {
@@ -28,13 +44,22 @@ export default class ConsultarFactura extends React.Component {
     this.setState({ refFactura: refFactura });
     this.consultarFactura();
   }
-  consultarFactura = async () => {
+  consultarFacturaPorReferencia = async () => {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
+
     let respuesta = null;
-    //respuesta = await service.consultarFactura(this.refFactura);
+    respuesta = await service.consultarPorReferencia(this.refFactura);
+    if (respuesta !== null) {
+      this.setState({
+        productos: respuesta.data,
+      });
+    }
+
+
+
   };
 
   devolverAPaginaAnterior = async () => {

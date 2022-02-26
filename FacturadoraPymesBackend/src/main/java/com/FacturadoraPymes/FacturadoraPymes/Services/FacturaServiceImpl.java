@@ -194,17 +194,10 @@ public class FacturaServiceImpl implements IFacturaService{
 	@Override
 	public FacturaConsultarReferencia consultarPorReferencia(String referencia) {
 		Factura factura=new Factura();
-		factura=facturaRepository.validarReferencia(referencia).get(); ///AQUI ESTA LA FACTURA A MAPEAR!!!!
-		List<DetallesRecibirModel> detallesFactura=new LinkedList<>();
-		
-		MapperDetalle mapperDetalle=new MapperDetalle();
-		detallesFactura = StreamSupport.stream(factura.getDetalles().spliterator(), false).map((detalle) -> {
-			return mapperDetalle.entregarDetalles(detalle);
-		}).collect(Collectors.toList());
-		
+		factura=facturaRepository.validarReferencia(referencia).get();
 		FacturaConsultarReferencia facturaRetornar=new FacturaConsultarReferencia();
 		facturaRetornar=mapperFactura.facturaPorReferencia(factura);
-		facturaRetornar.setDetalles(detallesFactura);
+
 		return facturaRetornar;
 	}
 

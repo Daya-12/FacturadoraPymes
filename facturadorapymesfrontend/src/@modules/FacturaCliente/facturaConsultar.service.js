@@ -1,8 +1,8 @@
 import axios from 'axios';
 const urlConexion = "http://localhost:8080//facturadoraPymes/application/";
 
-async function consultarFactura(refFactura) {
-    const url = urlConexion+'factura/consultar/'+refFactura
+async function consultarPorReferencia(refFactura) {
+    const url = urlConexion+'factura/consultarPorReferencia/'+refFactura
     let response = null;
     try {      
         response=await axios.get(url);
@@ -12,4 +12,4 @@ async function consultarFactura(refFactura) {
     return response;
 };
 
-export default {consultarFactura};
+export default {consultarPorReferencia};

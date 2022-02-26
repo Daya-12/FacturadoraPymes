@@ -1,8 +1,14 @@
 package com.FacturadoraPymes.FacturadoraPymes.Mappers;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Factura;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperFactura;
 import com.FacturadoraPymes.FacturadoraPymes.Models.ClienteModelPersonalizado;
+import com.FacturadoraPymes.FacturadoraPymes.Models.DetallesRecibirModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultaTablaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.FacturaConsultarReferencia;
 
@@ -65,6 +71,14 @@ public class MapperFactura implements IMapperFactura{
 		else {
 			facturaM.setImpuestoIva(0);
 		}
+		
+		List<DetallesRecibirModel> detallesFactura=new LinkedList<>();
+		MapperDetalle mapperDetalle=new MapperDetalle();
+		detallesFactura = StreamSupport.stream(factura.getDetalles().spliterator(), false).map((detalle) -> {
+			return mapperDetalle.entregarDetalles(detalle);
+		}).collect(Collectors.toList());
+		
+		facturaM.setDetalles(detallesFactura);
 
 		return facturaM;
 	}
