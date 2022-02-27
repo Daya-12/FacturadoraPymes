@@ -12,4 +12,27 @@ async function consultarPorReferencia(refFactura) {
     return response;
 };
 
-export default {consultarPorReferencia};
+async function consultarLogo(idEmpresa) {
+    const url = urlConexion+'empresa/consultarLogo/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+async function buscarPorId(idEmpresa) {
+    const url = urlConexion+'empresa/buscarPorId/'+idEmpresa
+    let response = null;
+    try {      
+        response=await axios.get(url);
+    } catch (e) {
+        console.error(e);
+    }
+    return response;
+};
+
+
+export default {consultarPorReferencia,consultarLogo,buscarPorId};
