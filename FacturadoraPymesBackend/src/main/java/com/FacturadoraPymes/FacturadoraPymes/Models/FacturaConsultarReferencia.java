@@ -25,5 +25,6 @@ public class FacturaConsultarReferencia {
 	private double total;
 	private String valorLetras;
 	private List<DetallesRecibirModel> detalles;
+	private String estado;
 
 }

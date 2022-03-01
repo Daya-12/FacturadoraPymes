@@ -79,7 +79,7 @@ public class MapperFactura implements IMapperFactura{
 		}).collect(Collectors.toList());
 		
 		facturaM.setDetalles(detallesFactura);
-
+		facturaM.setEstado(factura.getEstado().getNombreEstado());
 		return facturaM;
 	}
 

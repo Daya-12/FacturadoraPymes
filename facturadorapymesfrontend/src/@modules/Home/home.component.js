@@ -89,7 +89,7 @@ export default class Home extends React.Component {
           <br></br>
           <p>
             <div align="center">
-              &copy; Copyrigth 2022. Diseñado por ISSMC Colombia |
+              &copy; Copyrigth 2022. Diseñado por ISSMC |
               Bogotá,Colombia
             </div>
           </p>
