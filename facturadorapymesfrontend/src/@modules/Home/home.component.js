@@ -4,13 +4,6 @@ import Logo from "../../@images/logoProyecto.png";
 import { Collapse, Navbar, Nav, NavItem, NavLink, Button } from "reactstrap";
 import "../../@styles/styles.components.css";
 import Swal from "sweetalert2";
-import {
-  AvForm
-} from "availity-reactstrap-validation";
-import {
-  Row,
-  Col
-} from "reactstrap";
 export default class Home extends React.Component {
 
     consultarFactura = async () => {
@@ -70,7 +63,7 @@ export default class Home extends React.Component {
                   type="text"
                   className="form-control"
                   placeholder="Digita la referencia de tu factura"
-                  autocomplete="off"
+                  autoComplete="off"
                 />
                 <div className="input-group-append">
                   <Button
@@ -87,12 +80,12 @@ export default class Home extends React.Component {
 
         <footer id="main-footer">
           <br></br>
-          <p>
+          <span>
             <div align="center">
               &copy; Copyrigth 2022. Diseñado por ISSMC |
               Bogotá,Colombia
             </div>
-          </p>
+          </span>
         </footer>
       </div>
     );

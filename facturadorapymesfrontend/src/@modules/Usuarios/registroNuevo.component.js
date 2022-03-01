@@ -117,7 +117,7 @@ export default class RegistroNuevoUsuario extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.correo !== "" && this.validarEmail()!=false) {
+    if (this.state.form.correo !== "" && this.validarEmail()!==false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.correo);
       if (respuesta !== null) {

@@ -254,7 +254,7 @@ export default class RegistroFactura extends React.Component {
       },
     });
     let cliente = this.state.clientes.find((cliente) => cliente.nombre === v);
-    if (v !== "" && cliente != undefined) {
+    if (v !== "" && cliente !== undefined) {
       this.setState({
         cliente: {
           nombre_tdocumento:
@@ -286,7 +286,7 @@ export default class RegistroFactura extends React.Component {
     let formap = this.state.formasPago.find(
       (formaPago) => formaPago.nombre === v
     );
-    if (v !== "" && formap != undefined) {
+    if (v !== "" && formap !== undefined) {
       document.getElementById("check").disabled = true;
     } else if (v === "") {
       document.getElementById("check").disabled = false;
@@ -470,7 +470,7 @@ export default class RegistroFactura extends React.Component {
       list[index]["idProducto"] = producto.id;
       list[index]["nombreProducto"] = v;
       list[index]["valorUnitario"] = producto.valor;
-      if (list[index]["cantidad"] != undefined) {
+      if (list[index]["cantidad"] !== undefined) {
         list[index]["valorTotal"] =
           list[index]["cantidad"] * list[index]["valorUnitario"];
       }
@@ -543,7 +543,7 @@ export default class RegistroFactura extends React.Component {
         iva: 0,
       });
     }
-    if (this.state.subtotal != "") {
+    if (this.state.subtotal !== "") {
       if (this.state.checkIva) {
         await this.setState({
           iva: (this.state.subtotal * this.state.ivaActual.porcentaje) / 100,
@@ -571,9 +571,9 @@ export default class RegistroFactura extends React.Component {
       (ciudad) => ciudad.nombre === this.state.form.ciudad
     ).id;
 
-    var idFormaPago;
-    if (this.state.form.formaPago != undefined) {
-      var idFormaPago = this.state.formasPago.find(
+    var idFormaPago=null;
+    if (this.state.form.formaPago !== undefined) {
+      idFormaPago = this.state.formasPago.find(
         (formaPago) => formaPago.nombre === this.state.form.formaPago
       )?.id;
     }
@@ -1297,7 +1297,7 @@ const mapStateToModel = function (
   iva,
   incluyeIva
 ) {
-  if (incluyeIva == true) {
+  if (incluyeIva === true) {
     return {
       id: 0,
       ciudad: {

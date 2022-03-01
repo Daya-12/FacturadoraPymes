@@ -463,10 +463,10 @@ export default class ConsultarFactura extends React.Component {
                     </View>
                     <View style={{position:"fixed",bottom: 0, width: "100%"}}>
                       <View style={{borderBottom: 0.5}}>
-                        <Text style={{fontSize: 10,padding: 4,letterSpacing: 2, textAlign: "center", padding: 10}}>Factura creada por:{" "}{this.state.form.usuario}</Text>
+                        <Text style={{fontSize: 10,padding: 10,letterSpacing: 2, textAlign: "center"}}>Factura creada por:{" "}{this.state.form.usuario}</Text>
                       </View>
                       <View>
-                        <Text style={{fontSize: 6,padding: 4,letterSpacing: 2, textAlign: "center", padding: 10}}> ISSMC | Bogotá,Colombia</Text>
+                        <Text style={{fontSize: 6,padding: 10,letterSpacing: 2, textAlign: "center"}}> ISSMC | Bogotá,Colombia</Text>
                       </View>
                     </View>
                   </View>

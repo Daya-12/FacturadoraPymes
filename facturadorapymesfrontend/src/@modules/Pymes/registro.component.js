@@ -22,7 +22,6 @@ import {
   AvInput,
   AvFeedback,
 } from "availity-reactstrap-validation";
-
 export default class RegistroPyme extends React.Component {
   constructor() {
     super();
@@ -72,8 +71,6 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.files[0],
       },
     });
-
-    console.log(e.target.files[0]);
     this.validarCampos();
   };
 
@@ -211,7 +208,7 @@ export default class RegistroPyme extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.email !== "" && this.validarEmail() != false) {
+    if (this.state.form.email !== "" && this.validarEmail() !== false) {
       let respuesta = null;
       respuesta = await service.validarEmail(this.state.form.email);
       if (respuesta !== null) {

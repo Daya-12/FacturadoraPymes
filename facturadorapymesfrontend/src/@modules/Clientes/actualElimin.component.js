@@ -42,7 +42,6 @@ export default class ActualizarEliminarClientes extends React.Component {
         telefono: "",
         tipoModal: "",
       },
-      button: false,
       empresa: {
         id: "",
         razonSocial: "",
@@ -151,21 +150,21 @@ export default class ActualizarEliminarClientes extends React.Component {
   deleteCliente = async () => {
     let respuesta = null;
     respuesta = await service.eliminar(this.state.form.id);
-    if (respuesta.data == 1) {
+    if (respuesta.data === 1) {
       Swal.fire({
         text: "El cliente ha sido dado de baja con éxito",
         icon: "success",
         timer: "4000",
       });
       this.componentDidMount();
-    } else if (respuesta.data == 2) {
+    } else if (respuesta.data === 2) {
       Swal.fire({
         text: "Se realizó un borralo lógico para el cliente seleccionado debido a que existe información que depende de este registro",
         icon: "success",
         timer: "4000",
       });
       this.componentDidMount();
-    } else if (respuesta == null) {
+    } else if (respuesta === null) {
       Swal.fire({
         text:
           "Uppss! El cliente " +

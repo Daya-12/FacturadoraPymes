@@ -37,7 +37,6 @@ export default class ActualizarEliminarUsuarios extends React.Component {
         nivel: null,
         tipoModal: "",
       },
-      button: false,
       empresa: {
         id: "",
         razonSocial: "",
@@ -96,7 +95,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
   deleteUser = async () => {
     let respuesta = null;
     respuesta = await service.eliminar(this.state.form.id);
-    if (respuesta.data == 1) {
+    if (respuesta.data === 1) {
       Swal.fire({
         text: "El usuario ha sido eliminado con éxito",
         icon: "success",
@@ -104,7 +103,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
       });
       this.componentDidMount();
     }
-    else if(respuesta.data == 2) {
+    else if(respuesta.data === 2) {
       Swal.fire({
         text: "Se realizó un borralo lógico para el usuario seleccionado debido a que existe información que depende de este registro",
         icon: "success",
@@ -221,7 +220,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
   };
 
   onBlurEmail = async () => {
-    if (this.state.form.correo !== "" && this.validarEmail() != false) {
+    if (this.state.form.correo !== "" && this.validarEmail() !== false) {
       let respuesta = null;
       respuesta = await service.validarEmailDistinto(
         this.state.form.correo,

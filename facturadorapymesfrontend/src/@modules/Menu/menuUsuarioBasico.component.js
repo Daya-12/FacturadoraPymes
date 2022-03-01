@@ -48,7 +48,7 @@ export default class MenuUsuarioBasico extends React.Component{
                         <div className="cabeceraMenu">
                             <div className="sub1Menu">
                                 <div className="btn-menu" style={{ marginTop: "2.5%"}}>
-                                    <label for="btn-menu"><img src={Menu} height="61" width="53" alt="Abrir menu"/></label>
+                                    <label htmlFor="btn-menu"><img src={Menu} height="61" width="53" alt="Abrir menu"/></label>
                                 </div>
                                 <div style={{ marginTop: "1%", marginLeft:"3%"}}>
                                     <img src={Logo} height="95" width="265" alt="Logo ITS" />

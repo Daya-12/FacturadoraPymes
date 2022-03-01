@@ -176,13 +176,13 @@ export default class ConsultarUsuarios extends React.Component {
                 <br />
                 <ExcelFile
                   element={
-                    <button type="button" class="btn btn-success">
+                    <button type="button" className="btn btn-success">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
                         fill="currentColor"
-                        class="bi bi-file-excel"
+                        className="bi bi-file-excel"
                         viewBox="0 0 16 16"
                       >
                         <path d="M5.18 4.616a.5.5 0 0 1 .704.064L8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 0 1 .064-.704z" />
