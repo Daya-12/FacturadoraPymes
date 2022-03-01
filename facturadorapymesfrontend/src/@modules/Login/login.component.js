@@ -77,6 +77,23 @@ export default class Login extends React.Component {
               }
               )
             : window.alert("Error");
+        }else if(respuesta.data.nivel==="1"){
+          let idEmpresa = respuesta.data.empresa.id;
+          localStorage.setItem("isAuthenticated", true);
+          localStorage.setItem("user", JSON.stringify(respuesta.data));
+          Swal.fire({
+            text: "¡Bienvenido "+respuesta.data.nombre+"!",
+            icon: "success",
+            timer: "3000",
+          });
+          const isAuthenticated = localStorage.getItem("isAuthenticated");
+          isAuthenticated
+            ? this.props.history.replace("/MenuUsuarioBasico/" + idEmpresa, {
+                idEmpresa: idEmpresa,
+              }
+              )
+            : window.alert("Error");
+
         }
       } else {
         Swal.fire({

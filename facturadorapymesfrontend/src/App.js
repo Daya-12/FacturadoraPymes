@@ -7,6 +7,7 @@ import NotFound from './@modules/NotFound/notFound.component';
 import ConsultarFactura from './@modules/FacturaCliente/facturaConsultar.component';
 import Logout from './@modules/Login/logout';
 import MenuAdministrador from './@modules/Menu/menuAdministrador.component';
+import MenuUsuarioBasico from './@modules/Menu/menuUsuarioBasico.component';
 import RegistroPyme from './@modules/Pymes/registro.component';
 import RegistroNuevoUsuario from './@modules/Usuarios/registroNuevo.component';
 import ActualizarEliminarUsuarios from './@modules/Usuarios/actualElimin.component';
@@ -37,6 +38,7 @@ export default function App() {
           <PrivateRoute exact path="/Menu/consultarUsuarios" component={ConsultarUsuarios}/>
           <PrivateRoute exact path="/Menu/actualizarEliminarUsuarios" component={ActualizarEliminarUsuarios}/>
           <PrivateRoute exact path="/Menu/registrarUsuarios" component={RegistroNuevoUsuario}/>
+          <PrivateRoute exact path="/MenuUsuarioBasico/:idEmpresa" component={MenuUsuarioBasico}/>
           <PrivateRoute exact path="/MenuAdministrador/:idEmpresa" component={MenuAdministrador}/>
           <PrivateRoute exact path="/Logout" component={Logout}/>
           <Route exact path="/Registrarse" component={RegistroPyme}/>
