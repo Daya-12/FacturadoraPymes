@@ -8,11 +8,14 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.swing.DefaultListModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +26,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
+import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IUsuarioService;
 import com.FacturadoraPymes.FacturadoraPymes.Mappers.MapperCategoria;
 import com.FacturadoraPymes.FacturadoraPymes.Models.CategoriaModel;
+import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaCategoriasActualizarModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.UsuarioModel;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.ICategoriaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Repositories.IEmpresaRepository;
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Validaciones;
-
 import com.FacturadoraPymes.FacturadoraPymes.Utils.Constantes;
 
 
@@ -228,7 +233,6 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	@Override
 	public MultipartFile consultarLogo(int idEmpresa) {
 		String razonSocial= empresaRepository.findById(idEmpresa).get().getRazonSocial();
-		
         Path directorioImagenes=Path.of(ruta);
         String rutaAbsoluta = directorioImagenes.toFile().getAbsolutePath();
 		String nombreFicheroCompleto="";
@@ -278,6 +282,81 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	public EmpresaModel buscarPorId(int idEmpresa) {
 		Optional<Empresa> empresa = empresaRepository.findById(idEmpresa);		
 		return mapperEmpresa.mostrarEmpresas(empresa.get());
+	}
+
+	@Override
+	public int actualizarCategorias(EmpresaCategoriasActualizarModel empresa) {
+
+		//Empresa empresaEntity = new Empresa();
+		//empresaEntity= empresaRepository.findById(empresa.getId()).get();
 		
+		/*for (int i = 0; i < empresaEntity.getCategorias().size(); i++) {
+		
+			boolean existencia= empresa.getCategorias().
+			if(!existencia) {
+				/////validar productos
+				
+				/*
+				 * si validacionProducto==null{
+				 *  ////eliminar
+				 * }
+				 * */
+			//}
+		
+		/*}
+		for (int i = 0; i < empresa.getCategorias().size(); i++) {
+			int idCategoria = empresa.getCategorias().get(i).getId();
+			int idCategoriaEmpresa = categoriaRepository.consultarCategoriaPorEmpresa(idCategoria,empresaEntity.getIdEmpresa());
+			
+			if(idCategoriaEmpresa==0) {
+				categoriaRepository.insertarCategorias(idCategoria,empresaEntity.getIdEmpresa());
+			}
+			
+		}*/
+		
+		
+		
+		Empresa empresaEntity = new Empresa();
+		Empresa suplemento= new Empresa();
+
+		empresaEntity= empresaRepository.findById(empresa.getId()).get();
+		suplemento=empresaEntity;
+		
+		MapperCategoria mapperCategorias = new MapperCategoria();
+		List<Categoria> categorias = new LinkedList<>();
+		for (CategoriaModel categoriaModel : empresa.getCategorias()) {
+			categorias.add(mapperCategorias.recibirCategorias(categoriaModel));
+		}	
+		
+		List<CategoriaModel> categoriasmodel= new LinkedList<>();
+		categoriasmodel= empresa.getCategorias();
+		
+		////////////////////////////////////////////////////////
+		List<Categoria> listFinal = Stream.concat(suplemento.getCategorias().stream(), categorias.stream())
+                .distinct()
+                .collect(Collectors.toList());
+		
+		List<Categoria> listFinales= new LinkedList<>();
+		for (int i = 0; i < listFinal.size(); i++) {
+			
+			if(!(listFinales.contains(listFinal.get(i)))) {
+				listFinales.add(listFinal.get(i));
+			}
+		}
+		////////////////////////////////////////////////////////
+		int idEmpresa=  empresaEntity.getIdEmpresa();
+		suplemento.getCategorias().forEach((p)-> {
+			if (!categorias.contains(p)) {
+				List<Producto> producto = categoriaRepository.consultarProductosConCategorias(p.getIdCategoria(), idEmpresa);
+				if(producto.isEmpty()) {
+					categoriaRepository.eliminar(p.getIdCategoria(), idEmpresa);
+				}
+			}
+		});
+		
+		for (int i = 0; i < listFinal.size(); i++) {
+			categoriaRepository.insertarCategorias(categoriasmodel.get(i).getId(),empresaEntity.getIdEmpresa());
+		}
+		return 0;
 	}
 }

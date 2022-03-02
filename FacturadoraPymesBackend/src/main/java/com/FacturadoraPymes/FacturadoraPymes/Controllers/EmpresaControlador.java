@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.IServices.IEmpresaService;
+import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaCategoriasActualizarModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.EmpresaModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MensajeModel;
 import com.FacturadoraPymes.FacturadoraPymes.Models.MultiPartModel;
@@ -97,5 +99,12 @@ public class EmpresaControlador {
 	@ResponseStatus(code = HttpStatus.OK)
 	public EmpresaModel buscarPorId(@PathVariable int idEmpresa) {
 		return empresaService.buscarPorId(idEmpresa);
+	}
+	
+	@PutMapping(value = "/actualizarCategorias", produces = "application/json", consumes = "application/json")
+	@CrossOrigin
+	@ResponseStatus(code = HttpStatus.OK)
+	public int actualizarCategorias(@RequestBody EmpresaCategoriasActualizarModel empresa) {
+		return empresaService.actualizarCategorias(empresa);
 	}
 }

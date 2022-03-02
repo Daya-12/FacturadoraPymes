@@ -109,6 +109,9 @@ export default class MenuAdministrador extends React.Component{
                                         </ul>
                                     </li>
                                     <li> <a>Categorias</a>
+                                        <ul>
+                                            <li><a href="/Menu/editarVerCategorias">Actualizar categorias</a></li>
+                                        </ul>
                                     </li>
                                 </ul>
                                 <br/><br/>
