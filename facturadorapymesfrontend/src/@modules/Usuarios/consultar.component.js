@@ -142,8 +142,7 @@ export default class ConsultarUsuarios extends React.Component {
               }}
             >
               <label>
-                Usuarios registrados para{" "}
-                {this.state.empresa.razonSocial}
+                Usuarios registrados para {this.state.empresa.razonSocial}
               </label>
             </div>
             <div
@@ -156,24 +155,23 @@ export default class ConsultarUsuarios extends React.Component {
               }}
             >
               <label>
-                Puedes consultar a traves del nombre, e-mail,teléfono y permiso otorgado
+                Puedes consultar a traves del nombre, e-mail,teléfono y permiso
+                otorgado
               </label>
             </div>
 
-            <div id="barraBusqueda">
+            <div>
             <div
                 align="left"
-                id="barraBusquedahijo"
+                className="subCuerpo1"
                 style={{
                   color: "#000227",
                   fontSize: "10px",
                   fontFamily: "Segoe UI",
                   textAlign: "left",
-                  fontWeight: "bold",
+                  fontWeight: "bold"
                 }}
               >
-                <br />
-                <br />
                 <ExcelFile
                   element={
                     <button type="button" className="btn btn-success">
@@ -194,18 +192,18 @@ export default class ConsultarUsuarios extends React.Component {
                 >
                   <ExcelSheet data={this.state.usuarios} name="Usuarios">
                     <ExcelColumn label="Nombre" value="nombre" />
-                    <ExcelColumn label="E-mail" value="correo"/>
-                    <ExcelColumn label="Teléfono" value="telefono"/>
+                    <ExcelColumn label="E-mail" value="correo" />
+                    <ExcelColumn label="Teléfono" value="telefono" />
                     <ExcelColumn label="Nivel" value="nivel" />
                     <ExcelColumn label="Facturas realizadas" value="facturas" />
                   </ExcelSheet>
                 </ExcelFile>
               </div>
-
-              <div align="center"
+              <div
+                id="barraBusqueda"
+                className="subCuerpo2"
                 style={{
-                  marginTop:"2%",
-                  width: "100%"
+                  marginTop: "2%"
                 }}
               >
                 <input
@@ -220,7 +218,7 @@ export default class ConsultarUsuarios extends React.Component {
               </div>
               <div
                 align="right"
-                id="barraBusquedahijo"
+                className="subCuerpo3"
                 style={{
                   color: "#000227",
                   fontSize: "10px",
@@ -230,13 +228,12 @@ export default class ConsultarUsuarios extends React.Component {
                 }}
               >
                 <label>Color de filas según número de facts. realizadas</label>
-                <br />
                 <label>0 🔴</label>
-                <br />
+                &nbsp;&nbsp;&nbsp;
                 <label>1-5 🟠</label>
-                <br />
+                &nbsp;&nbsp;&nbsp;
                 <label>5-10 🟡</label>
-                <br />
+                &nbsp;&nbsp;&nbsp;
                 <label>10+ 🟢</label>
               </div>
             </div>

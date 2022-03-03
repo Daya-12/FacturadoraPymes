@@ -23,4 +23,7 @@ public interface ICategoriaRepository extends CrudRepository<Categoria, Integer>
 	
 	@Query(value = "SELECT producto FROM Producto producto INNER JOIN Categoria categoria ON producto.categoria.idCategoria=categoria.idCategoria WHERE categoria.idCategoria=:idCategoria and producto.empresa.idEmpresa=:idEmpresa", nativeQuery = false)
 	public List<Producto> consultarProductosConCategorias(@Param("idCategoria") int idCategoria,@Param("idEmpresa") int idEmpresa);
+	
+	@Query(value = "SELECT categoria.id_categoria,categoria.nombre_categoria,categoria.activo FROM categoria inner join CategoriaEmpresa on categoria.id_categoria=CategoriaEmpresa.id_categoria where CategoriaEmpresa.id_empresa=:idEmpresa", nativeQuery = true)
+	public List<Categoria> consultarCategoriasPorEmpresa(@Param("idEmpresa") int idEmpresa);
 }

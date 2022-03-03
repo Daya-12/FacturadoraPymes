@@ -566,20 +566,15 @@ h4 {
   margin-bottom: 1%;
 }
 
-#barraBusqueda{
-  display: flex;
-}
-
 #barraBusqueda .form-control{ 
-  width: 25%;
   background: rgba(204, 203, 203, 0.26);
   border: 1px solid rgb(6, 12, 70);
   box-shadow: none;
   outline: none;
   transition: background-color 0.5s;
   color: rgb(3, 6, 49);
-  margin-right: 55%;
-  margin-left: 45%;
+  width: 50%;
+  margin:0px auto
 }
 
 .productosFondo {
@@ -715,6 +710,22 @@ h4 {
   border-radius: 15px;
 }
 
+.subCuerpo1 {
+  display:inline-block;
+  width: 15%;
+}
+
+.subCuerpo2 {
+  display:inline-block;
+  vertical-align:top;
+  width: 70%;
+}
+
+.subCuerpo3 {
+  display:inline-block;
+  width: 15%;
+}
+
 .sub1Factura {
   display:inline-block;
   width: 15%;
@@ -724,7 +735,6 @@ h4 {
   display:inline-block;
   vertical-align:top;
   width: 70%;
-  margin: 0 auto;/*esto fue lo que se agregó*/
 }
 
 .titulosFactura2 {

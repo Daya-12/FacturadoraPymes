@@ -29,8 +29,8 @@ export default class EditarCategorias extends React.Component {
         razonSocial: informacionLocalStorage.empresa.razonSocial,
       },
     });
-    this.consultarCategorias();
-    this.consultarCategoriasPersonalizado();
+    await this.consultarCategorias();
+    await this.consultarCategoriasPersonalizado();
   };
 
   consultarCategorias = async () => {
@@ -52,8 +52,8 @@ export default class EditarCategorias extends React.Component {
     await this.SCategorias();
   };
 
-  SCategorias() {
-    this.setState({
+  SCategorias= async () => {
+    await this.setState({
       categorias: this.state.categorias.map((c) => {
         return {
           id: c.id,
@@ -120,18 +120,28 @@ actualizarFinal = async () => {
     const model = mapStateToModel(this.state.empresa,this.state.categorias2);
     respuesta = await service.actualizar(model);
     if(respuesta !== null){
-       /* Swal.fire({
-          text: "¡El producto " + this.state.form.nombre + " ha sido registrado exitosamente!",
+      if(respuesta.data==0){
+        Swal.fire({
+          text: "¡Las categorias fueron actualizadas correctamente!",
           icon: "success",
-          timer: "3000"
+          timer: "4000"
       })
-      setTimeout(function () { window.location.reload(1); }, 4000);*/
+      }
+      if(respuesta.data==1){
+        Swal.fire({
+          text: "¡Las categorias fueron actualizadas correctamente, algunas no fueron actualizadas debido a que hay productos que las usan!",
+          icon: "warning",
+          timer: "4000"
+      })
+      }
+      setTimeout(function () { window.location.reload(1); }, 4000);
       }else{
-        /*Swal.fire({
-          text: "Uppss! El producto " + this.state.form.nombre + " no pudo ser registrado",
+      Swal.fire({
+          text: "Uppss! Las categorias no pudieron ser actualizadas",
           icon: "error",
           timer: "3000"
-      })*/
+      })
+      setTimeout(function () { window.location.reload(1); }, 3000);
     }
 };
 
@@ -164,7 +174,7 @@ actualizarFinal = async () => {
                 </tr>
               </thead>
 
-              <tbody align="center" textAlign="center">
+              <tbody align="center" textalign="center">
                 {this.state.categorias &&
                   this.state.categorias.map((pr) => (
                     <tr key={pr.id}>

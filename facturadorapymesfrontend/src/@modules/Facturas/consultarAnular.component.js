@@ -257,10 +257,10 @@ export default class ConsultarAnularFacturas extends React.Component {
               </label>
             </div>
 
-            <div id="barraBusqueda">
+            <div >
               <div
                 align="left"
-                id="barraBusquedahijo"
+                className="subCuerpo1"
                 style={{
                   color: "#000227",
                   fontSize: "10px",
@@ -271,10 +271,10 @@ export default class ConsultarAnularFacturas extends React.Component {
               ></div>
 
               <div
-                align="center"
+                id="barraBusqueda"
+                className="subCuerpo2"
                 style={{
-                  marginTop: "2%",
-                  width: "100%",
+                  marginTop: "2%"
                 }}
               >
                 <input
@@ -289,7 +289,7 @@ export default class ConsultarAnularFacturas extends React.Component {
               </div>
               <div
                 align="right"
-                id="barraBusquedahijo"
+                className="subCuerpo3"
                 style={{
                   color: "#000227",
                   fontSize: "10px",

@@ -8,14 +8,12 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.swing.DefaultListModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Categoria;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Ciudad;
-import com.FacturadoraPymes.FacturadoraPymes.Entities.Cliente;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Empresa;
 import com.FacturadoraPymes.FacturadoraPymes.Entities.Producto;
 import com.FacturadoraPymes.FacturadoraPymes.IMappers.IMapperEmpresa;
@@ -111,7 +108,6 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		
 		if( (!existenciAbrevitura && validarNombreEmpresa(empresa.getRazonSocial())==false) && (validarIdentificacionEmpresa(empresa.getNit())==false) &&
 			(validarEmailEmpresa(empresa.getCorreoElectronico())==false) && (usuarioService.validarEmail(empresa.getUsuario().getCorreo())==false)) {
-		//obtener nombre imagen logo
 		File directorio = new File(ruta);
 		DefaultListModel defaultListModel = buscarLogo(directorio,empresa.getRazonSocial());
 		empresa.setUrlLogo(defaultListModel.getElementAt(0).toString());
@@ -216,9 +212,7 @@ public class EmpresaServiceImpl implements IEmpresaService{
 	private DefaultListModel buscarLogo(File directorio,String razonSocial) {
 		DefaultListModel defaultListModel = new DefaultListModel ();
 		if ( directorio.isDirectory() ) {   
-            // obtenemos su contenido
             File[] ficheros = directorio.listFiles();           
-            //y lo llenamos en un DefaultListModel
             for ( File fichero : ficheros ) 
             {
                 if( fichero.getName().toUpperCase().indexOf( razonSocial.toUpperCase() ) >= 0 )
@@ -271,7 +265,6 @@ public class EmpresaServiceImpl implements IEmpresaService{
 		try {
 			filemu = new MockMultipartFile(nombreFicheroCompleto,nombreFicheroCompleto,"image/"+nombreFicheroCompleto.replace(razonSocial+".", ""), inputt);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         		
@@ -286,41 +279,9 @@ public class EmpresaServiceImpl implements IEmpresaService{
 
 	@Override
 	public int actualizarCategorias(EmpresaCategoriasActualizarModel empresa) {
-
-		//Empresa empresaEntity = new Empresa();
-		//empresaEntity= empresaRepository.findById(empresa.getId()).get();
-		
-		/*for (int i = 0; i < empresaEntity.getCategorias().size(); i++) {
-		
-			boolean existencia= empresa.getCategorias().
-			if(!existencia) {
-				/////validar productos
-				
-				/*
-				 * si validacionProducto==null{
-				 *  ////eliminar
-				 * }
-				 * */
-			//}
-		
-		/*}
-		for (int i = 0; i < empresa.getCategorias().size(); i++) {
-			int idCategoria = empresa.getCategorias().get(i).getId();
-			int idCategoriaEmpresa = categoriaRepository.consultarCategoriaPorEmpresa(idCategoria,empresaEntity.getIdEmpresa());
-			
-			if(idCategoriaEmpresa==0) {
-				categoriaRepository.insertarCategorias(idCategoria,empresaEntity.getIdEmpresa());
-			}
-			
-		}*/
-		
-		
-		
+		int retorno=0;
 		Empresa empresaEntity = new Empresa();
-		Empresa suplemento= new Empresa();
-
 		empresaEntity= empresaRepository.findById(empresa.getId()).get();
-		suplemento=empresaEntity;
 		
 		MapperCategoria mapperCategorias = new MapperCategoria();
 		List<Categoria> categorias = new LinkedList<>();
@@ -328,35 +289,57 @@ public class EmpresaServiceImpl implements IEmpresaService{
 			categorias.add(mapperCategorias.recibirCategorias(categoriaModel));
 		}	
 		
-		List<CategoriaModel> categoriasmodel= new LinkedList<>();
-		categoriasmodel= empresa.getCategorias();
+		ArrayList<Integer> list1= new ArrayList<>();
+		ArrayList<Integer> list2= new ArrayList<>();
 		
-		////////////////////////////////////////////////////////
-		List<Categoria> listFinal = Stream.concat(suplemento.getCategorias().stream(), categorias.stream())
-                .distinct()
-                .collect(Collectors.toList());
+		empresaEntity.getCategorias().forEach((p)-> {
+			list1.add(p.getIdCategoria());
+		});
 		
-		List<Categoria> listFinales= new LinkedList<>();
-		for (int i = 0; i < listFinal.size(); i++) {
-			
-			if(!(listFinales.contains(listFinal.get(i)))) {
-				listFinales.add(listFinal.get(i));
-			}
-		}
-		////////////////////////////////////////////////////////
-		int idEmpresa=  empresaEntity.getIdEmpresa();
-		suplemento.getCategorias().forEach((p)-> {
-			if (!categorias.contains(p)) {
-				List<Producto> producto = categoriaRepository.consultarProductosConCategorias(p.getIdCategoria(), idEmpresa);
-				if(producto.isEmpty()) {
-					categoriaRepository.eliminar(p.getIdCategoria(), idEmpresa);
-				}
+		categorias.forEach((p)-> {
+			list2.add(p.getIdCategoria());
+		});
+		
+		ArrayList<Integer> listFinal = new ArrayList<>();
+		listFinal.addAll(list1);
+		listFinal.addAll(list2);
+		
+		ArrayList<Integer> listFinales= new ArrayList<>();
+		listFinal.forEach((p)-> {
+			if(listFinales.indexOf(p)==-1) {
+				listFinales.add(p);
 			}
 		});
 		
-		for (int i = 0; i < listFinal.size(); i++) {
-			categoriaRepository.insertarCategorias(categoriasmodel.get(i).getId(),empresaEntity.getIdEmpresa());
+		list1.forEach((p)-> {
+			if(listFinales.contains(p)) {
+				listFinales.remove(p);
+			}
+		});
+		
+		
+		int idEmpresa=  empresaEntity.getIdEmpresa();
+		
+		for (int i = 0; i < list1.size(); i++) {
+			
+			if (!list2.contains(list1.get(i))) {
+				List<Producto> producto = categoriaRepository.consultarProductosConCategorias(list1.get(i), idEmpresa);
+				if(producto.isEmpty()) {
+					categoriaRepository.eliminar(list1.get(i), idEmpresa);
+				}
+				else {
+					retorno=1;
+				}
+			}
+			
 		}
-		return 0;
+
+		if(listFinales.size()>0) {
+			for (int i = 0; i < listFinales.size(); i++) {
+				categoriaRepository.insertarCategorias(listFinales.get(i),empresaEntity.getIdEmpresa());
+			}
+		}
+
+		return retorno;
 	}
 }
