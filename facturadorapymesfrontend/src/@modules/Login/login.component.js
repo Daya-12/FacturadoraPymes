@@ -155,14 +155,7 @@ export default class Login extends React.Component {
                   </div>
                   <div className="form-group col-md-4"></div>
                 </div>
-                <br></br>
-                <div className="form-group mx-sm-4 text-center pb-3">
-                  <span>
-                    <a href="!#" className="recuperarpass">
-                      ¿Olvidaste tu contraseña?
-                    </a>
-                  </span>
-                </div>
+                <br/>
                 <div className="form-group mx-sm-4 text-center pb-3">
                   <span>
                     <label>¿No estas registrado?</label>&nbsp;&nbsp;

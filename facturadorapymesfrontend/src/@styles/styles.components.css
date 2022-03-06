@@ -21,7 +21,7 @@ body {
 .cabecera {
   display: grid;
   background: white;
-  grid-template-columns: 78% 78%;
+  grid-template-columns: 75% 78%;
 }
 
 .sub1 {
@@ -172,12 +172,12 @@ body {
 }
 .registrarseAhora {
   margin-top: 20px;
-  color: rgb(110, 168, 255);
+  color: rgb(153, 194, 255);
   text-decoration-style: none;
   text-decoration-line: none;
 }
 .registrarseAhora:hover {
-  color: rgb(49, 131, 255);
+  color: rgb(58, 137, 255);
   text-decoration-style: none;
   text-decoration-line: none;
 }
@@ -862,4 +862,21 @@ h4 {
 .foot2 {
   display:inline-block;
   width: 40%;
+}
+
+
+#swalParte1SobreNosotros{
+  color: rgb(18, 21, 61);
+  font-weight: bold;
+  font-size: 13px;
+  font-family: "Segoe UI";
+  text-align: justify;
+}
+
+#swalParte2SobreNosotros{
+  color: rgb(0, 52, 112);
+  font-weight: bold;
+  font-size: 15px;
+  font-family: "Segoe UI";
+  text-align: center;
 }
