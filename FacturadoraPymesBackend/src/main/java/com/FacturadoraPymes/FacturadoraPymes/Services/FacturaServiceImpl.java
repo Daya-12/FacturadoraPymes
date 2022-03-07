@@ -194,11 +194,18 @@ public class FacturaServiceImpl implements IFacturaService{
 	@Override
 	public FacturaConsultarReferencia consultarPorReferencia(String referencia) {
 		Factura factura=new Factura();
-		factura=facturaRepository.validarReferencia(referencia).get();
-		FacturaConsultarReferencia facturaRetornar=new FacturaConsultarReferencia();
-		facturaRetornar=mapperFactura.facturaPorReferencia(factura);
+		Optional<Factura> facturaOptional=facturaRepository.validarReferencia(referencia);
+		
+		if(facturaOptional.isPresent())
+		{
+			factura=facturaOptional.get();
+			FacturaConsultarReferencia facturaRetornar=new FacturaConsultarReferencia();
+			facturaRetornar=mapperFactura.facturaPorReferencia(factura);
+			return facturaRetornar;
+			
+		}
+		return null;
 
-		return facturaRetornar;
 	}
 
 }

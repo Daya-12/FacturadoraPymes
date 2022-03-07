@@ -74,7 +74,7 @@ export default class ConsultarFactura extends React.Component {
 
     let respuesta = null;
     respuesta = await service.consultarPorReferencia(this.state.refFactura);
-    if (respuesta !== null) {
+    if (respuesta.data != "") {
       await this.setState({
         form: {
           referencia: respuesta.data.referencia,

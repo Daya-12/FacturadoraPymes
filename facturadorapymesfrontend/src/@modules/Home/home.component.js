@@ -34,12 +34,13 @@ export default class Home extends React.Component {
     let refFactura = document.getElementById("refFactura").value;
     if (refFactura === "") {
       Swal.fire({
-        text: "Ingresa la referencia de tu factura",
-        icon: "error",
+        text: "Ingresa la referencia de la factura a consultar",
+        icon: "info",
         timer: "3000",
       });
     } else {
       window.open("/exportarFactura/" + refFactura, "_blank");
+      document.getElementById("refFactura").value="";
     }
   };
 
