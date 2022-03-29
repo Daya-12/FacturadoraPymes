@@ -62,7 +62,7 @@ export default class Home extends React.Component {
             <div className="cabecera">
               <div className="sub1">
                 <div>
-                  <a href="Principal.js">
+                  <a href="/">
                     <img src={Logo} height="100" width="295" alt="Logo" />
                   </a>
                 </div>
