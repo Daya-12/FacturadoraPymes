@@ -387,12 +387,12 @@ export default class ActualizarEliminarProductos extends React.Component {
               </label>
               <br />
               <label>
-                • Los producto se encuentra ordenados por el nombre de manera
+                • Los productos se encuentra ordenados por el nombre de manera
                 ascendente
               </label>
               <br />
               <label>
-                • Debes estar seguro de eliminar o actualizar la informacion de
+                • Debes estar seguro de eliminar o actualizar la información de
                 los productos mostrados a continuación, una vez confirmada la
                 acción no puedes revertir los cambios
               </label>
@@ -495,7 +495,7 @@ export default class ActualizarEliminarProductos extends React.Component {
                             value: 3,
                           },
                           maxLength: {
-                            value: 8,
+                            value: 10,
                           },
                         }}
                       />

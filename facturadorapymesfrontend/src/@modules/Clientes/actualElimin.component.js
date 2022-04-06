@@ -427,8 +427,8 @@ export default class ActualizarEliminarClientes extends React.Component {
               </Button>
               <img
                 src={logo}
-                height="70"
-                width="165"
+                height="60"
+                width="150"
                 style={{
                   marginLeft: "3%",
                   marginTop: "1%",

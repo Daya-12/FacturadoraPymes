@@ -350,7 +350,7 @@ onBlurNombre = async () => {
                             value: true,
                           },
                           pattern: {
-                            value: "^[A-Za-z0-9#.üáéíóúñ ]+$",
+                            value: "^[A-Za-z0-9#.üáéíóúñ& ]+$",
                           },
                           minLength: {
                             value: 3,
