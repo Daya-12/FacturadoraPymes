@@ -205,7 +205,7 @@ export default class RegistroUsuario extends React.Component {
                           value: 12,
                         },
                         maxLength: {
-                          value: 50,
+                          value: 100,
                         },
                       }}
                     />

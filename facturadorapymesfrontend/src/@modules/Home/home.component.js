@@ -84,7 +84,7 @@ export default class Home extends React.Component {
                           Sobre nosotros
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem onClick={this.sobreNosotros}>¿Que es ISSMC?</DropdownItem>
+                          <DropdownItem onClick={this.sobreNosotros}>¿Qué es ISSMC?</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
 

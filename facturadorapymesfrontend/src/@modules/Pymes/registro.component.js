@@ -447,7 +447,7 @@ export default class RegistroPyme extends React.Component {
                             value: true,
                           },
                           pattern: {
-                            value: "^[A-Za-z0-9-/*+]+$",
+                            value: "^[A-Za-z0-9-/*+ ]+$",
                           },
                           minLength: {
                             value: 9,
@@ -465,7 +465,7 @@ export default class RegistroPyme extends React.Component {
               <Row>
                 <Col md="4">
                   <AvGroup>
-                    <Label className="label-registro" htmlFor="razonSocial">
+                    <Label className="label-registro" htmlFor="telefono">
                       Teléfono
                     </Label>
                     <InputGroup>
@@ -527,7 +527,7 @@ export default class RegistroPyme extends React.Component {
                             value: 12,
                           },
                           maxLength: {
-                            value: 50,
+                            value: 100,
                           },
                         }}
                       />
