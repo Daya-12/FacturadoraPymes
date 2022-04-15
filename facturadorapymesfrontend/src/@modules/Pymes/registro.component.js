@@ -71,6 +71,7 @@ export default class RegistroPyme extends React.Component {
         [e.target.name]: e.target.files[0],
       },
     });
+    this.setState({[e.target.name]: URL.createObjectURL(e.target.files[0])})
     this.validarCampos();
   };
 
@@ -571,28 +572,7 @@ export default class RegistroPyme extends React.Component {
                 </Col>
               </Row>
               <Row>
-                <Col md="5">
-                  <AvGroup>
-                    <Label className="label-registro" htmlFor="logo">
-                      Logo
-                    </Label>
-                    <AvInput
-                      type="file"
-                      className="form-control"
-                      accept="image/*"
-                      id="logo"
-                      name="logo"
-                      onChange={this.handleFileInput}
-                      validate={{
-                        required: {
-                          value: true,
-                        },
-                      }}
-                    />
-                    <AvFeedback>El logo es requerido</AvFeedback>
-                  </AvGroup>
-                </Col>
-                <Col md="4">
+              <Col md="4">
                   <AvGroup>
                     <Label className="label-registro" htmlFor="ciudad">
                       Ciudad
@@ -617,7 +597,46 @@ export default class RegistroPyme extends React.Component {
                     </InputGroup>
                   </AvGroup>
                 </Col>
+                <Col md="5">
+                  <AvGroup>
+                    <Label className="label-registro" htmlFor="logo">
+                      Logo
+                    </Label>
+                    <AvInput
+                      type="file"
+                      className="form-control"
+                      accept="image/*"
+                      id="logo"
+                      name="logo"
+                      onChange={this.handleFileInput}
+                      validate={{
+                        required: {
+                          value: true,
+                        },
+                      }}
+                    />
+                    <AvFeedback>El logo es requerido</AvFeedback>
+                  </AvGroup>
+                </Col>
+                <Col md="3">
+                  <AvGroup>
+                      <Label className="label-registro" htmlFor="logo">
+                        Previsualización de logo
+                      </Label>
+                      <br/>
+                      <div align="center">
+                      <img src={this.state.logo}                 
+                      height="130"
+                      width="170"
+                      alt="Previsualizar logo seleccionado..."
+                      style={{
+                        borderRadius: "4px"
+                      }}/>
+                      </div>
+                    </AvGroup>
+                </Col>
               </Row>
+              <br/>
               <div align="right" style={{ marginTop: "1%", marginLeft: "3%" }}>
                 <Button
                   id="botonValidar"

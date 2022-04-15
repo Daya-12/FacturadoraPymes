@@ -65,17 +65,17 @@ export default class ConsultarUsuarios extends React.Component {
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toLowerCase()) ||
         item.nombre
           .toUpperCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
-        item.correo.toLowerCase().includes(this.state.busqueda) ||
-        item.correo.toUpperCase().includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toUpperCase()) ||
+        item.correo.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.correo.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
         item.telefono.toString().includes(this.state.busqueda) ||
-        item.nivel.toLowerCase().includes(this.state.busqueda) ||
-        item.nivel.toUpperCase().includes(this.state.busqueda)
+        item.nivel.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.nivel.toUpperCase().includes(this.state.busqueda.toUpperCase())
       ) {
         return item;
       }

@@ -64,14 +64,14 @@ export default class ConsultarProductos extends React.Component {
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toLowerCase()) ||
         item.nombre
           .toUpperCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
-        item.categoria.toLowerCase().includes(this.state.busqueda) ||
-        item.categoria.toUpperCase().includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toUpperCase()) ||
+        item.categoria.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.categoria.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
         item.valor.toString().includes(this.state.busqueda)
       ) {
         return item;

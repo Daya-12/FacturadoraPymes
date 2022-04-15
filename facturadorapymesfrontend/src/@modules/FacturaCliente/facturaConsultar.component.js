@@ -146,11 +146,8 @@ export default class ConsultarFactura extends React.Component {
   };
 
   render() {
-    //Font.register({ family: "Roboto", src: "source" });
     const styles = StyleSheet.create({
       page: {
-        //backgroundColor: "#d11fb6",
-        //color: "white",
       },
       image: {
         width: 100,
@@ -212,7 +209,6 @@ export default class ConsultarFactura extends React.Component {
         backgroundColor: "#b3b3b3",
         fontSize: 10,
       },
-      // So Declarative and unDRY 👌
       row1: {
         width: '10%',
       },
@@ -253,7 +249,7 @@ export default class ConsultarFactura extends React.Component {
     }
 
     const qrCodeComponent = (
-      <QRCode value={this.state.form.referencia} renderAs="svg" size={80} />
+      <QRCode value={"Ref.: "+this.state.form.referencia+ "\nFecha: "+this.state.form.fechaEmision+ "\nValor: "+this.state.form.total} renderAs="svg" size={80} />
     );
 
     const qrCodeComponentStaticMarkup = renderToStaticMarkup(qrCodeComponent);

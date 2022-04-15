@@ -68,20 +68,20 @@ export default class consultarClientes extends React.Component {
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toLowerCase()) ||
         item.nombre
           .toUpperCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "")
-          .includes(this.state.busqueda) ||
-        item.tipoDocumento.toLowerCase().includes(this.state.busqueda) ||
-        item.tipoDocumento.toUpperCase().includes(this.state.busqueda) ||
+          .includes(this.state.busqueda.toUpperCase()) ||
+        item.tipoDocumento.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.tipoDocumento.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
         item.num_documento.toString().includes(this.state.busqueda) ||
-        item.direccion.toLowerCase().includes(this.state.busqueda) ||
-        item.direccion.toUpperCase().includes(this.state.busqueda) ||
+        item.direccion.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.direccion.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
         item.codPostal.toString().includes(this.state.busqueda) ||
-        item.nombre_ciudad.toLowerCase().includes(this.state.busqueda) ||
-        item.nombre_ciudad.toUpperCase().includes(this.state.busqueda) ||
+        item.nombre_ciudad.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+        item.nombre_ciudad.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
         item.telefono.toString().includes(this.state.busqueda)
       ) {
         return item;

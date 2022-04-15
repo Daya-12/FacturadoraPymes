@@ -68,27 +68,27 @@ export default class ConsultarAnularFacturas extends React.Component {
       filtrarElementos = () => {
         var search = this.state.facturas2.filter((item) => {
           if (
-            item.referencia
+              item.referencia
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
-              .includes(this.state.busqueda) ||
+              .includes(this.state.busqueda.toLowerCase()) ||
             item.referencia
               .toUpperCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "")
-              .includes(this.state.busqueda) ||
+              .includes(this.state.busqueda.toUpperCase()) ||
             item.fechaEmision.toString().includes(this.state.busqueda) ||
             item.fechaVencimiento.toString().includes(this.state.busqueda) ||
-            item.ciudad.toLowerCase().includes(this.state.busqueda) ||
-            item.ciudad.toUpperCase().includes(this.state.busqueda) ||
-            item.cliente.toLowerCase().includes(this.state.busqueda) ||
-            item.cliente.toUpperCase().includes(this.state.busqueda) ||
+            item.ciudad.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+            item.ciudad.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
+            item.cliente.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+            item.cliente.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
             item.total.toString().includes(this.state.busqueda) ||
-            item.usuario.toLowerCase().includes(this.state.busqueda) ||
-            item.usuario.toUpperCase().includes(this.state.busqueda) ||
-            item.estado.toLowerCase().includes(this.state.busqueda) ||
-            item.estado.toUpperCase().includes(this.state.busqueda) 
+            item.usuario.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+            item.usuario.toUpperCase().includes(this.state.busqueda.toUpperCase()) ||
+            item.estado.toLowerCase().includes(this.state.busqueda.toLowerCase()) ||
+            item.estado.toUpperCase().includes(this.state.busqueda.toUpperCase()) 
           ) {
             return item;
           }

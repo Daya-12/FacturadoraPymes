@@ -120,7 +120,7 @@ export default class Login extends React.Component {
                     autoComplete="off"
                     type="email"
                     className="form-control"
-                    placeholder="Correo electronico"
+                    placeholder="Correo electrónico"
                     name="correo"
                     onChange={this.handleChange}
                     required

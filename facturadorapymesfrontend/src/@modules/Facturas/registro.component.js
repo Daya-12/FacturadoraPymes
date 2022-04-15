@@ -23,6 +23,7 @@ import SaveIcon from "@material-ui/icons/Save";
 import { Button, Snackbar } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import AddCircleOutlineTwoTone  from "@material-ui/icons/AddCircleOutlineTwoTone";
 import DoneIcon from "@material-ui/icons/Done";
 import ClearIcon from "@material-ui/icons/Clear";
 import Alert from "@material-ui/lab/Alert";
@@ -42,6 +43,7 @@ export default class RegistroFactura extends React.Component {
         porcentaje: "",
       },
       productos: [],
+      productos2: [],
       ciudades: [],
       clientes: [],
       formasPago: [],
@@ -91,6 +93,7 @@ export default class RegistroFactura extends React.Component {
       subtotal: "",
       iva: "",
       checkIva: false,
+      checkExportPdf: false,
       total: "",
     };
   }
@@ -110,7 +113,6 @@ export default class RegistroFactura extends React.Component {
     this.consultarProductos();
     this.completarInformacionEmpresa();
     this.consultarCiudades();
-    this.consultarClientes();
     this.consultarLogo();
     this.consultarFormasPago();
     this.consultarUsuarioLogueado();
@@ -466,6 +468,14 @@ export default class RegistroFactura extends React.Component {
       (producto) => producto.nombre === v
     );
     if (producto !== undefined) {
+
+      let productoIndex = this.state.productos.findIndex(
+        (indice) => indice.id === producto.id
+      );
+
+      this.state.productos.splice(productoIndex, 1);
+      this.state.productos2.push(producto);
+
       const list = [...this.state.rows];
       list[index]["idProducto"] = producto.id;
       list[index]["nombreProducto"] = v;
@@ -500,6 +510,18 @@ export default class RegistroFactura extends React.Component {
 
   handleRemoveClick = async (i) => {
     const list = [...this.state.rows];
+    let productoNombre= list[i]["nombreProducto"];
+    if(productoNombre!==""){
+      let producto = this.state.productos2.find(
+        (producto) => producto.nombre === productoNombre
+    );
+    let productoIndex = this.state.productos2.findIndex(
+        (index) => index.id === producto.id
+    );
+    this.state.productos2.splice(productoIndex, 1);
+    this.state.productos.push(producto);
+    }
+
     list.splice(i, 1);
     await this.setState({
       rows: list,
@@ -556,6 +578,13 @@ export default class RegistroFactura extends React.Component {
     }
   };
 
+  handleChangeCheckExportPdf = async (ci) => {
+    await this.setState({
+      checkExportPdf: ci.target.checked,
+    });
+  };
+
+
   registrar = async () => {
     var f = new Date();
     var dia = f.getDate()+1 < 10 ? "0" + (f.getDate()+1) : f.getDate()+1;
@@ -593,13 +622,15 @@ export default class RegistroFactura extends React.Component {
       this.state.checkIva
     );
     respuesta = await service.registrar(model);
-    console.log(respuesta);
     if(respuesta !== null){
       Swal.fire({
         text: "¡La factura "+ this.state.referenciaFactura +" se ha creado con exito para el cliente " + this.state.form.cliente + "!",
         icon: "success",
         timer: "5000"
     })
+    if(this.state.checkExportPdf){
+      window.open("/exportarFactura/" + this.state.referenciaFactura, "_blank");
+    }
     setTimeout(function () { window.location.reload(1); }, 3000);
     }else{
       Swal.fire({
@@ -608,6 +639,10 @@ export default class RegistroFactura extends React.Component {
         timer: "3000"
     })
   }
+  };
+
+  registrarCliente = async () => {
+    window.open("/Menu/registrarClientes");
   };
 
   render() {
@@ -739,7 +774,7 @@ export default class RegistroFactura extends React.Component {
                     </InputGroup>
                   </AvGroup>
                 </Col>
-                <Col md="4">
+                <Col md="3">
                   <AvGroup>
                     <Label className="label-registroF" htmlFor="ciudad">
                       Ciudad
@@ -779,44 +814,52 @@ export default class RegistroFactura extends React.Component {
                     />
                   </AvGroup>
                 </Col>
-                <Col md="4">
+                <Col md="5">
                   <AvGroup>
                     <Label className="label-registroF" htmlFor="cliente">
                       Cliente
                     </Label>
-                    <Autocomplete
-                      className="form-control"
-                      sx={{
-                        display: "inline-block",
-                        "& input": {
-                          width: "100%",
-                          bgcolor: "rgba(206, 206, 206, 0.397)",
-                          color: (theme) =>
-                            theme.palette.getContrastText(
-                              theme.palette.background.paper
-                            ),
-                        },
-                      }}
-                      options={this.state.clientes}
-                      getOptionLabel={(option) => option.nombre}
-                      filterSelectedOptions
-                      id="custom-input-demo"
-                      selectOnFocus
-                      onInputChange={this.handleChangeCliente}
-                      renderInput={(params) => (
-                        <div ref={params.InputProps.ref}>
-                          <input
-                            style={{
-                              lineHeight: "100%",
-                              border: "0",
-                              background: "none",
-                            }}
-                            type="text"
-                            {...params.inputProps}
-                          />
-                        </div>
-                      )}
-                    />
+                    <div style={{display: "flex"}}>
+                        
+                        <Autocomplete
+                          className="form-control"
+                          sx={{
+                            display: "inline-block",
+                            "& input": {
+                              width: "100%",
+                              bgcolor: "rgba(206, 206, 206, 0.397)",
+                              color: (theme) =>
+                                theme.palette.getContrastText(
+                                  theme.palette.background.paper
+                                ),
+                            },
+                          }}
+                          options={this.state.clientes}
+                          getOptionLabel={(option) => option.nombre}
+                          filterSelectedOptions
+                          id="custom-input-demo"
+                          selectOnFocus
+                          onFocus={this.consultarClientes}
+                          onInputChange={this.handleChangeCliente}
+                          renderInput={(params) => (
+                            <div ref={params.InputProps.ref}>
+                              <input
+                                style={{
+                                  lineHeight: "100%",
+                                  border: "0",
+                                  background: "none",
+                                  paddingRight: "0",paddingLeft: "0",width: "100%;"
+                                }}
+                                type="text"
+                                {...params.inputProps}
+                              />
+                            </div>
+                          )}
+                        />
+                        <Button onClick={this.registrarCliente}>
+                                <AddCircleOutlineTwoTone/>
+                        </Button>
+                    </div>
                   </AvGroup>
                 </Col>
               </Row>
@@ -1112,14 +1155,14 @@ export default class RegistroFactura extends React.Component {
                                 className="mr10"
                                 onClick={this.handleConfirm}
                               >
-                                <ClearIcon />
+                                <ClearIcon/>
                               </Button>
                             ) : (
                               <Button
                                 className="mr10"
                                 onClick={this.handleConfirm}
                               >
-                                <DeleteOutlineIcon />
+                                <DeleteOutlineIcon/>
                               </Button>
                             )}
                           </td>
@@ -1261,18 +1304,36 @@ export default class RegistroFactura extends React.Component {
                   {this.state.asesor.contenido || ""}
                 </Label>
               </div>
-              <div className="foot2" align="center">
-                <Button
-                  id="botonValidar"
-                  size="large"
-                  variant="outlined"
-                  startIcon={<SaveIcon />}
-                  disabled={this.state.button === false}
-                  style={{ fontWeight: "bold" }}
-                  onClick={() => this.registrar()}
-                >
-                  Crear
-                </Button>
+              <div className="foot2">
+                <Form>
+                    <FormGroup row>
+                      <Label style={{fontWeight:"bold"}} check className="labelsFooter" for="subtotal" sm={4}>
+                        Exportar PDF al crear
+                      </Label>
+                      <Col sm={1}>
+                        <Input
+                          type="checkbox"
+                          id="checkExportPdf"
+                          name="checkExportPdf"
+                          value={this.state.checkExportPdf}
+                          onChange={this.handleChangeCheckExportPdf.bind(this)}
+                        />
+                      </Col>
+                      <Col sm={7}>
+                      <Button
+                        id="botonValidar"
+                        size="large"
+                        variant="outlined"
+                        startIcon={<SaveIcon />}
+                        disabled={this.state.button === false}
+                        style={{ fontWeight: "bold" }}
+                        onClick={() => this.registrar()}
+                      >
+                        Crear
+                      </Button>
+                      </Col>
+                    </FormGroup>
+                </Form>
               </div>
             </div>
           </div>
