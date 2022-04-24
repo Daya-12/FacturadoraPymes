@@ -326,7 +326,7 @@ export default class RegistroProducto extends React.Component {
               <Col md="12">
                     <AvGroup>
                       <Label className="label-registro" htmlFor="razonSocial">
-                        Ciudad
+                        Categoria
                       </Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
