@@ -247,8 +247,8 @@ export default class RegistroNuevoUsuario extends React.Component {
                         autoComplete="off"
                         type="text"
                         className="form-control"
-                        id="pass"
-                        name="pass"
+                        id="razonSocial"
+                        name="razonSocial"
                         value={this.state.empresa.razonSocial || ""}
                         readOnly
                       />
