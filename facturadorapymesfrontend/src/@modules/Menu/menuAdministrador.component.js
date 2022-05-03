@@ -98,7 +98,7 @@ export default class MenuAdministrador extends React.Component{
                                         <ul>
                                             <li><a href="/Menu/consultarProductos">Consultar</a></li>
                                             <li><a href="/Menu/registrarProductos">Agregar</a></li>
-                                            <li><a href="/Menu/actualizarEliminarProductos">Actualizar o sacar del mercado</a></li>
+                                            <li><a href="/Menu/actualizarEliminarProductos">Actualizar o dar de baja</a></li>
                                         </ul>
                                     </li>
                                     <li> <a>Usuarios</a>

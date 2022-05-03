@@ -22,5 +22,5 @@ public interface IProductoRepository extends CrudRepository<Producto, Integer> {
 			@Param("idProducto") int idProducto,@Param("idEmpresa") int idEmpresa,@Param("activo") boolean activo);
 	
 	@Query(value = "SELECT detalle.producto FROM Detalle detalle INNER JOIN Producto producto ON producto.idProducto = detalle.producto.idProducto WHERE detalle.producto.idProducto=:idProducto", nativeQuery = false)
-	public List<Detalle> detallesProducto(@Param("idProducto") int idProducto);
+	public List<Producto> detallesProducto(@Param("idProducto") int idProducto);
 }

@@ -109,7 +109,7 @@ public class ProductoServiceImpl implements IProductoService{
 	@Override
 	public int eliminar(int idProducto) {
 		int retorno=0;
-		List<Detalle> facturas = productoRepository.detallesProducto(idProducto);
+		List<Producto> facturas = productoRepository.detallesProducto(idProducto);
 		boolean validarIdProducto = validaciones.validarIdProducto(productoRepository, idProducto);
 		if(facturas.isEmpty() && validarIdProducto) {
 			productoRepository.deleteById(idProducto);
