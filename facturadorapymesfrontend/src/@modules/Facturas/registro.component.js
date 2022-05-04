@@ -84,6 +84,7 @@ export default class RegistroFactura extends React.Component {
       isEdit: false,
       disable: true,
       showConfirm: false,
+      index:undefined,
       rows: [],
       asesor: {
         id: "",
@@ -430,18 +431,37 @@ export default class RegistroFactura extends React.Component {
     const list = [...this.state.rows];
     if (e.target.value > 0) {
       let nombreP = this.state.rows[index]["nombreProducto"];
-      let producto = this.state.productos.find(
-        (producto) => producto.nombre === nombreP
-      );
       list[index][e.target.name] = e.target.value;
-      if (producto !== undefined) {
-        list[index]["idProducto"] = producto.id;
-        list[index]["valorTotal"] =
-          e.target.value * list[index]["valorUnitario"];
-        this.setState({
-          rows: list,
-        });
+
+      if(nombreP!=""){
+        let producto = this.state.productos2.find(
+          (producto1) => producto1.nombre === nombreP
+        );
+
+        if (producto !== undefined) {
+          list[index]["idProducto"] = producto.id;
+          list[index]["valorTotal"] =
+            e.target.value * list[index]["valorUnitario"];
+          this.setState({
+            rows: list,
+          });
+        }
+
+        let producto2 = this.state.productos.find(
+          (producto1) => producto1.nombre === nombreP
+        );
+
+        if (producto2 !== undefined) {
+          list[index]["idProducto"] = producto.id;
+          list[index]["valorTotal"] =
+            e.target.value * list[index]["valorUnitario"];
+          this.setState({
+            rows: list,
+          });
+        }
+
       }
+
     } else {
       list[index][e.target.name] = e.target.value;
       list[index]["valorTotal"] = 0;
@@ -502,57 +522,66 @@ export default class RegistroFactura extends React.Component {
     }
   };
 
-  handleConfirm = () => {
+  handleConfirm = (i) => {
+    console.log(i);
     this.setState({
       showConfirm: true,
+      index: i
     });
   };
 
-  handleRemoveClick = async (i) => {
-    const list = [...this.state.rows];
-    let productoNombre= list[i]["nombreProducto"];
-    if(productoNombre!==""){
-      let producto = this.state.productos2.find(
-        (producto) => producto.nombre === productoNombre
-    );
-    let productoIndex = this.state.productos2.findIndex(
-        (index) => index.id === producto.id
-    );
-    this.state.productos2.splice(productoIndex, 1);
-    this.state.productos.push(producto);
+  handleRemoveClick = async () => {
+
+    if(this.state.index !== undefined){
+      const i= this.state.index;
+      const list = [...this.state.rows];
+      let productoNombre= list[i]["nombreProducto"];
+      if(productoNombre!==""){
+        let producto = this.state.productos2.find(
+          (producto) => producto.nombre === productoNombre
+      );
+      let productoIndex = this.state.productos2.findIndex(
+          (index) => index.id === producto.id
+      );
+      this.state.productos2.splice(productoIndex, 1);
+      this.state.productos.push(producto);
+      }
+  
+      list.splice(i, 1);
+      await this.setState({
+        rows: list,
+        showConfirm: false,
+      });
+      const sumaValorTotal = this.state.rows.reduce(
+        (prev, next) => prev + next.valorTotal,
+        0
+      );
+      this.setState({
+        subtotal: sumaValorTotal,
+      });
+  
+      if (this.state.checkIva) {
+        this.setState({
+          iva: (sumaValorTotal * this.state.ivaActual.porcentaje) / 100,
+        });
+      } else if (!this.state.checkIva) {
+        this.setState({
+          iva: 0,
+        });
+      }
+      await this.setState({
+        total: sumaValorTotal + this.state.iva,
+      });
+      this.convertirALetras();
+
     }
 
-    list.splice(i, 1);
-    await this.setState({
-      rows: list,
-      showConfirm: false,
-    });
-    const sumaValorTotal = this.state.rows.reduce(
-      (prev, next) => prev + next.valorTotal,
-      0
-    );
-    this.setState({
-      subtotal: sumaValorTotal,
-    });
-
-    if (this.state.checkIva) {
-      this.setState({
-        iva: (sumaValorTotal * this.state.ivaActual.porcentaje) / 100,
-      });
-    } else if (!this.state.checkIva) {
-      this.setState({
-        iva: 0,
-      });
-    }
-    await this.setState({
-      total: sumaValorTotal + this.state.iva,
-    });
-    this.convertirALetras();
   };
 
   handleNo = () => {
     this.setState({
       showConfirm: false,
+      index: undefined
     });
   };
 
@@ -1049,7 +1078,7 @@ export default class RegistroFactura extends React.Component {
                 <thead>
                   <tr align="center" textalign="center">
                     <th scope="col">Cantidad</th>
-                    <th colSpan="2">Producto</th>
+                    <th colSpan="4">Producto</th>
                     <th scope="col">Valor Unitario</th>
                     <th scope="col">Valor Total</th>
                     <th scope="col"></th>
@@ -1068,16 +1097,17 @@ export default class RegistroFactura extends React.Component {
                               className="form-control"
                               value={row.cantidad}
                               name="cantidad"
+                              min="1"
                               onChange={(e) => this.handleInputChange(e, i)}
                             />
                           </td>
-                          <td colSpan="2">
+                          <td colSpan="4">
                             <Autocomplete
                               className="form-control"
                               sx={{
                                 display: "inline-block",
                                 "& input": {
-                                  width: 400,
+                                  width: 450,
                                   bgcolor: "rgba(214, 214, 214, 0.555)",
                                   color: (theme) =>
                                     theme.palette.getContrastText(
@@ -1129,14 +1159,14 @@ export default class RegistroFactura extends React.Component {
                             {this.state.isEdit ? (
                               <Button
                                 className="mr10"
-                                onClick={this.handleConfirm}
+                                onClick={() => this.handleConfirm(i)}
                               >
                                 <ClearIcon />
                               </Button>
                             ) : (
                               <Button
                                 className="mr10"
-                                onClick={this.handleConfirm}
+                                onClick={() => this.handleConfirm(i)}
                               >
                                 <DeleteOutlineIcon />
                               </Button>
@@ -1146,21 +1176,21 @@ export default class RegistroFactura extends React.Component {
                       ) : (
                         <tr>
                           <td>{row.cantidad}</td>
-                          <td colSpan="2">{row.nombreProducto}</td>
+                          <td colSpan="4">{row.nombreProducto}</td>
                           <td>{row.valorUnitario}</td>
                           <td>{row.valorTotal}</td>
                           <td component="th" scope="row">
                             {this.state.isEdit ? (
                               <Button
                                 className="mr10"
-                                onClick={this.handleConfirm}
+                                onClick={() => this.handleConfirm(i)}
                               >
                                 <ClearIcon/>
                               </Button>
                             ) : (
                               <Button
                                 className="mr10"
-                                onClick={this.handleConfirm}
+                                onClick={() => this.handleConfirm(i)}
                               >
                                 <DeleteOutlineIcon/>
                               </Button>
@@ -1186,7 +1216,7 @@ export default class RegistroFactura extends React.Component {
                             </DialogContent>
                             <DialogActions>
                               <Button
-                                onClick={() => this.handleRemoveClick(i)}
+                                onClick={this.handleRemoveClick}
                                 color="primary"
                                 autoFocus
                               >
