@@ -476,7 +476,7 @@ onBlurNombre = async () => {
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="codigoPostal"
                         name="codigoPostal"
@@ -539,7 +539,7 @@ onBlurNombre = async () => {
                       </InputGroupAddon>
                       <AvInput
                         autoComplete="off"
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="telefono"
                         name="telefono"

@@ -264,8 +264,8 @@ export default class ConsultarFactura extends React.Component {
         {this.state.form.referencia !== "" && this.state.form.estado!=="Anulado" ? (
           <PDFViewer style={styles.viewer}>
             <Document>
-              <Page size="A4" style={styles.page}>
-                <View style={styles.factura}>
+              <Page wrap={true} size="A4" style={styles.page}>
+                <View wrap={true} style={styles.factura}>
                   <View style={styles.parte1}>
                     <View style={styles.sub1Factura}>
                       <Image style={styles.image} src={this.state.imagen} />
