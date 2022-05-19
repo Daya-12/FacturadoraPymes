@@ -355,11 +355,11 @@ export default class ActualizarEliminarClientes extends React.Component {
             <div
               style={{
                 color: "#03083E",
-                fontSize: "25px",
+                fontSize: "1.5em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",
-                marginTop: "5px",
+                marginTop: "1%",
               }}
             >
               <label>
@@ -371,7 +371,7 @@ export default class ActualizarEliminarClientes extends React.Component {
               style={{
                 marginTop: "0.2%",
                 color: "#000227",
-                fontSize: "13px",
+                fontSize: "0.9em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",

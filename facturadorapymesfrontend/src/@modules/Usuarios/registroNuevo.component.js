@@ -204,11 +204,11 @@ export default class RegistroNuevoUsuario extends React.Component {
                     type="reset"
                     id="btnCleanForm"
                     style={{
-                      marginTop: "25px",
+                      marginTop: "10%",
                       outline: "0 none",
                       border: "0",
                       backgroundColor: "rgba(167, 167, 187, 0.534)",
-                      marginRight: "20px",
+                      marginRight: "8%",
                       borderRadius: "50%",
                     }}
                     onClick={() => {
@@ -222,7 +222,7 @@ export default class RegistroNuevoUsuario extends React.Component {
               <Row>
                 <h3
                   style={{
-                    fontSize: "28px",
+                    fontSize: "1.7em",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     color: "#09065A",
@@ -427,7 +427,7 @@ export default class RegistroNuevoUsuario extends React.Component {
               </Row>
               <div
                   align="right"
-                  style={{ marginTop: "50px", marginLeft: "10px" }}
+                  style={{ marginTop: "3.125em", marginLeft: "0.625em" }}
                 >
                   <Button
                     id="botonValidar"

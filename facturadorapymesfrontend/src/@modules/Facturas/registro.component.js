@@ -698,7 +698,7 @@ export default class RegistroFactura extends React.Component {
               <div className="titulosFactura" align="center">
                 <label
                   style={{
-                    fontSize: "21px",
+                    fontSize: "1.313em",
                     color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
@@ -710,7 +710,7 @@ export default class RegistroFactura extends React.Component {
                 <br />
                 <label
                   style={{
-                    fontSize: "14px",
+                    fontSize: "0.9em",
                     color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
@@ -722,7 +722,7 @@ export default class RegistroFactura extends React.Component {
                 <br />
                 <label
                   style={{
-                    fontSize: "14px",
+                    fontSize: "0.9em",
                     color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
@@ -734,7 +734,7 @@ export default class RegistroFactura extends React.Component {
                 <hr />
                 <label
                   style={{
-                    fontSize: "13px",
+                    fontSize: "0.8em",
                     color: "rgb(4, 9, 32)",
                     fontFamily: "Segoe UI",
                     textAlign: "center",

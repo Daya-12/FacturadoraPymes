@@ -156,7 +156,7 @@ actualizarFinal = async () => {
           >
               <h3
                   style={{
-                    fontSize: "20px",
+                    fontSize: "1.3em",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     color: "#09065A",

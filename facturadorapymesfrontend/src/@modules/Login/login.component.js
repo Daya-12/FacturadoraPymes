@@ -124,7 +124,7 @@ export default class Login extends React.Component {
                     name="correo"
                     onChange={this.handleChange}
                     required
-                    style={{ marginTop: "20px", marginBottom: "27px" }}
+                    style={{ marginTop: "1.25em", marginBottom: "1.688em" }}
                   />
                 </div>
                 <div className="form-group mx-sm-4">
@@ -137,7 +137,7 @@ export default class Login extends React.Component {
                     minLength="8"
                     onChange={this.handleChange}
                     required
-                    style={{ marginBottom: "20px" }}
+                    style={{ marginBottom: "1.25em" }}
                   />
                 </div>
                 <div className="form-group row">
@@ -148,7 +148,7 @@ export default class Login extends React.Component {
                       color="primary"
                       onClick={() => this.validarUser()}
                       disabled={this.state.button === false}
-                      style={{ marginBottom: "27px" }}
+                      style={{ marginBottom: "1.688em" }}
                     >
                       INGRESAR
                     </Button>

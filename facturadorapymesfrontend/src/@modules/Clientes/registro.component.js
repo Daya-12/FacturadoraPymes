@@ -275,11 +275,11 @@ onBlurNombre = async () => {
                     type="reset"
                     id="btnCleanForm"
                     style={{
-                      marginTop: "25px",
+                      marginTop: "10%",
                       outline: "0 none",
                       border: "0",
                       backgroundColor: "rgba(167, 167, 187, 0.534)",
-                      marginRight: "20px",
+                      marginRight: "8%",
                       borderRadius: "50%",
                     }}
                     onClick={() => {
@@ -293,7 +293,7 @@ onBlurNombre = async () => {
               <Row>
                 <h3
                   style={{
-                    fontSize: "28px",
+                    fontSize: "1.7em",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     color: "#09065A",

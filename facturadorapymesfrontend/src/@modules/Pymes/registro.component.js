@@ -348,7 +348,7 @@ export default class RegistroPyme extends React.Component {
               <Row>
                 <h2
                   style={{
-                    fontSize: "34px",
+                    fontSize: "2.125em",
                     fontFamily: "Segoe UI",
                     textAlign: "center",
                     color: "#09065A",
@@ -630,7 +630,7 @@ export default class RegistroPyme extends React.Component {
                       width="170"
                       alt="Previsualizar logo seleccionado..."
                       style={{
-                        borderRadius: "4px"
+                        borderRadius: "5%"
                       }}/>
                       </div>
                     </AvGroup>

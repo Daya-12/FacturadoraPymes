@@ -363,11 +363,11 @@ export default class ActualizarEliminarUsuarios extends React.Component {
             <div
               style={{
                 color: "#03083E",
-                fontSize: "25px",
+                fontSize: "1.5em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",
-                marginTop: "5px",
+                marginTop: "0.3%",
               }}
             >
               <label>
@@ -379,7 +379,7 @@ export default class ActualizarEliminarUsuarios extends React.Component {
               style={{
                 marginTop: "0.2%",
                 color: "#000227",
-                fontSize: "13px",
+                fontSize: "0.813em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",

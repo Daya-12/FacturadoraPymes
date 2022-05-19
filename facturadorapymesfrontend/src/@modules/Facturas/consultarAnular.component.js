@@ -233,7 +233,7 @@ export default class ConsultarAnularFacturas extends React.Component {
             <div
               style={{
                 color: "#03083E",
-                fontSize: "25px",
+                fontSize: "1.5em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",
@@ -246,7 +246,7 @@ export default class ConsultarAnularFacturas extends React.Component {
             <div
               style={{
                 color: "#000227",
-                fontSize: "14px",
+                fontSize: "0.9em",
                 fontFamily: "Segoe UI",
                 textAlign: "center",
                 fontWeight: "bold",
@@ -263,7 +263,7 @@ export default class ConsultarAnularFacturas extends React.Component {
                 className="subCuerpo1"
                 style={{
                   color: "#000227",
-                  fontSize: "10px",
+                  fontSize: "0.625em",
                   fontFamily: "Segoe UI",
                   textAlign: "left",
                   fontWeight: "bold",
@@ -292,7 +292,7 @@ export default class ConsultarAnularFacturas extends React.Component {
                 className="subCuerpo3"
                 style={{
                   color: "#000227",
-                  fontSize: "10px",
+                  fontSize: "0.625em",
                   fontFamily: "Segoe UI",
                   textAlign: "right",
                   fontWeight: "bold",
@@ -339,7 +339,7 @@ const customStyles = {
     },
     headCells: {
       style: {
-        fontSize: "15px",
+        fontSize: "1.25em",
         color: "#03083E",
         fontFamily: "Segoe UI",
         fontWeight: "bold",
@@ -347,7 +347,7 @@ const customStyles = {
     },
     cells: {
       style: {
-        fontSize: "14px",
+        fontSize: "1.1em",
         fontFamily: "Segoe UI",
       },
     },
