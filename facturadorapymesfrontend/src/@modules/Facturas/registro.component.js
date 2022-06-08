@@ -17,6 +17,7 @@ import {
   Input,
   Form,
   FormGroup,
+  Container
 } from "reactstrap";
 import CreateIcon from "@material-ui/icons/Create";
 import SaveIcon from "@material-ui/icons/Save";
@@ -676,7 +677,7 @@ export default class RegistroFactura extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <div className="facturasFondo">
           <div
             id="formFactura"
@@ -1368,7 +1369,7 @@ export default class RegistroFactura extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

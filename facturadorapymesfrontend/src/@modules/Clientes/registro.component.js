@@ -18,6 +18,7 @@ import {
   Label,
   Row,
   Col,
+  Container
 } from "reactstrap";
 export default class RegistroCliente extends React.Component {
   constructor() {
@@ -257,7 +258,7 @@ onBlurNombre = async () => {
     ));
 
     return (
-      <div className="container">
+      <Container>
         <div className="clientesFondo">
           <div
             id="formCliente"
@@ -591,7 +592,7 @@ onBlurNombre = async () => {
             </AvForm>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

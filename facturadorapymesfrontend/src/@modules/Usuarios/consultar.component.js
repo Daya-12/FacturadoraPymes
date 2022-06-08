@@ -3,6 +3,7 @@ import logo from "../../@images/logoProyecto.png";
 import DataTable from "react-data-table-component";
 import service from "./usuario.service";
 import ExportExcel from "react-export-excel";
+import {Container} from "reactstrap";
 export default class ConsultarUsuarios extends React.Component {
   constructor() {
     super();
@@ -122,7 +123,7 @@ export default class ConsultarUsuarios extends React.Component {
       selectAllRowsItemText: "Todos",
     };
     return (
-      <div className="container">
+      <Container>
         <div className="actualizaciones">
           <div
             id="cabecera"
@@ -256,7 +257,7 @@ export default class ConsultarUsuarios extends React.Component {
             />
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

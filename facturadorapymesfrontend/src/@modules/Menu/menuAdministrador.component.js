@@ -8,7 +8,8 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem,
+    Container
 } from 'reactstrap';
 import Logo from '../../@images/logoProyecto.png';
 import Menu from '../../@images/iconoMenu.png';
@@ -42,7 +43,7 @@ export default class MenuAdministrador extends React.Component{
 
     render(){
         return (
-            <div className="container">
+            <Container>
                 <div className="cuerpo">
                     <header id="main-header">
                         <div className="cabeceraMenu">
@@ -119,7 +120,7 @@ export default class MenuAdministrador extends React.Component{
                         </div>
                     </div>
                 </div>
-            </div>
+            </Container>
         );
     }
 }

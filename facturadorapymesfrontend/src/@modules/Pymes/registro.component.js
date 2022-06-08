@@ -15,6 +15,7 @@ import {
   Label,
   Row,
   Col,
+  Container
 } from "reactstrap";
 import {
   AvForm,
@@ -327,7 +328,7 @@ export default class RegistroPyme extends React.Component {
     ));
 
     return (
-      <div className="container">
+      <Container>
         <div className="pymeReg">
           <div
             id="formPyme"
@@ -692,7 +693,7 @@ export default class RegistroPyme extends React.Component {
             </AvForm>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

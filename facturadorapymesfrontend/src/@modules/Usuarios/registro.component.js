@@ -7,7 +7,7 @@ import {
   InputGroupText,
   Label,
   Row,
-  Col,
+  Col
 } from "reactstrap";
 import {
   AvForm,

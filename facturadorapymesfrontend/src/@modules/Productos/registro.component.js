@@ -18,6 +18,7 @@ import {
   Label,
   Row,
   Col,
+  Container
 } from "reactstrap";
 export default class RegistroProducto extends React.Component {
   constructor() {
@@ -178,7 +179,7 @@ export default class RegistroProducto extends React.Component {
     ));
 
     return (
-      <div className="container">
+      <Container>
         <div className="productosFondo">
         <div
             id="formProducto" className="mx-auto" style={{width: "45%", marginTop:"4%"}}
@@ -374,7 +375,7 @@ export default class RegistroProducto extends React.Component {
             </AvForm>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

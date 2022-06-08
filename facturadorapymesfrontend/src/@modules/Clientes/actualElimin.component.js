@@ -13,6 +13,7 @@ import {
   Label,
   Row,
   Col,
+  Container
 } from "reactstrap";
 import {
   AvForm,
@@ -343,7 +344,7 @@ export default class ActualizarEliminarClientes extends React.Component {
     ));
 
     return (
-      <div className="container">
+      <Container>
         <div className="clientesFondo">
           <div
             id="cabecera"
@@ -601,7 +602,7 @@ export default class ActualizarEliminarClientes extends React.Component {
             </ModalFooter>
           </Modal>
         </div>
-      </div>
+      </Container>
     );
   }
 }

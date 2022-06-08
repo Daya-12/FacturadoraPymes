@@ -17,7 +17,7 @@ import {
   Svg,
   Path,
 } from "@react-pdf/renderer";
-import {Button} from "reactstrap";
+import {Button, Container} from "reactstrap";
 export default class ConsultarFactura extends React.Component {
   constructor() {
     super();
@@ -471,7 +471,7 @@ export default class ConsultarFactura extends React.Component {
             </Document>
           </PDFViewer>
         ) : (
-          <div className="container">
+          <Container>
             <div
               className="facturasFondo"
               style={{
@@ -494,7 +494,7 @@ export default class ConsultarFactura extends React.Component {
                 </Button>
               </div>
             </div>
-          </div>
+          </Container>
         )}
       </>
     );

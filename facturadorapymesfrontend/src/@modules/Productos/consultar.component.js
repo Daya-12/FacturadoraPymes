@@ -3,6 +3,7 @@ import logo from "../../@images/logoProyecto.png";
 import DataTable from "react-data-table-component";
 import service from "./producto.service";
 import ExportExcel from "react-export-excel";
+import { Container} from "reactstrap";
 export default class ConsultarProductos extends React.Component {
   constructor() {
     super();
@@ -115,7 +116,7 @@ export default class ConsultarProductos extends React.Component {
     };
 
     return (
-      <div className="container">
+      <Container>
         <div className="productosFondo">
           <div
             id="cabecera"
@@ -246,7 +247,7 @@ export default class ConsultarProductos extends React.Component {
             />
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

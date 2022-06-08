@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "reactstrap";
+import { Button,Container } from "reactstrap";
 import "../../@styles/styles.components.css";
 import service from "./login.service";
 import Swal from 'sweetalert2';
@@ -107,7 +107,7 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <div className="background-image">
           <div className="row justify-content-center pt-5 mt-5 m-1">
             <div className="col-md-4 formulario">
@@ -168,7 +168,7 @@ export default class Login extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

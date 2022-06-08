@@ -21,9 +21,10 @@ import ActualizarEliminarClientes from './@modules/Clientes/actualElimin.compone
 import RegistroFactura from './@modules/Facturas/registro.component';
 import ConsultarAnularFacturas from './@modules/Facturas/consultarAnular.component';
 import EditarCategorias from './@modules/Categoria/editar.component';
+import { Container } from "reactstrap";
 export default function App() {
   return (
-    <div className="container">
+    <Container>
       <Router>
         <Switch>
           <PrivateRoute exact path="/Menu/editarVerCategorias" component={EditarCategorias}/>
@@ -49,6 +50,6 @@ export default function App() {
           <Route path="*" component={NotFound}></Route>
         </Switch>
       </Router>
-    </div>
+    </Container>
   );
 }

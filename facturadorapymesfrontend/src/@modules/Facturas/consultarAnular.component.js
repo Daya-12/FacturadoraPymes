@@ -5,6 +5,7 @@ import service from "./factura.service";
 import anular from "../../@images/anular.png";
 import pdf from "../../@images/Exportarpdf.png";
 import Swal from "sweetalert2";
+import { Container } from "reactstrap";
 export default class ConsultarAnularFacturas extends React.Component {
     constructor() {
         super();
@@ -221,7 +222,7 @@ export default class ConsultarAnularFacturas extends React.Component {
       selectAllRowsItemText: "Todos",
     };
     return (
-      <div className="container">
+      <Container>
         <div className="facturasFondo">
           <div
             id="cabecera"
@@ -324,7 +325,7 @@ export default class ConsultarAnularFacturas extends React.Component {
             />
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

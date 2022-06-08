@@ -1,13 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Container } from "reactstrap";
 export default class NotFound extends React.Component{
 
     render(){
         return(
-            <div className="container">
+            <Container>
                 <h1>pagina no encontrada</h1>
-            </div>
+            </Container>
         );
     }
 }

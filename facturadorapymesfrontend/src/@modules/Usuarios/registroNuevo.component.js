@@ -11,6 +11,7 @@ import {
   Label,
   Row,
   Col,
+  Container
 } from "reactstrap";
 import {
   AvForm,
@@ -188,7 +189,7 @@ export default class RegistroNuevoUsuario extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <div className="registros">
           <div
             id="formUsuario" className="mx-auto" style={{width: "90%", marginTop:"6%"}}
@@ -449,7 +450,7 @@ export default class RegistroNuevoUsuario extends React.Component {
             </AvForm>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }

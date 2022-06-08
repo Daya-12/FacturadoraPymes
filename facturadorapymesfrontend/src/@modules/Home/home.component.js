@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
+  Container
 } from "reactstrap";
 import "../../@styles/styles.components.css";
 import Swal from "sweetalert2";
@@ -55,7 +56,7 @@ export default class Home extends React.Component {
   
   render() {
     return (
-      <div className="container">
+      <Container>
         <div className="subc1">
           <header id="main-header">
             <div className="cabecera">
@@ -117,7 +118,6 @@ export default class Home extends React.Component {
             </div>
           </div>
         </div>
-
         <footer id="main-footer">
           <br></br>
           <span>
@@ -126,7 +126,7 @@ export default class Home extends React.Component {
             </div>
           </span>
         </footer>
-      </div>
+      </Container>
     );
   }
 }

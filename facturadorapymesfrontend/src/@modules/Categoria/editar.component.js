@@ -1,6 +1,6 @@
 import React from "react";
 import service from "./consultaRelacion.service";
-import { Table, Button } from "reactstrap";
+import { Table, Button, Container } from "reactstrap";
 import Swal from "sweetalert2";
 export default class EditarCategorias extends React.Component {
   constructor() {
@@ -9,7 +9,7 @@ export default class EditarCategorias extends React.Component {
       button: false,
       categoriasEnlazar: [],
       categorias: [],
-      categorias2:[],
+      categorias2: [],
       empresa: {
         id: "",
         razonSocial: "",
@@ -52,7 +52,7 @@ export default class EditarCategorias extends React.Component {
     await this.SCategorias();
   };
 
-  SCategorias= async () => {
+  SCategorias = async () => {
     await this.setState({
       categorias: this.state.categorias.map((c) => {
         return {
@@ -63,7 +63,7 @@ export default class EditarCategorias extends React.Component {
         };
       }),
     });
-  }
+  };
 
   enlazarCategorias(id) {
     let variable;
@@ -79,92 +79,99 @@ export default class EditarCategorias extends React.Component {
   }
 
   editarCategorias = async () => {
-    let validarSeleccion = Object.values(this.state.categorias).filter(key => key.select === true);
+    let validarSeleccion = Object.values(this.state.categorias).filter(
+      (key) => key.select === true
+    );
     if (validarSeleccion.length === 0) {
-        Swal.fire({
-            text: "¡Debes seleccionar por lo menos una categoria!",
-            icon: "warning",
-            timer: "3000"
-        })
+      Swal.fire({
+        text: "¡Debes seleccionar por lo menos una categoria!",
+        icon: "warning",
+        timer: "3000",
+      });
+    } else {
+      Swal.fire({
+        title: "Confirmar categorias",
+        text: "¿Confirmas las categorias que seleccionaste para la pyme?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#0D4C90",
+        cancelButtonColor: "#973232",
+        cancelButtonText: "No, cancelar",
+        confirmButtonText: "Si, proceder",
+      }).then((result) => {
+        if (result.value) {
+          let categoriasSeleccionadas = Object.values(
+            this.state.categorias
+          ).filter((key) => key.select === true);
+          this.setState({
+            categorias2: categoriasSeleccionadas.map((c) => {
+              return {
+                id: c.id,
+                nombre: c.nombre,
+                activo: c.activo,
+              };
+            }),
+          });
+          this.actualizarFinal();
+        }
+      });
     }
-    else{
-        Swal.fire({
-            title: 'Confirmar categorias',
-            text: '¿Confirmas las categorias que seleccionaste para la pyme?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#0D4C90',
-            cancelButtonColor: '#973232',
-            cancelButtonText: 'No, cancelar',
-            confirmButtonText: 'Si, proceder'
-        }).then((result) => {
-            if (result.value) {
-                let categoriasSeleccionadas = Object.values(this.state.categorias).filter(key => key.select === true);
-                this.setState({
-                    categorias2: categoriasSeleccionadas.map((c) => {
-                        return {
-                            id: c.id,
-                            nombre: c.nombre,
-                            activo: c.activo
-                        };
-                    })
-                });
-                this.actualizarFinal();
-            }
-        })
-    }
-};
+  };
 
-actualizarFinal = async () => {
+  actualizarFinal = async () => {
     let respuesta = null;
-    const model = mapStateToModel(this.state.empresa,this.state.categorias2);
+    const model = mapStateToModel(this.state.empresa, this.state.categorias2);
     respuesta = await service.actualizar(model);
-    if(respuesta !== null){
-      if(respuesta.data==0){
+    if (respuesta !== null) {
+      if (respuesta.data == 0) {
         Swal.fire({
           text: "¡Las categorias fueron actualizadas correctamente!",
           icon: "success",
-          timer: "4000"
-      })
+          timer: "4000",
+        });
       }
-      if(respuesta.data==1){
+      if (respuesta.data == 1) {
         Swal.fire({
           text: "¡Las categorias fueron actualizadas correctamente, algunas no fueron actualizadas debido a que hay productos que las usan!",
           icon: "warning",
-          timer: "4000"
-      })
+          timer: "4000",
+        });
       }
-      setTimeout(function () { window.location.reload(1); }, 4000);
-      }else{
+      setTimeout(function () {
+        window.location.reload(1);
+      }, 4000);
+    } else {
       Swal.fire({
-          text: "Uppss! Las categorias no pudieron ser actualizadas",
-          icon: "error",
-          timer: "3000"
-      })
-      setTimeout(function () { window.location.reload(1); }, 3000);
+        text: "Uppss! Las categorias no pudieron ser actualizadas",
+        icon: "error",
+        timer: "3000",
+      });
+      setTimeout(function () {
+        window.location.reload(1);
+      }, 3000);
     }
-};
+  };
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <div className="facturasFondo">
           <div
             id="formFactura"
             className="mx-auto"
             style={{ width: "80%", marginTop: "5%" }}
           >
-              <h3
-                  style={{
-                    fontSize: "1.3em",
-                    fontFamily: "Segoe UI",
-                    textAlign: "center",
-                    color: "#09065A",
-                    marginBottom: "1%"
-                  }}
-                >
-                  Actualización de categorias para {this.state.empresa.razonSocial}
-                </h3>
+            <h3
+              style={{
+                fontSize: "1.3em",
+                fontFamily: "Segoe UI",
+                textAlign: "center",
+                color: "#09065A",
+                marginBottom: "1%",
+              }}
+            >
+              Actualización de categorias para {this.state.empresa.razonSocial}
+            </h3>
             <Table id="tablaCategorias" className="tableCategoria" striped>
               <thead>
                 <tr align="center" textAlign="center">
@@ -215,15 +222,14 @@ actualizarFinal = async () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     );
   }
 }
 
-
 const mapStateToModel = function (empresa, lista) {
-    return {
-        id: empresa.id,
-        categorias: lista
-    };
-  }
+  return {
+    id: empresa.id,
+    categorias: lista,
+  };
+};
