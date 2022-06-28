@@ -148,7 +148,7 @@ export default class ConsultarFactura extends React.Component {
           <>
           <PDFDownloadLink document={<MyDocument informacion={this.state}/>} fileName="document.pdf">
             {({ blob, url, loading, error }) =>
-              loading ? 'Generando su PDF...' : 'PDF!'
+              loading ? 'Estamos generando la factura...' : '¡Presiona aquí para descargar la factura!'
             }
           </PDFDownloadLink>
           </>
