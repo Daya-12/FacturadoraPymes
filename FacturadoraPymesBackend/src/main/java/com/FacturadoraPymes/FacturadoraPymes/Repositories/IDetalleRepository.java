@@ -11,7 +11,7 @@ import com.FacturadoraPymes.FacturadoraPymes.Entities.Detalle;
 @Repository
 public interface IDetalleRepository extends CrudRepository<Detalle, Integer>{
 	@Modifying
-	@Query(value = "INSERT INTO Detalle VALUES(:idFactura,:idProducto,:cantidad,:valorUnitario,:valorTotal)", nativeQuery = true)
+	@Query(value = "INSERT INTO detalle VALUES(:idFactura,:idProducto,:cantidad,:valorUnitario,:valorTotal)", nativeQuery = true)
 	@Transactional
 	public void insertarDetalles(@Param("idFactura") int idFactura,@Param("idProducto") int idProducto,@Param("cantidad") int cantidad,@Param("valorUnitario") double valorUnitario,@Param("valorTotal") double valorTotal);
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const urlConexion = "http://54.146.187.173:8080//facturadoraPymes/application/";
+const urlConexion = "http://54.172.169.155:8080//facturadoraPymes/application/";
 
 async function consultarCategorias() {
     const url = urlConexion+'categoria/consultar'

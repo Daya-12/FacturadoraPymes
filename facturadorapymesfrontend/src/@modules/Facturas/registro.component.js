@@ -524,7 +524,6 @@ export default class RegistroFactura extends React.Component {
   };
 
   handleConfirm = (i) => {
-    console.log(i);
     this.setState({
       showConfirm: true,
       index: i
