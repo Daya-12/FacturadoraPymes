@@ -41,7 +41,7 @@ export default class Home extends React.Component {
       });
     } else {
       window.open("/exportarFactura/" + refFactura, "_blank");
-      document.getElementById("refFactura").value="";
+      document.getElementById("refFactura").value = "";
     }
   };
 
@@ -53,7 +53,7 @@ export default class Home extends React.Component {
     });
 
   };
-  
+
   render() {
     return (
       <Container>
@@ -69,30 +69,26 @@ export default class Home extends React.Component {
               </div>
               <div className="sub2">
                 <Navbar color="light" light expand="lg">
-                  <Collapse navbar>
-                    <Nav className="mr-auto" navbar>
-                      <NavItem>
-                        <NavLink href="/">Inicio</NavLink>
-                      </NavItem>
-
-                      <Dropdown
-                        nav
-                        isOpen={this.state.dropdownOpen}
-                        toggle={this.toggle}
-                      >
-                        <DropdownToggle nav caret>
-                          Sobre nosotros
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          <DropdownItem onClick={this.sobreNosotros}>¿Qué es ISSMC?</DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
-
-                      <NavItem>
-                        <NavLink href="/Login">Ingresar</NavLink>
-                      </NavItem>
-                    </Nav>
-                  </Collapse>
+                  <Nav className="mr-auto" navbar>
+                    <NavItem>
+                      <NavLink href="/">Inicio</NavLink>
+                    </NavItem>
+                    <Dropdown
+                      nav
+                      isOpen={this.state.dropdownOpen}
+                      toggle={this.toggle}
+                    >
+                      <DropdownToggle nav caret>
+                        Sobre nosotros
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={this.sobreNosotros}>¿Qué es ISSMC?</DropdownItem>
+                      </DropdownMenu>
+                    </Dropdown>
+                    <NavItem>
+                      <NavLink href="/Login">Ingresar</NavLink>
+                    </NavItem>
+                  </Nav>
                 </Navbar>
               </div>
             </div>

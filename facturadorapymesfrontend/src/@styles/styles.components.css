@@ -155,10 +155,7 @@ body {
 .form-control::placeholder {
   color: white;
 }
-.buttonIngresar {
-  margin-top: 1.438em;
-  margin-bottom: 1.438em;
-}
+
 .recuperarpass {
   margin-top: 8%;
   color: rgb(145, 145, 145);

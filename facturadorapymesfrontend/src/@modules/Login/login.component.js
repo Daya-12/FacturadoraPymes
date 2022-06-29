@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button,Container } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import "../../@styles/styles.components.css";
 import service from "./login.service";
 import Swal from 'sweetalert2';
@@ -60,38 +60,38 @@ export default class Login extends React.Component {
         correo: this.state.form.correo,
         pass: this.state.form.pass,
       });
-      if (respuesta!==null) {
-        if(respuesta.data.nivel==="0"){
+      if (respuesta !== null) {
+        if (respuesta.data.nivel === "0") {
           let idEmpresa = respuesta.data.empresa.id;
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("user", JSON.stringify(respuesta.data));
           Swal.fire({
-            text: "¡Bienvenido "+respuesta.data.nombre+"!",
+            text: "¡Bienvenido " + respuesta.data.nombre + "!",
             icon: "success",
             timer: "3000",
           });
           const isAuthenticated = localStorage.getItem("isAuthenticated");
           isAuthenticated
             ? this.props.history.replace("/MenuAdministrador/" + idEmpresa, {
-                idEmpresa: idEmpresa,
-              }
-              )
+              idEmpresa: idEmpresa,
+            }
+            )
             : window.alert("Error");
-        }else if(respuesta.data.nivel==="1"){
+        } else if (respuesta.data.nivel === "1") {
           let idEmpresa = respuesta.data.empresa.id;
           localStorage.setItem("isAuthenticated", true);
           localStorage.setItem("user", JSON.stringify(respuesta.data));
           Swal.fire({
-            text: "¡Bienvenido "+respuesta.data.nombre+"!",
+            text: "¡Bienvenido " + respuesta.data.nombre + "!",
             icon: "success",
             timer: "3000",
           });
           const isAuthenticated = localStorage.getItem("isAuthenticated");
           isAuthenticated
             ? this.props.history.replace("/MenuUsuarioBasico/" + idEmpresa, {
-                idEmpresa: idEmpresa,
-              }
-              )
+              idEmpresa: idEmpresa,
+            }
+            )
             : window.alert("Error");
 
         }
@@ -140,22 +140,18 @@ export default class Login extends React.Component {
                     style={{ marginBottom: "1.25em" }}
                   />
                 </div>
-                <div className="form-group row">
-                  <div className="form-group col-md-4"></div>
-                  <div className="form-group col-md-4">
-                    <Button
-                      className="buttonIngresar"
-                      color="primary"
-                      onClick={() => this.validarUser()}
-                      disabled={this.state.button === false}
-                      style={{ marginBottom: "1.688em" }}
-                    >
-                      INGRESAR
-                    </Button>
-                  </div>
-                  <div className="form-group col-md-4"></div>
+
+                <div align="center" style={{ marginTop: "13%", marginBottom: "9%" }}>
+                  <Button
+                    color="primary"
+                    onClick={() => this.validarUser()}
+                    disabled={this.state.button === false}
+                  >
+                    INGRESAR
+                  </Button>
                 </div>
-                <br/>
+
+                <br />
                 <div className="form-group mx-sm-4 text-center pb-3">
                   <span>
                     <label>¿No estas registrado?</label>&nbsp;&nbsp;
