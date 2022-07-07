@@ -616,7 +616,7 @@ export default class RegistroFactura extends React.Component {
 
   registrar = async () => {
     var f = new Date();
-    var dia = f.getDate()+1 < 10 ? "0" + (f.getDate()+1) : f.getDate()+1;
+    var dia = f.getDate() < 10 ? "0" + (f.getDate()) : f.getDate();
     var mes =f.getMonth() + 1 < 10 ? "0" + (f.getMonth() + 1) : f.getMonth() + 1;
     var fechaEmision= f.getFullYear() + "-" + mes + "-" + dia;
     let respuesta = null;
